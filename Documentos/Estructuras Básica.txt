@@ -1,0 +1,34 @@
+
+typedef struct {
+	int idEquipo;
+	string nombre;
+	int golesFavor;
+	int golesContra;
+	int puntos;
+}Equipo;
+
+typedef struct {
+	int idGrupo;
+	string nombre;
+	Equipo* equipos[4];
+}Grupo;
+
+typedef struct {
+	int idJugador;
+	string nombre;
+	int goles;
+	Equipo* equipo;
+}Jugador;
+
+typedef struct {
+	int idPartido;
+	Equipo* equipoL;
+	Equipo* equipoV;
+	int golesL;
+	int golesV;
+}Partido;
+
+typedef struct {
+	Equipo* equipo;
+	char llave;
+}Llave;
