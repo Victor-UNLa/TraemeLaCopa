@@ -8,7 +8,7 @@ typedef struct {
 }Equipo;
 
 typedef struct {
-	int idGrupo;
+	char idGrupo;
 	string nombre;
 	Equipo* equipos[4];
 }Grupo;
