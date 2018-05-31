@@ -2,6 +2,7 @@
 typedef struct {
 	int idEquipo;
 	string nombre;
+	Lista* jugadores;
 	int golesFavor;
 	int golesContra;
 	int puntos;
@@ -17,7 +18,6 @@ typedef struct {
 	int idJugador;
 	string nombre;
 	int goles;
-	Equipo* equipo;
 }Jugador;
 
 typedef struct {
