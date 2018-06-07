@@ -12,6 +12,7 @@ void crear(Partido &partido) {
     crear(*partido.equipoV);
     partido.golesL = 0;
     partido.golesV = 0;
+    partido.estado = SIN_COMENZAR;
 }
 
 void crear(Partido &partido, int id, Equipo *equipoL, Equipo *equipoV, int golesL, int golesV) {
@@ -20,6 +21,7 @@ void crear(Partido &partido, int id, Equipo *equipoL, Equipo *equipoV, int goles
     partido.equipoV = equipoV;
     partido.golesL = golesL;
     partido.golesV = golesV;
+    partido.estado = SIN_COMENZAR;
 }
 
 void destruir(Partido &partido) {
@@ -28,6 +30,7 @@ void destruir(Partido &partido) {
     destruir(*partido.equipoV);
     partido.golesL = 0;
     partido.golesV = 0;
+    partido.estado = FINALIZADO;
 }
 
 void setId(Partido &partido, int id) {
@@ -68,6 +71,14 @@ void setGolesV(Partido &partido, int golesV) {
 
 int getGolesV(Partido &partido) {
     return partido.golesV;
+}
+
+void setEstado(Partido &partido, Estado estado) {
+    partido.estado = estado;
+}
+
+Estado getEstado(Partido &partido) {
+    return partido.estado;
 }
 
 bool equals(Partido &partido, Partido p) {

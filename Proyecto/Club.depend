@@ -182,3 +182,64 @@
 	"Partido.h"
 	"Sistema.h"
 
+1528119010 source:c:\users\realn\documents\c++ projects\proyecto\equipo.cpp
+	<iostream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+
+1526762991 c:\users\realn\documents\c++ projects\proyecto\lista.h
+
+1527547061 c:\users\realn\documents\c++ projects\proyecto\jugador.h
+
+1527597313 c:\users\realn\documents\c++ projects\proyecto\equipo.h
+
+1527605306 source:c:\users\realn\documents\c++ projects\proyecto\grupo.cpp
+	<iostream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+
+1527561787 c:\users\realn\documents\c++ projects\proyecto\grupo.h
+
+1527548000 source:c:\users\realn\documents\c++ projects\proyecto\jugador.cpp
+	<iostream>
+	"Jugador.h"
+
+1526763001 source:c:\users\realn\documents\c++ projects\proyecto\lista.cpp
+	"Lista.h"
+
+1528408334 source:c:\users\realn\documents\c++ projects\proyecto\partido.cpp
+	<iostream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Partido.h"
+
+1528408268 c:\users\realn\documents\c++ projects\proyecto\partido.h
+
+1528411117 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
+	<fstream>
+	<cstring>
+	<cstdlib>
+	<iostream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+	"Partido.h"
+	"Sistema.h"
+
+1528408749 c:\users\realn\documents\c++ projects\proyecto\sistema.h
+
+1528408828 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
+	<iostream>
+	<stdlib.h>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+	"Partido.h"
+	"Sistema.h"
+

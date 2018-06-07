@@ -10,6 +10,17 @@ using namespace std;
 #include "Partido.h"
 #include "Sistema.h"
 
+ResultadoComparacion compararGoles(PtrDato ptrDato1, PtrDato ptrDato2) {
+    if (getGoles(*(Jugador*)ptrDato1) < getGoles(*(Jugador*)ptrDato2))
+        return MAYOR;
+
+    else if (getGoles(*(Jugador*)ptrDato1) > getGoles(*(Jugador*)ptrDato2))
+        return MENOR;
+
+    else
+        return IGUAL;
+}
+
 ResultadoComparacion compararEquipo(PtrDato ptrDato1, PtrDato ptrDato2) {
     if (getId(*(Equipo*)ptrDato1) > getId(*(Equipo*)ptrDato2))
         return MAYOR;
@@ -239,6 +250,37 @@ void mostrarPartidos(Sistema &sistema) {
     }
 }
 
+void goleadores(Sistema &sistema) {
+    sistema.jugadores->compara = compararGoles;
+    reordenar(*sistema.jugadores);
+    PtrNodoLista cursor = primero(*sistema.jugadores);
+    int goles = getGoles(*(Jugador*)cursor->ptrDato);
+    int jugadoresPorGol = 0;
+    int totalDeJugadores = 0;
+    int totalDeGoles = 0;
+
+    cout << "Jugadores con " << goles << " goles\n" << endl;
+    while (cursor != fin()) {
+        if (goles > getGoles(*(Jugador*)cursor->ptrDato)) {
+            cout << "Cantidad de jugadores: " << jugadoresPorGol << "\n" << endl;
+            jugadoresPorGol = 0;
+            goles = getGoles(*(Jugador*)cursor->ptrDato);
+            if (goles == 0) {
+                cout << "\n\nTotal de jugadores: " << totalDeJugadores << endl;
+                cout << "Total de goles: " << totalDeGoles << endl;
+                break;
+            }
+            cout << "\nJugadores con " << goles << " goles\n" << endl;
+        }
+        totalDeJugadores++;
+        totalDeGoles += getGoles(*(Jugador*)cursor->ptrDato);
+        jugadoresPorGol++;
+        cout << "\t-" << getNombre(*(Jugador*)cursor->ptrDato) << endl;
+        cursor = siguiente(*sistema.jugadores, cursor);
+        cout << endl;
+    }
+}
+
 void bajarEquipos(Sistema &sistema) {
     ofstream archivo;
 
@@ -252,13 +294,13 @@ void bajarEquipos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.equipos);
     while (siguiente(*sistema.equipos, cursor) != fin()) {
         archivo << getId(*(Equipo*)cursor->ptrDato) << ";" << getNombre(*(Equipo*)cursor->ptrDato) << ";" <<
-        getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" << getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" <<
+        getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" << getGolesEnContra(*(Equipo*)cursor->ptrDato) << ";" <<
         getPuntos(*(Equipo*)cursor->ptrDato) << endl;
         cursor = siguiente(*sistema.equipos, cursor);
     }
 
     archivo << getId(*(Equipo*)cursor->ptrDato) << ";" << getNombre(*(Equipo*)cursor->ptrDato) << ";" <<
-    getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" << getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" <<
+    getGolesAFavor(*(Equipo*)cursor->ptrDato) << ";" << getGolesEnContra(*(Equipo*)cursor->ptrDato) << ";" <<
     getPuntos(*(Equipo*)cursor->ptrDato);
 
     archivo.close();
@@ -433,4 +475,112 @@ Partido* traerPartido(Sistema &sistema, int id) {
     }
 
     return p;
+}
+
+void inicioPartido(Sistema &sistema) {
+    int id;
+
+    cout << "Ingrese id del partido: ";
+    cin >> id;
+
+    Partido *p = traerPartido(sistema, id);
+
+    if (getEstado(*p) == SIN_COMENZAR) {
+        setEstado(*p, EN_JUEGO);
+    }
+    else if (getEstado(*p) == EN_JUEGO) {
+        cout << "El partido ya se esta jugando" << endl;
+    }
+    else {
+        cout << "El partido ya se jugo" << endl;
+    }
+
+    cout << "Partido en juego\n" << endl;
+    toString(*p);
+}
+
+void golesPartido(Sistema &sistema) {
+    int id;
+
+    cout << "Ingrese id del partido: ";
+    cin >> id;
+
+    Partido *p = traerPartido(sistema, id);
+
+    if (getEstado(*p) == EN_JUEGO) {
+        cout << getEquipoL(*p)->id << ": " << getEquipoL(*p)->nombre << endl;
+        cout << getEquipoV(*p)->id << ": " << getEquipoV(*p)->nombre << endl;
+
+        cout << "\nIngrese id del equipo: ";
+        cin >> id;
+
+        Equipo *e = traerEquipo(sistema, id);
+        PtrNodoLista cursor = primero(*e->jugadores);
+
+        while (cursor != fin()) {
+            cout << ((Jugador*)cursor->ptrDato)->id << ": " << ((Jugador*)cursor->ptrDato)->nombre << endl;
+            cursor = siguiente(*e->jugadores, cursor);
+        }
+
+        cout << "\nIngrese id del jugador: ";
+        cin >> id;
+
+        Jugador *j = traerJugador(sistema, id);
+
+        setGoles(*j, getGoles(*j) + 1);
+        setGolesAFavor(*e, getGolesAFavor(*e) + 1);
+
+        if (equals(*e, *getEquipoL(*p))){
+            setGolesL(*p, getGolesL(*p) + 1);
+            setGolesEnContra(*getEquipoV(*p), getGolesEnContra(*getEquipoV(*p)) + 1);
+        }
+        else {
+            setGolesV(*p, getGolesV(*p) + 1);
+            setGolesEnContra(*getEquipoL(*p), getGolesEnContra(*getEquipoL(*p)) + 1);
+        }
+
+    }
+    else if (getEstado(*p) == SIN_COMENZAR){
+        cout << "El partido no se esta jugando" << endl;
+    }
+    else {
+        cout << "El partido ya se jugo" << endl;
+    }
+}
+
+void finPartido(Sistema &sistema) {
+    int id;
+
+    cout << "Ingrese id del partido: ";
+    cin >> id;
+
+    Partido *p = traerPartido(sistema, id);
+
+    setEstado(*p, FINALIZADO);
+
+    if (getGolesL(*p) > getGolesV(*p)) {
+        setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
+    }
+    else if (getGolesL(*p) == getGolesV(*p)) {
+        setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
+        setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
+    }
+    else {
+        setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
+    }
+
+    cout << "Partido finalizado\n" << endl;
+    toString(*p);
+}
+
+void mostrarPartidosEnCurso(Sistema &sistema) {
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while(cursor != fin()) {
+        if (getEstado(*(Partido*)cursor->ptrDato) == EN_JUEGO) {
+            toString(*(Partido*)cursor->ptrDato);
+            cout << endl;
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
 }

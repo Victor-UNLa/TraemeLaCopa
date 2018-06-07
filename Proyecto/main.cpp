@@ -8,56 +8,68 @@ using namespace std;
 #include "Partido.h"
 #include "Sistema.h"
 
-void ABM(Sistema &sistema) {
-    mostrarEquipos(sistema);
-}
-
 void admPartidos(Sistema &sistema) {
-    mostrarPartidos(sistema);
+    bool seguir = true;
+    int opcion;
+    system("cls");
+    while(seguir) {
+        cout << "1. Registrar inicio de partido." << endl;
+        cout << "2. Registrar goles de partido." << endl;
+        cout << "3. Registrar fin de partido." << endl;
+        cout << "4. Mostrar partidos en curso." << endl;
+        cout << "5. Volver." << endl;
+        cout << "Opcion: ";
+        cin >> opcion;
 
-    int id;
-    cout << "Traer partido por id: ";
-    cin >> id;
-    toString(*traerPartido(sistema, id));
-
-    int golL, golV;
-    cout << "\nGoles del equipo local: ";
-    cin >> golL;
-    cout << "Goles del equipo visitante: ";
-    cin >> golV;
-    cout << endl;
-
-    setGolesL(*traerPartido(sistema, id), golL);
-    setGolesV(*traerPartido(sistema, id), golV);
-
-    toString(*traerPartido(sistema, id));
+        switch(opcion) {
+            case 1: inicioPartido(sistema); break;
+            case 2: golesPartido(sistema); break;
+            case 3: finPartido(sistema); break;
+            case 4: mostrarPartidosEnCurso(sistema); break;
+            case 5: seguir = false; break;
+        }
+        system("pause");
+        system("cls");
+    }
 }
 
 void reportes(Sistema &sistema) {
-    int id;
-    cout << "Traer equipo por id del jugador: ";
-    cin >> id;
-    toString(*traerEquipoPorJugador(sistema, id));
+    bool seguir = true;
+    int opcion;
+    system("cls");
+    while(seguir) {
+        cout << "1. Mostrar goleadores." << endl;
+        cout << "2. Mostrar fixture." << endl;
+        cout << "3. Volver." << endl;
+        cout << "Opcion: ";
+        cin >> opcion;
+
+        switch(opcion) {
+            case 1: goleadores(sistema); break;
+            case 2: mostrarPartidos(sistema); break;
+            case 3: seguir = false; break;
+        }
+        system("pause");
+        system("cls");
+    }
 }
 
 void menu(Sistema &sistema) {
     bool seguir = true;
     int opcion;
 
-    void (*funcion[3])(Sistema &sistema);
-    funcion[0] = ABM;
-    funcion[1] = admPartidos;
-    funcion[2] = reportes;
-
     while(seguir) {
-        cout << "1. Altas, Bajas y Modificaciones." << endl;
+        cout << "1. Mostrar equipos." << endl;
         cout << "2. Administrar partidos." << endl;
         cout << "3. Procesar reportes." << endl;
         cout << "4. Salir." << endl;
+        cout << "Opcion: ";
         cin >> opcion;
 
         switch(opcion) {
-            default: if(opcion > 0 && opcion <= 3) funcion[opcion - 1] (sistema); break;
+            case 1: mostrarEquipos(sistema); break;
+            case 2: admPartidos(sistema); break;
+            case 3: reportes(sistema); break;
             case 4: seguir = false; break;
         }
         system("pause");
