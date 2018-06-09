@@ -194,14 +194,14 @@
 
 1527597313 c:\users\realn\documents\c++ projects\proyecto\equipo.h
 
-1528505422 source:c:\users\realn\documents\c++ projects\proyecto\grupo.cpp
+1528579712 source:c:\users\realn\documents\c++ projects\proyecto\grupo.cpp
 	<iostream>
 	"Lista.h"
 	"Jugador.h"
 	"Equipo.h"
 	"Grupo.h"
 
-1527561787 c:\users\realn\documents\c++ projects\proyecto\grupo.h
+1528579728 c:\users\realn\documents\c++ projects\proyecto\grupo.h
 
 1527548000 source:c:\users\realn\documents\c++ projects\proyecto\jugador.cpp
 	<iostream>
@@ -219,7 +219,7 @@
 
 1528408268 c:\users\realn\documents\c++ projects\proyecto\partido.h
 
-1528504031 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
+1528580101 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
@@ -231,9 +231,9 @@
 	"Partido.h"
 	"Sistema.h"
 
-1528408749 c:\users\realn\documents\c++ projects\proyecto\sistema.h
+1528580159 c:\users\realn\documents\c++ projects\proyecto\sistema.h
 
-1528505299 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
+1528580146 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"

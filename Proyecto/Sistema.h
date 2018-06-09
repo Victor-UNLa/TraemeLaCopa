@@ -32,5 +32,7 @@ void inicioPartido(Sistema &sistema);
 void golesPartido(Sistema &sistema);
 void finPartido(Sistema &sistema);
 void mostrarPartidosEnCurso(Sistema &sistema);
+void porcentajeGoles(Sistema &sistema);
+void grupoDeLaMuerte(Sistema &sistema);
 
 #endif // _SISTEMA_H_

@@ -18,5 +18,6 @@ void setEquipos(Grupo &grupo, Lista *equipos);
 Lista* getEquipos(Grupo &grupo);
 bool equals(Grupo &grupo, Grupo g);
 void toString(Grupo &grupo);
+int golesPorGrupo(Grupo &grupo);
 
 #endif // _GRUPO_H_

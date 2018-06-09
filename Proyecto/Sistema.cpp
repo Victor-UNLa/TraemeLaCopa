@@ -233,11 +233,14 @@ void mostrarJugadores(Sistema &sistema) {
 void mostrarGrupos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.grupos);
 
+    int golesTotales = 0;
     while(cursor != fin()) {
         toString(*(Grupo*)cursor->ptrDato);
+        golesTotales += golesPorGrupo(*(Grupo*)cursor->ptrDato);
         cout << endl;
         cursor = siguiente(*sistema.grupos, cursor);
     }
+    cout << "Total de goles: " << golesTotales << endl;
 }
 
 void mostrarPartidos(Sistema &sistema) {
@@ -569,15 +572,17 @@ void finPartido(Sistema &sistema) {
     if (getEstado(*p) == EN_JUEGO) {
         setEstado(*p, FINALIZADO);
 
-        if (getGolesL(*p) > getGolesV(*p)) {
-            setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
-        }
-        else if (getGolesL(*p) == getGolesV(*p)) {
-            setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
-            setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
-        }
-        else {
-            setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
+        if (getId(*p) <= 48) {
+            if (getGolesL(*p) > getGolesV(*p)) {
+                setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
+            }
+            else if (getGolesL(*p) == getGolesV(*p)) {
+                setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
+                setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
+            }
+            else {
+                setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
+            }
         }
 
         cout << "Partido finalizado\n" << endl;
@@ -598,4 +603,33 @@ void mostrarPartidosEnCurso(Sistema &sistema) {
         }
         cursor = siguiente(*sistema.partidos, cursor);
     }
+}
+
+void porcentajeGoles(Sistema &sistema) {
+    PtrNodoLista cursor = primero(*sistema.partidos);
+    int golesL = 0;
+    int golesV = 0;
+
+    while(cursor != fin()) {
+        golesL += getGolesL(*(Partido*)cursor->ptrDato);
+        golesV += getGolesV(*(Partido*)cursor->ptrDato);
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+
+    cout << "Porcentaje de goles Locales: " << golesL * 100 / (golesL + golesV) << endl;
+    cout << "Goles Locales: " << golesL << endl;
+    cout << "\nPorcentaje de goles Visitantes: " << golesV * 100 / (golesL + golesV) << endl;
+    cout << "Goles Visitantes: " << golesV << endl;
+}
+
+void grupoDeLaMuerte(Sistema &sistema) {
+    PtrNodoLista cursor = primero(*sistema.grupos);
+    char id = 'A';
+
+    while(cursor != fin()) {
+        if (golesPorGrupo(*traerGrupo(sistema, id)) < golesPorGrupo(*(Grupo*)cursor->ptrDato))
+            id = getId(*(Grupo*)cursor->ptrDato);
+        cursor = siguiente(*sistema.grupos, cursor);
+    }
+    cout << "Grupo de la muerte: " << getNombre(*traerGrupo(sistema, id)) << endl;
 }

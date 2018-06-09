@@ -13,8 +13,25 @@ ResultadoComparacion compararPuntos(PtrDato ptrDato1, PtrDato ptrDato2) {
     else if (getPuntos(*(Equipo*)ptrDato1) > getPuntos(*(Equipo*)ptrDato2))
         return MENOR;
 
-    else
-        return IGUAL;
+    else {
+        if (getGolesAFavor(*(Equipo*)ptrDato1) -  getGolesEnContra(*(Equipo*)ptrDato1)
+            < getGolesAFavor(*(Equipo*)ptrDato2) - getGolesEnContra(*(Equipo*)ptrDato2))
+            return MAYOR;
+
+        else if (getGolesAFavor(*(Equipo*)ptrDato1) -  getGolesEnContra(*(Equipo*)ptrDato1)
+            > getGolesAFavor(*(Equipo*)ptrDato2) - getGolesEnContra(*(Equipo*)ptrDato2))
+            return MENOR;
+        else {
+            if (getGolesAFavor(*(Equipo*)ptrDato1) < getGolesAFavor(*(Equipo*)ptrDato2))
+                return MAYOR;
+
+            else if (getGolesAFavor(*(Equipo*)ptrDato1) > getGolesAFavor(*(Equipo*)ptrDato2))
+                return MENOR;
+
+            else
+                return IGUAL;
+        }
+    }
 }
 
 void crear(Grupo &grupo) {
@@ -67,20 +84,33 @@ bool equals(Grupo &grupo, Grupo g) {
 
 void toString(Grupo &grupo) {
     cout << grupo.nombre << endl;
-    cout << "Pos" << "\t||" << "GF" << " \t|| " << "GC" << " \t|| " << "P" << " \t|| " << "Equipo" << endl;
-    cout << "------------------------------------------------" << endl;
+    cout << "Pos" << "\t||" << "Dif" << " \t|| " << "Pun" << " \t|| " << "Equipo" << endl;
+    cout << "------------------------------------------" << endl;
     reordenar(*grupo.equipos);
     PtrNodoLista cursor = primero(*grupo.equipos);
-
     int i = 1;
+
     while (cursor != fin()) {
         cout << i << " \t||";
-        cout << getGolesAFavor(*(Equipo*)cursor->ptrDato) << " \t|| ";
-        cout << getGolesEnContra(*(Equipo*)cursor->ptrDato) << " \t|| ";
+        cout << getGolesAFavor(*(Equipo*)cursor->ptrDato) - getGolesEnContra(*(Equipo*)cursor->ptrDato) << " \t|| ";
         cout << getPuntos(*(Equipo*)cursor->ptrDato) << " \t|| ";
         cout << getNombre(*(Equipo*)cursor->ptrDato) << endl;
         i++;
         cursor = siguiente(*grupo.equipos, cursor);
     }
+
+    cout << "Goles del grupo: " << golesPorGrupo(grupo) << endl;
     cout << endl;
+}
+
+int golesPorGrupo(Grupo &grupo) {
+    PtrNodoLista cursor = primero(*grupo.equipos);
+    int golesDelGrupo = 0;
+
+    while (cursor != fin()) {
+        golesDelGrupo += getGolesAFavor(*(Equipo*)cursor->ptrDato);
+        cursor = siguiente(*grupo.equipos, cursor);
+    }
+
+    return golesDelGrupo;
 }

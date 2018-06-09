@@ -41,7 +41,9 @@ void reportes(Sistema &sistema) {
         cout << "1. Mostrar goleadores." << endl;
         cout << "2. Mostrar fixture." << endl;
         cout << "3. Mostrar grupos." << endl;
-        cout << "4. Volver." << endl;
+        cout << "4. Grupo de la muerte." << endl;
+        cout << "5. Porcentaje de goles locales y visitantes." << endl;
+        cout << "6. Volver." << endl;
         cout << "Opcion: ";
         cin >> opcion;
 
@@ -49,7 +51,9 @@ void reportes(Sistema &sistema) {
             case 1: goleadores(sistema); break;
             case 2: mostrarPartidos(sistema); break;
             case 3: mostrarGrupos(sistema); break;
-            case 4: seguir = false; break;
+            case 4: grupoDeLaMuerte(sistema); break;
+            case 5: porcentajeGoles(sistema); break;
+            case 6: seguir = false; break;
         }
         system("pause");
         system("cls");
