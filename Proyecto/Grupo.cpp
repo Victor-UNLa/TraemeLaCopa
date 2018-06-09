@@ -6,11 +6,11 @@ using namespace std;
 #include "Equipo.h"
 #include "Grupo.h"
 
-ResultadoComparacion compararIdG(PtrDato ptrDato1, PtrDato ptrDato2) {
-    if (getId(*(Equipo*)ptrDato1) > getId(*(Equipo*)ptrDato2))
+ResultadoComparacion compararPuntos(PtrDato ptrDato1, PtrDato ptrDato2) {
+    if (getPuntos(*(Equipo*)ptrDato1) < getPuntos(*(Equipo*)ptrDato2))
         return MAYOR;
 
-    else if (getId(*(Equipo*)ptrDato1) < getId(*(Equipo*)ptrDato2))
+    else if (getPuntos(*(Equipo*)ptrDato1) > getPuntos(*(Equipo*)ptrDato2))
         return MENOR;
 
     else
@@ -21,13 +21,14 @@ void crear(Grupo &grupo) {
     grupo.id = '0';
     grupo.nombre = "";
     grupo.equipos = new Lista;
-    crearLista(*grupo.equipos, compararIdG);
+    crearLista(*grupo.equipos, compararPuntos);
 }
 
 void crear(Grupo &grupo, char id, string nombre, Lista *equipos) {
     grupo.id = id;
     grupo.nombre = nombre;
     grupo.equipos = equipos;
+    grupo.equipos->compara = compararPuntos;
 }
 
 void destruir(Grupo &grupo) {
@@ -65,12 +66,20 @@ bool equals(Grupo &grupo, Grupo g) {
 }
 
 void toString(Grupo &grupo) {
-    cout << "Id: " << grupo.id << endl;
-    cout << "Nombre: " << grupo.nombre << endl;
-
+    cout << grupo.nombre << endl;
+    cout << "Pos" << "\t||" << "GF" << " \t|| " << "GC" << " \t|| " << "P" << " \t|| " << "Equipo" << endl;
+    cout << "------------------------------------------------" << endl;
+    reordenar(*grupo.equipos);
     PtrNodoLista cursor = primero(*grupo.equipos);
+
+    int i = 1;
     while (cursor != fin()) {
-        cout << getNombre(*(Equipo*)cursor->ptrDato) << " - ";
+        cout << i << " \t||";
+        cout << getGolesAFavor(*(Equipo*)cursor->ptrDato) << " \t|| ";
+        cout << getGolesEnContra(*(Equipo*)cursor->ptrDato) << " \t|| ";
+        cout << getPuntos(*(Equipo*)cursor->ptrDato) << " \t|| ";
+        cout << getNombre(*(Equipo*)cursor->ptrDato) << endl;
+        i++;
         cursor = siguiente(*grupo.equipos, cursor);
     }
     cout << endl;

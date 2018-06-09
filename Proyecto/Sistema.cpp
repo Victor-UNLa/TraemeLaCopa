@@ -259,25 +259,27 @@ void goleadores(Sistema &sistema) {
     int totalDeJugadores = 0;
     int totalDeGoles = 0;
 
-    cout << "Jugadores con " << goles << " goles\n" << endl;
-    while (cursor != fin()) {
-        if (goles > getGoles(*(Jugador*)cursor->ptrDato)) {
-            cout << "Cantidad de jugadores: " << jugadoresPorGol << "\n" << endl;
-            jugadoresPorGol = 0;
-            goles = getGoles(*(Jugador*)cursor->ptrDato);
-            if (goles == 0) {
-                cout << "\n\nTotal de jugadores: " << totalDeJugadores << endl;
-                cout << "Total de goles: " << totalDeGoles << endl;
-                break;
+    if (goles != 0) {
+        cout << "Jugadores con " << goles << " goles\n" << endl;
+        while (cursor != fin()) {
+            if (goles > getGoles(*(Jugador*)cursor->ptrDato)) {
+                cout << "Cantidad de jugadores: " << jugadoresPorGol << "\n" << endl;
+                jugadoresPorGol = 0;
+                goles = getGoles(*(Jugador*)cursor->ptrDato);
+                if (goles == 0) {
+                    cout << "\n\nTotal de jugadores: " << totalDeJugadores << endl;
+                    cout << "Total de goles: " << totalDeGoles << endl;
+                    break;
+                }
+                cout << "\nJugadores con " << goles << " goles\n" << endl;
             }
-            cout << "\nJugadores con " << goles << " goles\n" << endl;
+            totalDeJugadores++;
+            totalDeGoles += getGoles(*(Jugador*)cursor->ptrDato);
+            jugadoresPorGol++;
+            cout << "\t-" << getNombre(*(Jugador*)cursor->ptrDato) << endl;
+            cursor = siguiente(*sistema.jugadores, cursor);
+            cout << endl;
         }
-        totalDeJugadores++;
-        totalDeGoles += getGoles(*(Jugador*)cursor->ptrDato);
-        jugadoresPorGol++;
-        cout << "\t-" << getNombre(*(Jugador*)cursor->ptrDato) << endl;
-        cursor = siguiente(*sistema.jugadores, cursor);
-        cout << endl;
     }
 }
 
@@ -400,7 +402,7 @@ Equipo* traerEquipoPorJugador(Sistema &sistema, int id) {
         Lista *l = getJugadores(*(Equipo*)cursor->ptrDato);
         PtrNodoLista c = primero(*l);
         while (c != fin() && !encontrado) {
-            if (((Jugador*)c->ptrDato)->id == id) {
+            if (getId(*(Jugador*)c->ptrDato) == id) {
                 e = ((Equipo*)cursor->ptrDato);
                 encontrado = true;
             }
@@ -500,7 +502,7 @@ void inicioPartido(Sistema &sistema) {
 }
 
 void golesPartido(Sistema &sistema) {
-    int id;
+    int id = 0;
 
     cout << "Ingrese id del partido: ";
     cin >> id;
@@ -508,22 +510,28 @@ void golesPartido(Sistema &sistema) {
     Partido *p = traerPartido(sistema, id);
 
     if (getEstado(*p) == EN_JUEGO) {
-        cout << getEquipoL(*p)->id << ": " << getEquipoL(*p)->nombre << endl;
-        cout << getEquipoV(*p)->id << ": " << getEquipoV(*p)->nombre << endl;
+        cout << getId(*getEquipoL(*p)) << ": " << getNombre(*getEquipoL(*p)) << endl;
+        cout << getId(*getEquipoV(*p))<< ": " << getNombre(*getEquipoV(*p)) << endl;
 
-        cout << "\nIngrese id del equipo: ";
-        cin >> id;
+        id = 0;
+        while (getId(*getEquipoL(*p)) != id && getId(*getEquipoV(*p)) != id) {
+            cout << "\nIngrese id del equipo: ";
+            cin >> id;
+        }
 
         Equipo *e = traerEquipo(sistema, id);
         PtrNodoLista cursor = primero(*e->jugadores);
 
         while (cursor != fin()) {
-            cout << ((Jugador*)cursor->ptrDato)->id << ": " << ((Jugador*)cursor->ptrDato)->nombre << endl;
+            cout << getId(*(Jugador*)cursor->ptrDato) << ": " << getNombre(*(Jugador*)cursor->ptrDato) << endl;
             cursor = siguiente(*e->jugadores, cursor);
         }
 
-        cout << "\nIngrese id del jugador: ";
-        cin >> id;
+        id = 0;
+        while (traerEquipoPorJugador(sistema, id) != e) {
+            cout << "\nIngrese id del jugador: ";
+            cin >> id;
+        }
 
         Jugador *j = traerJugador(sistema, id);
 
@@ -538,6 +546,8 @@ void golesPartido(Sistema &sistema) {
             setGolesV(*p, getGolesV(*p) + 1);
             setGolesEnContra(*getEquipoL(*p), getGolesEnContra(*getEquipoL(*p)) + 1);
         }
+
+        cout << "\nGOOOOOL de " << getNombre(*e) << ": " << getNombre(*j) << endl;
 
     }
     else if (getEstado(*p) == SIN_COMENZAR){
@@ -556,21 +566,26 @@ void finPartido(Sistema &sistema) {
 
     Partido *p = traerPartido(sistema, id);
 
-    setEstado(*p, FINALIZADO);
+    if (getEstado(*p) == EN_JUEGO) {
+        setEstado(*p, FINALIZADO);
 
-    if (getGolesL(*p) > getGolesV(*p)) {
-        setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
-    }
-    else if (getGolesL(*p) == getGolesV(*p)) {
-        setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
-        setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
+        if (getGolesL(*p) > getGolesV(*p)) {
+            setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
+        }
+        else if (getGolesL(*p) == getGolesV(*p)) {
+            setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
+            setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
+        }
+        else {
+            setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
+        }
+
+        cout << "Partido finalizado\n" << endl;
+        toString(*p);
     }
     else {
-        setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
+        cout << "El partido no estaba en juego" << endl;
     }
-
-    cout << "Partido finalizado\n" << endl;
-    toString(*p);
 }
 
 void mostrarPartidosEnCurso(Sistema &sistema) {

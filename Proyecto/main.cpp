@@ -40,14 +40,16 @@ void reportes(Sistema &sistema) {
     while(seguir) {
         cout << "1. Mostrar goleadores." << endl;
         cout << "2. Mostrar fixture." << endl;
-        cout << "3. Volver." << endl;
+        cout << "3. Mostrar grupos." << endl;
+        cout << "4. Volver." << endl;
         cout << "Opcion: ";
         cin >> opcion;
 
         switch(opcion) {
             case 1: goleadores(sistema); break;
             case 2: mostrarPartidos(sistema); break;
-            case 3: seguir = false; break;
+            case 3: mostrarGrupos(sistema); break;
+            case 4: seguir = false; break;
         }
         system("pause");
         system("cls");
@@ -67,12 +69,11 @@ void menu(Sistema &sistema) {
         cin >> opcion;
 
         switch(opcion) {
-            case 1: mostrarEquipos(sistema); break;
+            case 1: mostrarEquipos(sistema); system("pause"); break;
             case 2: admPartidos(sistema); break;
             case 3: reportes(sistema); break;
             case 4: seguir = false; break;
         }
-        system("pause");
         system("cls");
     }
 }

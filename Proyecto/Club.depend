@@ -133,7 +133,7 @@
 
 1527597313 c:\users\realn\documents\gitprojects\traemelacopa\proyecto\equipo.h
 
-1527605306 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\grupo.cpp
+1528505422 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\grupo.cpp
 	<iostream>
 	"Lista.h"
 	"Jugador.h"
@@ -149,7 +149,7 @@
 1526763001 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\lista.cpp
 	"Lista.h"
 
-1527731884 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\main.cpp
+1528505299 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"
@@ -159,18 +159,18 @@
 	"Partido.h"
 	"Sistema.h"
 
-1527549116 c:\users\realn\documents\gitprojects\traemelacopa\proyecto\partido.h
+1528408268 c:\users\realn\documents\gitprojects\traemelacopa\proyecto\partido.h
 
-1527603331 c:\users\realn\documents\gitprojects\traemelacopa\proyecto\sistema.h
+1528408749 c:\users\realn\documents\gitprojects\traemelacopa\proyecto\sistema.h
 
-1527605349 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\partido.cpp
+1528408334 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\partido.cpp
 	<iostream>
 	"Lista.h"
 	"Jugador.h"
 	"Equipo.h"
 	"Partido.h"
 
-1527613604 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\sistema.cpp
+1528505573 source:c:\users\realn\documents\gitprojects\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
@@ -194,7 +194,7 @@
 
 1527597313 c:\users\realn\documents\c++ projects\proyecto\equipo.h
 
-1527605306 source:c:\users\realn\documents\c++ projects\proyecto\grupo.cpp
+1528505422 source:c:\users\realn\documents\c++ projects\proyecto\grupo.cpp
 	<iostream>
 	"Lista.h"
 	"Jugador.h"
@@ -219,7 +219,7 @@
 
 1528408268 c:\users\realn\documents\c++ projects\proyecto\partido.h
 
-1528411117 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
+1528504031 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
@@ -233,7 +233,7 @@
 
 1528408749 c:\users\realn\documents\c++ projects\proyecto\sistema.h
 
-1528408828 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
+1528505299 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"
