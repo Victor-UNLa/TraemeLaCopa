@@ -492,6 +492,8 @@ void inicioPartido(Sistema &sistema) {
 
     if (getEstado(*p) == SIN_COMENZAR) {
         setEstado(*p, EN_JUEGO);
+        setGolesL(*p,0);
+        setGolesV(*p,0);
     }
     else if (getEstado(*p) == EN_JUEGO) {
         cout << "El partido ya se esta jugando" << endl;
