@@ -490,10 +490,11 @@ void inicioPartido(Sistema &sistema) {
 
     Partido *p = traerPartido(sistema, id);
 
-    if (getEstado(*p) == SIN_COMENZAR) {
+    if (getGolesL(*p) == -1) {
         setEstado(*p, EN_JUEGO);
-        setGolesL(*p,0);
-        setGolesV(*p,0);
+        setGolesL(*p, 0);
+        setGolesV(*p, 0);
+        cout << "Partido en juego\n" << endl;
     }
     else if (getEstado(*p) == EN_JUEGO) {
         cout << "El partido ya se esta jugando" << endl;
@@ -502,7 +503,6 @@ void inicioPartido(Sistema &sistema) {
         cout << "El partido ya se jugo" << endl;
     }
 
-    cout << "Partido en juego\n" << endl;
     toString(*p);
 }
 
@@ -613,15 +613,20 @@ void porcentajeGoles(Sistema &sistema) {
     int golesV = 0;
 
     while(cursor != fin()) {
-        golesL += getGolesL(*(Partido*)cursor->ptrDato);
-        golesV += getGolesV(*(Partido*)cursor->ptrDato);
+        if (getGolesL(*(Partido*)cursor->ptrDato) > -1 && getGolesV(*(Partido*)cursor->ptrDato) > -1) {
+            golesL += getGolesL(*(Partido*)cursor->ptrDato);
+            golesV += getGolesV(*(Partido*)cursor->ptrDato);
+        }
         cursor = siguiente(*sistema.partidos, cursor);
     }
-
-    cout << "Porcentaje de goles Locales: " << golesL * 100 / (golesL + golesV) << endl;
-    cout << "Goles Locales: " << golesL << endl;
-    cout << "\nPorcentaje de goles Visitantes: " << golesV * 100 / (golesL + golesV) << endl;
-    cout << "Goles Visitantes: " << golesV << endl;
+    if (golesL > 0 || golesV > 0) {
+        cout << "Porcentaje de goles Locales: " << golesL * 100 / (golesL + golesV) << endl;
+        cout << "Goles Locales: " << golesL << endl;
+        cout << "\nPorcentaje de goles Visitantes: " << golesV * 100 / (golesL + golesV) << endl;
+        cout << "Goles Visitantes: " << golesV << endl;
+    }
+    else
+        cout << "Todavia no hubo goles" << endl;
 }
 
 void grupoDeLaMuerte(Sistema &sistema) {

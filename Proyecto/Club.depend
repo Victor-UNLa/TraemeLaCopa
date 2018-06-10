@@ -219,7 +219,7 @@
 
 1528408268 c:\users\realn\documents\c++ projects\proyecto\partido.h
 
-1528580101 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
+1528671055 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
@@ -233,7 +233,7 @@
 
 1528580159 c:\users\realn\documents\c++ projects\proyecto\sistema.h
 
-1528580146 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
+1528653663 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"
