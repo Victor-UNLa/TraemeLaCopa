@@ -27,6 +27,7 @@ void admPartidos(Sistema &sistema) {
             case 3: finPartido(sistema); break;
             case 4: mostrarPartidosEnCurso(sistema); break;
             case 5: seguir = false; break;
+            default: cout<<"opcion incorrecta"<<endl; break;
         }
         system("pause");
         system("cls");
@@ -54,6 +55,7 @@ void reportes(Sistema &sistema) {
             case 4: grupoDeLaMuerte(sistema); break;
             case 5: porcentajeGoles(sistema); break;
             case 6: seguir = false; break;
+            default: cout<<"opcion incorrecta"<<endl; break;
         }
         system("pause");
         system("cls");
@@ -77,6 +79,7 @@ void menu(Sistema &sistema) {
             case 2: admPartidos(sistema); break;
             case 3: reportes(sistema); break;
             case 4: seguir = false; break;
+            default: cout<<"opcion incorrecta"<<endl; break;
         }
         system("cls");
     }
