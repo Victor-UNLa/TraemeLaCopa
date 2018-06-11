@@ -205,21 +205,9 @@ void levantarPartidos(Sistema &sistema) {
 
 
 
-        if((atoi(golL.c_str())!=-1)&&(atoi(golV.c_str())!=-1)){
+        /*if((atoi(golL.c_str())!=-1)&&(atoi(golV.c_str())!=-1)){
             setEstado(*p,FINALIZADO);
-                if (getId(*p) <= 48) {
-                if (getGolesL(*p) > getGolesV(*p)) {
-                    setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
-                }
-                else if (getGolesL(*p) == getGolesV(*p)) {
-                    setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
-                    setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
-                }
-                else {
-                    setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
-                }
-            }
-        }
+        }*/
 
 
 
