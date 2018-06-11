@@ -493,11 +493,88 @@ Partido* traerPartido(Sistema &sistema, int id) {
 
 void inicioPartido(Sistema &sistema) {
     int id;
-
+    bool encontrado = false;
     cout << "Ingrese id del partido: ";
     cin >> id;
 
     Partido *p = traerPartido(sistema, id);
+
+    //comprobacion de octavos de final
+    if((id>=49) && (id<=56)){
+        cout<<"partido de octavos:"<<endl;
+        PtrNodoLista cursor = primero(*sistema.partidos);
+
+        while (cursor != fin() && !encontrado) {
+            if(getId(*(Partido*)cursor->ptrDato)<=48){
+                if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                    encontrado = true;
+                }
+            }
+            cursor = siguiente(*sistema.partidos, cursor);
+        }
+    }
+    //comprobacion de cuartos de final
+    if((id>=57) && (id<=60)){
+        cout<<"partido de cuartos:"<<endl;
+        PtrNodoLista cursor = primero(*sistema.partidos);
+
+        while (cursor != fin() && !encontrado) {
+            if(getId(*(Partido*)cursor->ptrDato)<=56){
+                if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                    encontrado = true;
+                }
+            }
+            cursor = siguiente(*sistema.partidos, cursor);
+        }
+    }
+    //comprobacion de semifinal
+    if((id>=61) && (id<=62)){
+        cout<<"partido de semifinal:"<<endl;
+        PtrNodoLista cursor = primero(*sistema.partidos);
+
+        while (cursor != fin() && !encontrado) {
+            if(getId(*(Partido*)cursor->ptrDato)<=60){
+                if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                    encontrado = true;
+                }
+            }
+            cursor = siguiente(*sistema.partidos, cursor);
+        }
+    }
+    //comprobacion de tercer y cuarto puesto
+    if(id==63){
+        cout<<"partido de tercer y cuarto puesto"<<endl;
+        PtrNodoLista cursor = primero(*sistema.partidos);
+
+        while (cursor != fin() && !encontrado) {
+            if(getId(*(Partido*)cursor->ptrDato)<=62){
+                if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                    encontrado = true;
+                }
+            }
+            cursor = siguiente(*sistema.partidos, cursor);
+        }
+    }
+    //comprobacion de la final
+    if(id==64){
+        cout<<"partido FINAL"<<endl;
+        PtrNodoLista cursor = primero(*sistema.partidos);
+        //Partido *p = new Partido;
+
+        while (cursor != fin() && !encontrado) {
+            if(getId(*(Partido*)cursor->ptrDato)<=63){
+                if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                    encontrado = true;
+                }
+            }
+            cursor = siguiente(*sistema.partidos, cursor);
+        }
+    }
+
+    if(encontrado){
+            cout<<"no se puede iniciar el partido hasta no completar la fase anterior"<<endl;
+    }
+    else{
 
     if (getGolesL(*p) == -1) {
         setEstado(*p, EN_JUEGO);
@@ -513,6 +590,8 @@ void inicioPartido(Sistema &sistema) {
     }
 
     toString(*p);
+
+    }
 }
 
 void golesPartido(Sistema &sistema) {
