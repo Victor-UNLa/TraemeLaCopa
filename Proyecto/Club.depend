@@ -219,10 +219,11 @@
 
 1528408268 c:\users\realn\documents\c++ projects\proyecto\partido.h
 
-1528671055 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
+1528812989 source:c:\users\realn\documents\c++ projects\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
+	<windows.h>
 	<iostream>
 	"Lista.h"
 	"Jugador.h"
@@ -231,9 +232,9 @@
 	"Partido.h"
 	"Sistema.h"
 
-1528580159 c:\users\realn\documents\c++ projects\proyecto\sistema.h
+1528811698 c:\users\realn\documents\c++ projects\proyecto\sistema.h
 
-1528653663 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
+1528811698 source:c:\users\realn\documents\c++ projects\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"
