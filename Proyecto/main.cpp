@@ -13,6 +13,7 @@ void admPartidos(Sistema &sistema) {
     int opcion;
     system("cls");
     while(seguir) {
+        setearFases(sistema);
         cout << "1. Registrar inicio de partido." << endl;
         cout << "2. Registrar goles de partido." << endl;
         cout << "3. Registrar fin de partido." << endl;

@@ -443,6 +443,52 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
     return e;
 }
 
+void setearFases(Sistema &sistema){
+ /*   int maximo=0;
+    Equipo *ePrimero = new Equipo;
+    PtrNodoLista cursor = primero(*sistema.grupos);
+    Grupo *g = new Grupo;
+    while (cursor != fin()) {
+        Lista *l = getEquipos(*(Grupo*)cursor->ptrDato);
+        g = (Grupo*)cursor->ptrDato;
+        PtrNodoLista cursor2 = primero(*l);
+        Equipo *e = new Equipo;
+        while (cursor2 != fin()) {
+            e = (Equipo*)cursor2->ptrDato;
+
+            if(getPuntos(*(Equipo*)e)>maximo){
+                maximo=getPuntos(*(Equipo*)e);
+                ePrimero=e;
+            }
+
+            cursor2 = siguiente(*l, cursor2);
+        }
+        switch(getId(*(Grupo*)g)){
+            case 'A':
+                Partido *p = traerPartido(sistema, 49);
+                setEquipoL(*p,ePrimero);
+                break;
+            case 'B':
+                break;
+            case 'C':
+                break;
+            case 'D':
+                break;
+            case 'E':
+                break;
+            case 'F':
+                break;
+            case 'G':
+                break;
+            case 'H':
+                break;
+
+        }
+        cursor = siguiente(*sistema.grupos, cursor);
+    }
+*/
+}
+
 Jugador* traerJugador(Sistema &sistema, int id) {
     PtrNodoLista cursor = primero(*sistema.jugadores);
     Jugador *j = new Jugador;
@@ -559,7 +605,6 @@ void inicioPartido(Sistema &sistema) {
     if(id==64){
         cout<<"partido FINAL"<<endl;
         PtrNodoLista cursor = primero(*sistema.partidos);
-        //Partido *p = new Partido;
 
         while (cursor != fin() && !encontrado) {
             if(getId(*(Partido*)cursor->ptrDato)<=63){
