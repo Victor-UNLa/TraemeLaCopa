@@ -1,6 +1,7 @@
 #include <fstream>
 #include <cstring>
 #include <cstdlib>
+#include <windows.h>
 #include <iostream>
 using namespace std;
 #include "Lista.h"
@@ -106,7 +107,6 @@ void levantarEquipos(Sistema &sistema) {
         getline(archivo, puntos);
 
         Equipo *e = new Equipo;
-
         if(atoi(id.c_str())<=0){
             cout << "Error el equipo tiene el id negativo"<< endl;
             cout << "No se puede cargar el equipo:" << nombre<< endl;
@@ -121,11 +121,8 @@ void levantarEquipos(Sistema &sistema) {
 
         vectorValidar[i] = atoi(id.c_str());
         i = i +1;
-
-
         crear(*e, atoi(id.c_str()), nombre, atoi(golesAFavor.c_str()), atoi(golesEnContra.c_str()), atoi(puntos.c_str()));
         adicionarFinal(*sistema.equipos, e);
-
     }
 
     reordenar(*sistema.equipos);
@@ -156,13 +153,11 @@ void levantarJugadores(Sistema &sistema) {
         getline(archivo, equipo);
 
         Jugador *j = new Jugador;
-
         if(atoi(id.c_str())<=0){
             cout << "Error el jugador tiene el id negativo"<< endl;
             cout << "No se puede cargar el jugador:" << nombre<< endl;
             system("pause");
             exit(0);
-
         }
 
         for (int indice=0; indice<i; indice++){
@@ -171,13 +166,11 @@ void levantarJugadores(Sistema &sistema) {
                 cout << "No se puede cargar el jugador:" << nombre<< endl;
                 system("pause");
                 exit(0);
-
             }
         }
 
         vectorValidar[i] = atoi(id.c_str());
         i = i +1;
-
         crear(*j, atoi(id.c_str()), nombre, atoi(goles.c_str()));
 
         setJugadores(*traerEquipo(sistema, atoi(equipo.c_str())), j);
@@ -200,8 +193,11 @@ void levantarGrupos(Sistema &sistema) {
         exit(1);
     }
 
+    //falta validar
+    /**
     int vectorValidar[8];
     int i = 0;
+    */
 
     string id, nombre, e1, e2, e3, e4;
 
@@ -242,7 +238,7 @@ void levantarPartidos(Sistema &sistema) {
 
     string id, e1, e2, golL, golV;
 
-    int vectorValidar[63];
+    int vectorValidar[64];
     int i = 0;
 
     while (!archivo.eof()) {
@@ -251,7 +247,6 @@ void levantarPartidos(Sistema &sistema) {
         getline(archivo, e2, ';');
         getline(archivo, golL, ';');
         getline(archivo, golV);
-
 
         if(atoi(id.c_str())<=0){
             cout << "Error el partido tiene el id negativo"<< endl;
@@ -276,21 +271,11 @@ void levantarPartidos(Sistema &sistema) {
 
 
 
-        if((atoi(golL.c_str())!=-1)&&(atoi(golV.c_str())!=-1)){
+        /*if((atoi(golL.c_str())!=-1)&&(atoi(golV.c_str())!=-1)){
             setEstado(*p,FINALIZADO);
-                if (getId(*p) <= 48) {
-                if (getGolesL(*p) > getGolesV(*p)) {
-                    setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 3);
-                }
-                else if (getGolesL(*p) == getGolesV(*p)) {
-                    setPuntos(*getEquipoL(*p), getPuntos(*getEquipoL(*p)) + 1);
-                    setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 1);
-                }
-                else {
-                    setPuntos(*getEquipoV(*p), getPuntos(*getEquipoV(*p)) + 3);
-                }
-            }
-        }
+        }*/
+
+
 
         adicionarFinal(*sistema.partidos, p);
     }
@@ -337,8 +322,10 @@ void mostrarPartidos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.partidos);
 
     while(cursor != fin()) {
-        toString(*(Partido*)cursor->ptrDato);
-        cout << endl;
+        if (getGolesL(*(Partido*)cursor->ptrDato) != -1) {
+            toString(*(Partido*)cursor->ptrDato);
+            cout << endl;
+        }
         cursor = siguiente(*sistema.partidos, cursor);
     }
 }
@@ -521,15 +508,53 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
         cursor = siguiente(*sistema.equipos, cursor);
     }
 
-////////////////////////////////////////////////
-  /*  if(!encontrado){
-        cout("Ingrese otro id: \n");
-        cin("%d", id);
-        traerEquipo(sistema, id);
-    } */
-
     return e;
-    ////////////////////////////////////////7
+}
+
+void setearFases(Sistema &sistema){
+ /*   int maximo=0;
+    Equipo *ePrimero = new Equipo;
+    PtrNodoLista cursor = primero(*sistema.grupos);
+    Grupo *g = new Grupo;
+    while (cursor != fin()) {
+        Lista *l = getEquipos(*(Grupo*)cursor->ptrDato);
+        g = (Grupo*)cursor->ptrDato;
+        PtrNodoLista cursor2 = primero(*l);
+        Equipo *e = new Equipo;
+        while (cursor2 != fin()) {
+            e = (Equipo*)cursor2->ptrDato;
+
+            if(getPuntos(*(Equipo*)e)>maximo){
+                maximo=getPuntos(*(Equipo*)e);
+                ePrimero=e;
+            }
+
+            cursor2 = siguiente(*l, cursor2);
+        }
+        switch(getId(*(Grupo*)g)){
+            case 'A':
+                Partido *p = traerPartido(sistema, 49);
+                setEquipoL(*p,ePrimero);
+                break;
+            case 'B':
+                break;
+            case 'C':
+                break;
+            case 'D':
+                break;
+            case 'E':
+                break;
+            case 'F':
+                break;
+            case 'G':
+                break;
+            case 'H':
+                break;
+
+        }
+        cursor = siguiente(*sistema.grupos, cursor);
+    }
+*/
 }
 
 Jugador* traerJugador(Sistema &sistema, int id) {
@@ -582,26 +607,104 @@ Partido* traerPartido(Sistema &sistema, int id) {
 
 void inicioPartido(Sistema &sistema) {
     int id;
-
+    bool encontrado = false;
     cout << "Ingrese id del partido: ";
     cin >> id;
 
     Partido *p = traerPartido(sistema, id);
 
-    if (getGolesL(*p) == -1) {
-        setEstado(*p, EN_JUEGO);
-        setGolesL(*p, 0);
-        setGolesV(*p, 0);
-        cout << "Partido en juego\n" << endl;
-    }
-    else if (getEstado(*p) == EN_JUEGO) {
-        cout << "El partido ya se esta jugando" << endl;
-    }
-    else {
-        cout << "El partido ya se jugo" << endl;
-    }
+    if (id > 0 && id < 65) {
+        //comprobacion de octavos de final
+        if((id>=49) && (id<=56)){
+            cout<<"partido de octavos:"<<endl;
+            PtrNodoLista cursor = primero(*sistema.partidos);
 
-    toString(*p);
+            while (cursor != fin() && !encontrado) {
+                if(getId(*(Partido*)cursor->ptrDato)<=48){
+                    if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                        encontrado = true;
+                    }
+                }
+                cursor = siguiente(*sistema.partidos, cursor);
+            }
+        }
+        //comprobacion de cuartos de final
+        if((id>=57) && (id<=60)){
+            cout<<"partido de cuartos:"<<endl;
+            PtrNodoLista cursor = primero(*sistema.partidos);
+
+            while (cursor != fin() && !encontrado) {
+                if(getId(*(Partido*)cursor->ptrDato)<=56){
+                    if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                        encontrado = true;
+                    }
+                }
+                cursor = siguiente(*sistema.partidos, cursor);
+            }
+        }
+        //comprobacion de semifinal
+        if((id>=61) && (id<=62)){
+            cout<<"partido de semifinal:"<<endl;
+            PtrNodoLista cursor = primero(*sistema.partidos);
+
+            while (cursor != fin() && !encontrado) {
+                if(getId(*(Partido*)cursor->ptrDato)<=60){
+                    if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                        encontrado = true;
+                    }
+                }
+                cursor = siguiente(*sistema.partidos, cursor);
+            }
+        }
+        //comprobacion de tercer y cuarto puesto
+        if(id==63){
+            cout<<"partido de tercer y cuarto puesto"<<endl;
+            PtrNodoLista cursor = primero(*sistema.partidos);
+
+            while (cursor != fin() && !encontrado) {
+                if(getId(*(Partido*)cursor->ptrDato)<=62){
+                    if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                        encontrado = true;
+                    }
+                }
+                cursor = siguiente(*sistema.partidos, cursor);
+            }
+        }
+        //comprobacion de la final
+        if(id==64){
+            cout<<"partido FINAL"<<endl;
+            PtrNodoLista cursor = primero(*sistema.partidos);
+
+            while (cursor != fin() && !encontrado) {
+                if(getId(*(Partido*)cursor->ptrDato)<=63){
+                    if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                        encontrado = true;
+                    }
+                }
+                cursor = siguiente(*sistema.partidos, cursor);
+            }
+        }
+
+        if(encontrado){
+                cout<<"no se puede iniciar el partido hasta no completar la fase anterior"<<endl;
+        }
+        else{
+            if (getGolesL(*p) == -1) {
+                setEstado(*p, EN_JUEGO);
+                setGolesL(*p, 0);
+                setGolesV(*p, 0);
+                cout << "Partido en juego\n" << endl;
+            }
+            else if (getEstado(*p) == EN_JUEGO) {
+                cout << "El partido ya se esta jugando" << endl;
+            }
+            else {
+                cout << "El partido ya se jugo" << endl;
+            }
+
+            toString(*p);
+        }
+    }
 }
 
 void golesPartido(Sistema &sistema) {
@@ -650,7 +753,15 @@ void golesPartido(Sistema &sistema) {
             setGolesEnContra(*getEquipoL(*p), getGolesEnContra(*getEquipoL(*p)) + 1);
         }
 
-        cout << "\nGOOOOOL de " << getNombre(*e) << ": " << getNombre(*j) << endl;
+        string frase = "\nGOOOOOOOOOOOOOOOOL de " + getNombre(*e) + ": " + getNombre(*j);
+        int i = 0;
+
+        while(frase[i] != '\0') {
+            cout << frase[i];
+            i++;
+            Sleep(90);
+        }
+        cout << endl;
 
     }
     else if (getEstado(*p) == SIN_COMENZAR){
