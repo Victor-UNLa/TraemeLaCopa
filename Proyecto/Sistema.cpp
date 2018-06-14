@@ -193,13 +193,8 @@ void levantarGrupos(Sistema &sistema) {
         exit(1);
     }
 
-    //falta validar
-    /**
-    int vectorValidar[8];
-    int i = 0;
-    */
-
     string id, nombre, e1, e2, e3, e4;
+    bool flag=false;
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -208,6 +203,56 @@ void levantarGrupos(Sistema &sistema) {
         getline(archivo, e2, ';');
         getline(archivo, e3, ';');
         getline(archivo, e4);
+
+        /** Validacion para saber si todos los grupos estan completos*/
+        if(e1=="" || e2=="" || e3=="" || e4==""){
+            cout<<"Al grupo "<<id<<" le falta algun equipo"<<endl;
+            flag=true;
+        }
+
+        /** Validacion para que no haya dos ids iguales en el mismo grupo */
+        if(atoi(e1.c_str())==atoi(e2.c_str()) || atoi(e1.c_str())== atoi(e3.c_str()) || atoi(e1.c_str())==atoi(e4.c_str())){
+            cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e1.c_str())<<endl;
+            flag=true;
+        }
+        if(atoi(e2.c_str())==atoi(e3.c_str()) || atoi(e2.c_str())==atoi(e4.c_str())){
+            cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e2.c_str())<<endl;
+            flag=true;
+        }
+        if(atoi(e3.c_str())==atoi(e4.c_str())){
+            cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e3.c_str())<<endl;
+            flag=true;
+        }
+
+        /** Validacion de que no haya dos equipos con el mismo id en distintos grupos*/
+        PtrNodoLista cursor = primero(*sistema.grupos);
+        while(cursor!=fin()){
+            PtrNodoLista cursor2 = primero(*(getEquipos(*(Grupo*)cursor->ptrDato)));
+            if(id[0]==getId(*(Grupo*)cursor->ptrDato)){
+                cout<<"hay dos grupos con el id: "<<id<<endl;
+                flag=true;
+            }
+            while(cursor2!=fin()){
+                if(atoi(e1.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                    cout<<"el equipo con id: "<<atoi(e1.c_str())<<" esta cargado en dos grupos distintos"<<endl;
+                    flag=true;
+                }
+                if(atoi(e2.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                    cout<<"el equipo con id: "<<atoi(e2.c_str())<<" esta cargado en dos grupos distintos"<<endl;
+                    flag=true;
+                }
+                if(atoi(e3.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                    cout<<"el equipo con id: "<<atoi(e3.c_str())<<" esta cargado en dos grupos distintos"<<endl;
+                    flag=true;
+                }
+                if(atoi(e4.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                    cout<<"el equipo con id: "<<atoi(e4.c_str())<<" esta cargado en dos grupos distintos"<<endl;
+                    flag=true;
+                }
+                cursor2=siguiente(*(getEquipos(*(Grupo*)cursor->ptrDato)),cursor2);
+            }
+            cursor=siguiente(*sistema.grupos,cursor);
+        }
 
         Lista *equipos = new Lista;
         crearLista(*equipos, compararEquipo);
@@ -219,6 +264,10 @@ void levantarGrupos(Sistema &sistema) {
         Grupo *g = new Grupo;
         crear(*g, id[0], nombre, equipos);
         adicionarFinal(*sistema.grupos, g);
+    }
+
+    if(flag==true){
+        exit(1);
     }
 
     reordenar(*sistema.grupos);
