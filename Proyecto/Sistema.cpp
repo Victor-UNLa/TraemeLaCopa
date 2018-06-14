@@ -512,7 +512,6 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
 }
 
 void setearFases(Sistema &sistema){
-    /*int maximo=0;
     Equipo *ePrimero = new Equipo;
     Equipo *eSegundo = new Equipo;
     PtrNodoLista cursor = primero(*sistema.grupos);
@@ -525,15 +524,11 @@ void setearFases(Sistema &sistema){
 
         Equipo *e = new Equipo;
         while (cursor2 != fin()) {
-            ePrimero = (Equipo*)primero(*l);
-            eSegundo = (Equipo*)siguiente(*l,primero(*l));
+            //primero (*l)->ptrDato
+            ePrimero = (Equipo*)primero (*l)->ptrDato;
+            eSegundo = (Equipo*)siguiente(*l,primero (*l))->ptrDato;
 
             e = (Equipo*)cursor2->ptrDato;
-
-            //if(getPuntos(*(Equipo*)e)>maximo){
-            //    maximo=getPuntos(*(Equipo*)e);
-            //    ePrimero=e;
-            //}
 
             cursor2 = siguiente(*l, cursor2);
         }
@@ -590,7 +585,6 @@ void setearFases(Sistema &sistema){
         }
         cursor = siguiente(*sistema.grupos, cursor);
     }
-*/
 }
 
 Jugador* traerJugador(Sistema &sistema, int id) {
