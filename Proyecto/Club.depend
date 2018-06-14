@@ -281,10 +281,11 @@
 
 1528635867 c:\users\martin\desktop\ayed\traemelacopa\proyecto\partido.h
 
-1528766300 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\sistema.cpp
+1528934888 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
+	<windows.h>
 	<iostream>
 	"Lista.h"
 	"Jugador.h"

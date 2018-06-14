@@ -512,43 +512,79 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
 }
 
 void setearFases(Sistema &sistema){
- /*   int maximo=0;
+    /*int maximo=0;
     Equipo *ePrimero = new Equipo;
+    Equipo *eSegundo = new Equipo;
     PtrNodoLista cursor = primero(*sistema.grupos);
     Grupo *g = new Grupo;
     while (cursor != fin()) {
+        Partido *p;
         Lista *l = getEquipos(*(Grupo*)cursor->ptrDato);
         g = (Grupo*)cursor->ptrDato;
         PtrNodoLista cursor2 = primero(*l);
+
         Equipo *e = new Equipo;
         while (cursor2 != fin()) {
+            ePrimero = (Equipo*)primero(*l);
+            eSegundo = (Equipo*)siguiente(*l,primero(*l));
+
             e = (Equipo*)cursor2->ptrDato;
 
-            if(getPuntos(*(Equipo*)e)>maximo){
-                maximo=getPuntos(*(Equipo*)e);
-                ePrimero=e;
-            }
+            //if(getPuntos(*(Equipo*)e)>maximo){
+            //    maximo=getPuntos(*(Equipo*)e);
+            //    ePrimero=e;
+            //}
 
             cursor2 = siguiente(*l, cursor2);
         }
         switch(getId(*(Grupo*)g)){
             case 'A':
-                Partido *p = traerPartido(sistema, 49);
+                p = traerPartido(sistema, 49);
                 setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 51);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'B':
+                p = traerPartido(sistema, 51);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 49);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'C':
+                p = traerPartido(sistema, 50);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 52);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'D':
+                p = traerPartido(sistema, 52);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 50);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'E':
+                p = traerPartido(sistema, 53);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 55);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'F':
+                p = traerPartido(sistema, 55);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 53);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'G':
+                p = traerPartido(sistema, 54);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 56);
+                setEquipoV(*p,eSegundo);
                 break;
             case 'H':
+                p = traerPartido(sistema, 56);
+                setEquipoL(*p,ePrimero);
+                p = traerPartido(sistema, 54);
+                setEquipoV(*p,eSegundo);
                 break;
 
         }
