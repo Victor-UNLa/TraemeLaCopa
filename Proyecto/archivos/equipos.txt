@@ -1,5 +1,5 @@
-1;Rusia;0;0;1
-2;Arabia Saudita;0;0;1
+1;Rusia;0;0;0
+2;Arabia Saudita;0;0;0
 3;Egipto;0;0;0
 4;Uruguay;0;0;0
 5;Portugal;0;0;0
