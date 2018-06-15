@@ -560,12 +560,95 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
     return e;
 }
 
+bool esOctavos(Sistema &sistema){
+    bool bandera=false;
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while (cursor != fin()) {
+        if(getId(*(Partido*)cursor->ptrDato)<=48){
+            if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                bandera = true;
+            }
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+    return bandera;
+}
+
+bool esCuartos(Sistema &sistema){
+    bool bandera=false;
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while (cursor != fin()) {
+        if(getId(*(Partido*)cursor->ptrDato)<=56){
+            if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                bandera = true;
+            }
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+    return bandera;
+}
+
+bool esSemis(Sistema &sistema){
+    bool bandera=false;
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while (cursor != fin()) {
+        if(getId(*(Partido*)cursor->ptrDato)<=60){
+            if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                bandera = true;
+            }
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+    return bandera;
+}
+
+
+bool es3erY4to(Sistema &sistema){
+    bool bandera=false;
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while (cursor != fin()) {
+        if(getId(*(Partido*)cursor->ptrDato)<=62){
+            if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                bandera = true;
+            }
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+    return bandera;
+}
+
+bool esFinal(Sistema &sistema){
+    bool bandera=false;
+    PtrNodoLista cursor = primero(*sistema.partidos);
+
+    while (cursor != fin()) {
+        if(getId(*(Partido*)cursor->ptrDato)<=63){
+            if ((getGolesL(*(Partido*)cursor->ptrDato) == -1)&&(getGolesV(*(Partido*)cursor->ptrDato) == -1)) {
+                bandera = true;
+            }
+        }
+        cursor = siguiente(*sistema.partidos, cursor);
+    }
+    return bandera;
+}
+
+
 void setearFases(Sistema &sistema){
+    /*
     bool octavos=false;
     bool cuartos=false;
     bool semi=false;
     bool tercerYcuarto=false;
     bool fina=false;
+
+    cuartos = esCuartos(sistema);
+    semi = esSemis(sistema);
+    tercerYcuarto = es3erY4to(sistema);
+    fina = esFinal(sistema);
 
     ///comprobacion de cuartos de final
         PtrNodoLista cursor = primero(*sistema.partidos);
@@ -612,132 +695,134 @@ void setearFases(Sistema &sistema){
                 }
                 cursorFinal = siguiente(*sistema.partidos, cursorFinal);
             }
+    */
+    if(!esOctavos(sistema)){
+        Equipo *ePrimero = new Equipo;
+        Equipo *eSegundo = new Equipo;
+        PtrNodoLista cursor1 = primero(*sistema.grupos);
+        Grupo *g = new Grupo;
+        while (cursor1 != fin()) {
+            Partido *p;
+            Lista *l = getEquipos(*(Grupo*)cursor1->ptrDato);
+            g = (Grupo*)cursor1->ptrDato;
+            PtrNodoLista cursor2 = primero(*l);
 
-    Equipo *ePrimero = new Equipo;
-    Equipo *eSegundo = new Equipo;
-    PtrNodoLista cursor1 = primero(*sistema.grupos);
-    Grupo *g = new Grupo;
-    while (cursor1 != fin()) {
-        Partido *p;
-        Lista *l = getEquipos(*(Grupo*)cursor1->ptrDato);
-        g = (Grupo*)cursor1->ptrDato;
-        PtrNodoLista cursor2 = primero(*l);
+            Equipo *e = new Equipo;
+            while (cursor2 != fin()) {
+                //primero (*l)->ptrDato
+                ePrimero = (Equipo*)primero (*l)->ptrDato;
+                eSegundo = (Equipo*)siguiente(*l,primero (*l))->ptrDato;
 
-        Equipo *e = new Equipo;
-        while (cursor2 != fin()) {
-            //primero (*l)->ptrDato
-            ePrimero = (Equipo*)primero (*l)->ptrDato;
-            eSegundo = (Equipo*)siguiente(*l,primero (*l))->ptrDato;
+                e = (Equipo*)cursor2->ptrDato;
 
-            e = (Equipo*)cursor2->ptrDato;
+                cursor2 = siguiente(*l, cursor2);
+            }
+            switch(getId(*(Grupo*)g)){
+                case 'A':
+                    p = traerPartido(sistema, 49);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 51);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'B':
+                    p = traerPartido(sistema, 51);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 49);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'C':
+                    p = traerPartido(sistema, 50);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 52);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'D':
+                    p = traerPartido(sistema, 52);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 50);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'E':
+                    p = traerPartido(sistema, 53);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 55);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'F':
+                    p = traerPartido(sistema, 55);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 53);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'G':
+                    p = traerPartido(sistema, 54);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 56);
+                    setEquipoV(*p,eSegundo);
+                    break;
+                case 'H':
+                    p = traerPartido(sistema, 56);
+                    setEquipoL(*p,ePrimero);
+                    p = traerPartido(sistema, 54);
+                    setEquipoV(*p,eSegundo);
+                    break;
 
-            cursor2 = siguiente(*l, cursor2);
+            }
+            cursor1 = siguiente(*sistema.grupos, cursor1);
         }
-        switch(getId(*(Grupo*)g)){
-            case 'A':
-                p = traerPartido(sistema, 49);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 51);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'B':
-                p = traerPartido(sistema, 51);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 49);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'C':
-                p = traerPartido(sistema, 50);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 52);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'D':
-                p = traerPartido(sistema, 52);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 50);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'E':
-                p = traerPartido(sistema, 53);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 55);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'F':
-                p = traerPartido(sistema, 55);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 53);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'G':
-                p = traerPartido(sistema, 54);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 56);
-                setEquipoV(*p,eSegundo);
-                break;
-            case 'H':
-                p = traerPartido(sistema, 56);
-                setEquipoL(*p,ePrimero);
-                p = traerPartido(sistema, 54);
-                setEquipoV(*p,eSegundo);
-                break;
 
+        if(!esCuartos(sistema)){
+
+            ///primer partido de cuartos
+            if(getGolesL(*traerPartido(sistema, 49)) > getGolesV(*traerPartido(sistema, 49))){
+                setEquipoL(*traerPartido(sistema, 57),getEquipoL(*traerPartido(sistema, 49)));
+            }else{
+                setEquipoL(*traerPartido(sistema, 57),getEquipoV(*traerPartido(sistema, 49)));
+            }
+            if(getGolesL(*traerPartido(sistema, 50)) > getGolesV(*traerPartido(sistema, 50))){
+                setEquipoV(*traerPartido(sistema, 57),getEquipoL(*traerPartido(sistema, 50)));
+            }else{
+                setEquipoV(*traerPartido(sistema, 57),getEquipoV(*traerPartido(sistema, 50)));
+            }
+
+            ///segundo partido de cuartos
+            if(getGolesL(*traerPartido(sistema, 51)) > getGolesV(*traerPartido(sistema, 51))){
+                setEquipoL(*traerPartido(sistema, 58),getEquipoL(*traerPartido(sistema, 51)));
+            }else{
+                setEquipoL(*traerPartido(sistema, 58),getEquipoV(*traerPartido(sistema, 51)));
+            }
+            if(getGolesL(*traerPartido(sistema, 52)) > getGolesV(*traerPartido(sistema, 52))){
+                setEquipoV(*traerPartido(sistema, 58),getEquipoL(*traerPartido(sistema, 52)));
+            }else{
+                setEquipoV(*traerPartido(sistema, 58),getEquipoV(*traerPartido(sistema, 52)));
+            }
+
+            ///tercer partido de cuartos
+            if(getGolesL(*traerPartido(sistema, 53)) > getGolesV(*traerPartido(sistema, 53))){
+                setEquipoL(*traerPartido(sistema, 59),getEquipoL(*traerPartido(sistema, 53)));
+            }else{
+                setEquipoL(*traerPartido(sistema, 59),getEquipoV(*traerPartido(sistema, 53)));
+            }
+            if(getGolesL(*traerPartido(sistema, 54)) > getGolesV(*traerPartido(sistema, 54))){
+                setEquipoV(*traerPartido(sistema, 59),getEquipoL(*traerPartido(sistema, 54)));
+            }else{
+                setEquipoV(*traerPartido(sistema, 59),getEquipoV(*traerPartido(sistema, 54)));
+            }
+
+            ///cuarto partido de cuartos
+            if(getGolesL(*traerPartido(sistema, 55)) > getGolesV(*traerPartido(sistema, 55))){
+                setEquipoL(*traerPartido(sistema, 60),getEquipoL(*traerPartido(sistema, 55)));
+            }else{
+                setEquipoL(*traerPartido(sistema, 60),getEquipoV(*traerPartido(sistema, 55)));
+            }
+            if(getGolesL(*traerPartido(sistema, 56)) > getGolesV(*traerPartido(sistema, 56))){
+                setEquipoV(*traerPartido(sistema, 60),getEquipoL(*traerPartido(sistema, 56)));
+            }else{
+                setEquipoV(*traerPartido(sistema, 60),getEquipoV(*traerPartido(sistema, 56)));
+            }
         }
-        cursor1 = siguiente(*sistema.grupos, cursor1);
     }
-
-    if(!cuartos){
-
-        ///primer partido de cuartos
-        if(getGolesL(*traerPartido(sistema, 49)) > getGolesV(*traerPartido(sistema, 49))){
-            setEquipoL(*traerPartido(sistema, 57),getEquipoL(*traerPartido(sistema, 49)));
-        }else{
-            setEquipoL(*traerPartido(sistema, 57),getEquipoV(*traerPartido(sistema, 49)));
-        }
-        if(getGolesL(*traerPartido(sistema, 50)) > getGolesV(*traerPartido(sistema, 50))){
-            setEquipoV(*traerPartido(sistema, 57),getEquipoL(*traerPartido(sistema, 50)));
-        }else{
-            setEquipoV(*traerPartido(sistema, 57),getEquipoV(*traerPartido(sistema, 50)));
-        }
-
-        ///segundo partido de cuartos
-        if(getGolesL(*traerPartido(sistema, 51)) > getGolesV(*traerPartido(sistema, 51))){
-            setEquipoL(*traerPartido(sistema, 58),getEquipoL(*traerPartido(sistema, 51)));
-        }else{
-            setEquipoL(*traerPartido(sistema, 58),getEquipoV(*traerPartido(sistema, 51)));
-        }
-        if(getGolesL(*traerPartido(sistema, 52)) > getGolesV(*traerPartido(sistema, 52))){
-            setEquipoV(*traerPartido(sistema, 58),getEquipoL(*traerPartido(sistema, 52)));
-        }else{
-            setEquipoV(*traerPartido(sistema, 58),getEquipoV(*traerPartido(sistema, 52)));
-        }
-
-        ///tercer partido de cuartos
-        if(getGolesL(*traerPartido(sistema, 53)) > getGolesV(*traerPartido(sistema, 53))){
-            setEquipoL(*traerPartido(sistema, 59),getEquipoL(*traerPartido(sistema, 53)));
-        }else{
-            setEquipoL(*traerPartido(sistema, 59),getEquipoV(*traerPartido(sistema, 53)));
-        }
-        if(getGolesL(*traerPartido(sistema, 54)) > getGolesV(*traerPartido(sistema, 54))){
-            setEquipoV(*traerPartido(sistema, 59),getEquipoL(*traerPartido(sistema, 54)));
-        }else{
-            setEquipoV(*traerPartido(sistema, 59),getEquipoV(*traerPartido(sistema, 54)));
-        }
-
-        ///cuarto partido de cuartos
-        if(getGolesL(*traerPartido(sistema, 55)) > getGolesV(*traerPartido(sistema, 55))){
-            setEquipoL(*traerPartido(sistema, 60),getEquipoL(*traerPartido(sistema, 55)));
-        }else{
-            setEquipoL(*traerPartido(sistema, 60),getEquipoV(*traerPartido(sistema, 55)));
-        }
-        if(getGolesL(*traerPartido(sistema, 56)) > getGolesV(*traerPartido(sistema, 56))){
-            setEquipoV(*traerPartido(sistema, 60),getEquipoL(*traerPartido(sistema, 56)));
-        }else{
-            setEquipoV(*traerPartido(sistema, 60),getEquipoV(*traerPartido(sistema, 56)));
-        }
-    }
-    if(!semi){
+    if(!esSemis(sistema)){
         ///primer partido semis
         if(getGolesL(*traerPartido(sistema, 57)) > getGolesV(*traerPartido(sistema, 57))){
             setEquipoL(*traerPartido(sistema, 61),getEquipoL(*traerPartido(sistema, 57)));
@@ -762,7 +847,7 @@ void setearFases(Sistema &sistema){
             setEquipoV(*traerPartido(sistema, 62),getEquipoV(*traerPartido(sistema, 60)));
         }
     }
-    if(!tercerYcuarto){
+    if(!es3erY4to(sistema)){
         ///3er y cuarto puesto
         if(getGolesL(*traerPartido(sistema, 61)) < getGolesV(*traerPartido(sistema, 61))){
             setEquipoL(*traerPartido(sistema, 63),getEquipoL(*traerPartido(sistema, 61)));
@@ -775,7 +860,7 @@ void setearFases(Sistema &sistema){
             setEquipoV(*traerPartido(sistema, 63),getEquipoV(*traerPartido(sistema, 62)));
         }
     }
-    if(!fina){
+    if(!esFinal(sistema)){
         ///FINAL!!!!!!!!!!!!!!!!!!
         if(getGolesL(*traerPartido(sistema, 61)) > getGolesV(*traerPartido(sistema, 61))){
             setEquipoL(*traerPartido(sistema, 63),getEquipoL(*traerPartido(sistema, 61)));
@@ -854,6 +939,8 @@ void inicioPartido(Sistema &sistema) {
         //comprobacion de octavos de final
         if((id>=49) && (id<=56)){
             cout<<"partido de octavos:"<<endl;
+            encontrado = esOctavos(sistema);
+            /*
             PtrNodoLista cursor = primero(*sistema.partidos);
 
             while (cursor != fin() && !encontrado) {
@@ -863,11 +950,13 @@ void inicioPartido(Sistema &sistema) {
                     }
                 }
                 cursor = siguiente(*sistema.partidos, cursor);
-            }
+            }*/
         }
         //comprobacion de cuartos de final
         if((id>=57) && (id<=60)){
             cout<<"partido de cuartos:"<<endl;
+            encontrado = esCuartos(sistema);
+            /*
             PtrNodoLista cursor = primero(*sistema.partidos);
 
             while (cursor != fin() && !encontrado) {
@@ -877,11 +966,13 @@ void inicioPartido(Sistema &sistema) {
                     }
                 }
                 cursor = siguiente(*sistema.partidos, cursor);
-            }
+            }*/
         }
         //comprobacion de semifinal
         if((id>=61) && (id<=62)){
             cout<<"partido de semifinal:"<<endl;
+            encontrado = esSemis(sistema);
+            /*
             PtrNodoLista cursor = primero(*sistema.partidos);
 
             while (cursor != fin() && !encontrado) {
@@ -891,11 +982,13 @@ void inicioPartido(Sistema &sistema) {
                     }
                 }
                 cursor = siguiente(*sistema.partidos, cursor);
-            }
+            }*/
         }
         //comprobacion de tercer y cuarto puesto
         if(id==63){
             cout<<"partido de tercer y cuarto puesto"<<endl;
+            encontrado = es3erY4to(sistema);
+            /*
             PtrNodoLista cursor = primero(*sistema.partidos);
 
             while (cursor != fin() && !encontrado) {
@@ -905,11 +998,13 @@ void inicioPartido(Sistema &sistema) {
                     }
                 }
                 cursor = siguiente(*sistema.partidos, cursor);
-            }
+            }*/
         }
         //comprobacion de la final
         if(id==64){
             cout<<"partido FINAL"<<endl;
+            encontrado = esFinal(sistema);
+            /*
             PtrNodoLista cursor = primero(*sistema.partidos);
 
             while (cursor != fin() && !encontrado) {
@@ -919,7 +1014,7 @@ void inicioPartido(Sistema &sistema) {
                     }
                 }
                 cursor = siguiente(*sistema.partidos, cursor);
-            }
+            }*/
         }
 
         if(encontrado){
