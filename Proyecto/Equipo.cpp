@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #include "Lista.h"
@@ -101,16 +102,28 @@ bool equals(Equipo &equipo, Equipo e) {
     return equipo.id == e.id;
 }
 
-void toString(Equipo &equipo) {
-    cout << "Id: " << equipo.id << endl;
-    cout << "Nombre: " << equipo.nombre << endl;
-    cout << "Goles a favor: " << equipo.golesAFavor << endl;
-    cout << "Goles en contra: " << equipo.golesEnContra << endl;
-    cout << "Puntos: " << equipo.puntos << endl;
-    PtrNodoLista cursor = primero(*equipo.jugadores);
-    while (cursor != fin()) {
-        cout << getNombre(*(Jugador*)cursor->ptrDato) << " || ";
-        cursor = siguiente(*equipo.jugadores, cursor);
+string toString(Equipo &equipo) {
+    string dato="NULL\n";
+    if(getId(equipo)>0){
+        dato = "Id: ";
+        ostringstream convert;
+        convert<<getId(equipo);
+        dato+=convert.str()+"\n";
+        dato+="Nombre: "+getNombre(equipo)+"\n";
+        ostringstream convert2;
+        convert2<<getGolesAFavor(equipo);
+        dato+="Goles a favor: "+convert2.str()+"\n";
+        ostringstream convert3;
+        convert3<<getGolesEnContra(equipo);
+        dato+="Goles en contra: "+convert3.str()+"\n";
+        ostringstream convert4;
+        convert4<<getPuntos(equipo);
+        dato+="Puntos: "+convert4.str()+"\n";
+        PtrNodoLista cursor = primero(*equipo.jugadores);
+        while (cursor != fin()) {
+            dato+=getNombre(*(Jugador*)cursor->ptrDato)+" || ";
+            cursor = siguiente(*equipo.jugadores, cursor);
+        }
     }
-    cout << endl;
+    return dato;
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #include "Jugador.h"
@@ -49,9 +50,18 @@ bool equals(Jugador &jugador, Jugador j) {
     return jugador.id == j.id;
 }
 
-void toString(Jugador &jugador) {
-    cout << "Id: " << jugador.id << endl;
-    cout << "Nombre: " << jugador.nombre<< endl;
-    cout << "Goles: " << jugador.goles << endl;
+string toString(Jugador &jugador) {
+    string dato="NULL\n";
+    if(getId(jugador)>0){
+        dato="Id: ";
+        ostringstream convert;
+        convert<<getId(jugador);
+        dato+=convert.str()+"\n";
+        dato+="Nombre: "+getNombre(jugador)+"\n";
+        ostringstream convert2 ;
+        convert2<<getGoles(jugador);
+        dato+="Goles: "+convert2.str()+"\n";
+    }
+    return dato;
 }
 

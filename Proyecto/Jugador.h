@@ -17,6 +17,6 @@ string getNombre(Jugador &jugador);
 void setGoles(Jugador &jugador, int goles);
 int getGoles(Jugador &jugador);
 bool equals(Jugador &jugador, Jugador j);
-void toString(Jugador &jugador);
+string toString(Jugador &jugador);
 
 #endif // _JUGADOR_H_

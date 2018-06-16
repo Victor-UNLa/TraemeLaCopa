@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #include "Lista.h"
@@ -85,8 +86,20 @@ bool equals(Partido &partido, Partido p) {
     return partido.id == p.id;
 }
 
-void toString(Partido &partido) {
-    cout << "Id: " << partido.id << endl;
-    cout << getNombre(*partido.equipoL) << " " << partido.golesL << endl;
-    cout << getNombre(*partido.equipoV) << " " << partido.golesV << endl;
+string toString(Partido &partido) {
+    string dato="NULL\n";
+    if(getId(partido)>0){
+        ostringstream convert;
+        convert << getId(partido);
+        dato="Id: "+convert.str()+"\n";
+        dato+=getNombre(*partido.equipoL)+" ";
+        ostringstream convert2;
+        convert2 << getGolesL(partido);
+        dato+=convert2.str()+"\n";
+        dato+=getNombre(*partido.equipoV)+" ";
+        ostringstream convert3;
+        convert3 << getGolesV(partido);
+        dato+=convert3.str()+"\n";
+    }
+    return dato;
 }

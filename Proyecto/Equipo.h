@@ -27,6 +27,6 @@ void setJugadores(Equipo &equipo, Lista *jugadores);
 void setJugadores(Equipo &equipo, Jugador *jugador);
 Lista* getJugadores(Equipo &equipo);
 bool equals(Equipo &equipo, Equipo e);
-void toString(Equipo &equipo);
+string toString(Equipo &equipo);
 
 #endif // _EQUIPO_H_

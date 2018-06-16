@@ -28,6 +28,6 @@ int getGolesV(Partido &partido);
 void setEstado(Partido &partido, Estado estado);
 Estado getEstado(Partido &partido);
 bool equals(Partido &partido, Partido p);
-void toString(Partido &partido);
+string toString(Partido &partido);
 
 #endif // _PARTIDO_H_

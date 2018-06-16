@@ -114,7 +114,7 @@ void levantarEquipos(Sistema &sistema) {
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
-                cout<<"Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
+                cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
                 cout << "No se puede cargar el equipo:" << nombre<< endl;
             }
         }
@@ -162,7 +162,7 @@ void levantarJugadores(Sistema &sistema) {
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
-                cout<<"Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
+                cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
                 cout << "No se puede cargar el jugador:" << nombre<< endl;
                 system("pause");
                 exit(0);
@@ -305,7 +305,7 @@ void levantarPartidos(Sistema &sistema) {
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
-                cout<<"Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
+                cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
                 system("pause");
                 exit(0);
             }
@@ -338,7 +338,7 @@ void mostrarEquipos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.equipos);
 
     while(cursor != fin()) {
-        toString(*(Equipo*)cursor->ptrDato);
+        cout << toString(*(Equipo*)cursor->ptrDato)<< endl;
         cout << endl;
         cursor = siguiente(*sistema.equipos, cursor);
     }
@@ -348,7 +348,7 @@ void mostrarJugadores(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.jugadores);
 
     while(cursor != fin()) {
-        toString(*(Jugador*)cursor->ptrDato);
+        cout << toString(*(Jugador*)cursor->ptrDato);
         cout << endl;
         cursor = siguiente(*sistema.jugadores, cursor);
     }
@@ -359,7 +359,7 @@ void mostrarGrupos(Sistema &sistema) {
 
     int golesTotales = 0;
     while(cursor != fin()) {
-        toString(*(Grupo*)cursor->ptrDato);
+        cout << toString(*(Grupo*)cursor->ptrDato);
         golesTotales += golesPorGrupo(*(Grupo*)cursor->ptrDato);
         cout << endl;
         cursor = siguiente(*sistema.grupos, cursor);
@@ -372,7 +372,7 @@ void mostrarPartidos(Sistema &sistema) {
 
     while(cursor != fin()) {
         if (getGolesL(*(Partido*)cursor->ptrDato) != -1) {
-            toString(*(Partido*)cursor->ptrDato);
+            cout << toString(*(Partido*)cursor->ptrDato)<< endl;
             cout << endl;
         }
         cursor = siguiente(*sistema.partidos, cursor);
@@ -1034,7 +1034,7 @@ void inicioPartido(Sistema &sistema) {
                 cout << "El partido ya se jugo" << endl;
             }
 
-            toString(*p);
+            cout << toString(*p)<<endl;
         }
     }
 }
@@ -1129,7 +1129,7 @@ void finPartido(Sistema &sistema) {
         }
 
         cout << "Partido finalizado\n" << endl;
-        toString(*p);
+        cout << toString(*p) << endl;
     }
     else {
         cout << "El partido no estaba en juego" << endl;
@@ -1141,8 +1141,7 @@ void mostrarPartidosEnCurso(Sistema &sistema) {
 
     while(cursor != fin()) {
         if (getEstado(*(Partido*)cursor->ptrDato) == EN_JUEGO) {
-            toString(*(Partido*)cursor->ptrDato);
-            cout << endl;
+            cout << toString(*(Partido*)cursor->ptrDato)<< endl;
         }
         cursor = siguiente(*sistema.partidos, cursor);
     }
