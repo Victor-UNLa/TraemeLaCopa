@@ -1131,6 +1131,22 @@ void golesPartido(Sistema &sistema) {
         }
         cout << endl;
 
+        /**Mensaje de goles*/
+        int sumgol=0;
+        cursor=primero(*sistema.equipos);
+        while(cursor!=fin()){
+            sumgol=sumgol+getGolesAFavor(*(Equipo*)cursor->ptrDato);
+            cursor=siguiente(*sistema.equipos,cursor);
+        }
+        if(sumgol<100 && sumgol%10==0){
+            cout<<"ATENCION!!!"<<endl;
+            cout<<"Se han alcanzado los "<<sumgol<<" goles en el mundial."<<endl;
+        }
+        if(sumgol>=100 && sumgol%100==0){
+            cout<<"ATENCION!!!"<<endl;
+            cout<<"Se han alcanzado los "<<sumgol<<" goles en el mundial."<<endl;
+        }
+
     }
     else if (getEstado(*p) == SIN_COMENZAR){
         cout << "El partido no se esta jugando" << endl;
