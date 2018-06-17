@@ -372,29 +372,32 @@
 	"Partido.h"
 	"Sistema.h"
 
-1528808703 source:c:\users\jose_\documents\github\traemelacopa\proyecto\equipo.cpp
+1529244851 source:c:\users\jose_\documents\github\traemelacopa\proyecto\equipo.cpp
 	<iostream>
+	<sstream>
 	"Lista.h"
 	"Jugador.h"
 	"Equipo.h"
 
 1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\lista.h
 
-1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\jugador.h
+1529244851 c:\users\jose_\documents\github\traemelacopa\proyecto\jugador.h
 
-1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\equipo.h
+1529244851 c:\users\jose_\documents\github\traemelacopa\proyecto\equipo.h
 
-1528808703 source:c:\users\jose_\documents\github\traemelacopa\proyecto\grupo.cpp
+1529244851 source:c:\users\jose_\documents\github\traemelacopa\proyecto\grupo.cpp
 	<iostream>
+	<sstream>
 	"Lista.h"
 	"Jugador.h"
 	"Equipo.h"
 	"Grupo.h"
 
-1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\grupo.h
+1529244851 c:\users\jose_\documents\github\traemelacopa\proyecto\grupo.h
 
-1528808703 source:c:\users\jose_\documents\github\traemelacopa\proyecto\jugador.cpp
+1529244851 source:c:\users\jose_\documents\github\traemelacopa\proyecto\jugador.cpp
 	<iostream>
+	<sstream>
 	"Jugador.h"
 
 1528808703 source:c:\users\jose_\documents\github\traemelacopa\proyecto\lista.cpp
@@ -410,18 +413,19 @@
 	"Partido.h"
 	"Sistema.h"
 
-1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\partido.h
+1529244851 c:\users\jose_\documents\github\traemelacopa\proyecto\partido.h
 
 1528808703 c:\users\jose_\documents\github\traemelacopa\proyecto\sistema.h
 
-1528808703 source:c:\users\jose_\documents\github\traemelacopa\proyecto\partido.cpp
+1529244851 source:c:\users\jose_\documents\github\traemelacopa\proyecto\partido.cpp
 	<iostream>
+	<sstream>
 	"Lista.h"
 	"Jugador.h"
 	"Equipo.h"
 	"Partido.h"
 
-1528983814 source:c:\users\jose_\documents\github\traemelacopa\proyecto\sistema.cpp
+1529248584 source:c:\users\jose_\documents\github\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>

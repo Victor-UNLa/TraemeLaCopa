@@ -194,7 +194,7 @@ void levantarGrupos(Sistema &sistema) {
     }
 
     string id, nombre, e1, e2, e3, e4;
-    bool flag=false;
+    bool flag=false,encontrado=false;
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -204,10 +204,21 @@ void levantarGrupos(Sistema &sistema) {
         getline(archivo, e3, ';');
         getline(archivo, e4);
 
-        /** Validacion para saber si todos los grupos estan completos*/
-        if(e1=="" || e2=="" || e3=="" || e4==""){
-            cout<<"Al grupo "<<id<<" le falta algun equipo"<<endl;
+        /** Validacion para los id*/
+        if(id[0]<'A' || id[0]>'H'){
+            cout<<"Se ingreso el id de un grupo de forma incorrecta"<<endl;
             flag=true;
+        }
+
+        /** Validacion id de equipo negativo o 0 y todos los grupos esten completos*/
+        if(atoi(e2.c_str())<=0 || atoi(e3.c_str())<=0 || atoi(e4.c_str())<=0 || atoi(e1.c_str())<=0){
+            if(e1=="" || e2=="" || e3=="" || e4==""){
+                cout<<"Al grupo "<<id<<" le falta algun equipo"<<endl;
+                flag=true;
+            }else{
+                cout<<"Hay un id negativo o con id 0 en el grupo "<<id<<endl;
+                flag=true;
+            }
         }
 
         /** Validacion para que no haya dos ids iguales en el mismo grupo */
@@ -229,29 +240,54 @@ void levantarGrupos(Sistema &sistema) {
         while(cursor!=fin()){
             PtrNodoLista cursor2 = primero(*(getEquipos(*(Grupo*)cursor->ptrDato)));
             if(id[0]==getId(*(Grupo*)cursor->ptrDato)){
-                cout<<"hay dos grupos con el id: "<<id<<endl;
+                if(id[0]!=0){
+                cout<<"hay dos o mas grupos con el id: "<<id<<endl;
                 flag=true;
+                }
             }
             while(cursor2!=fin()){
-                if(atoi(e1.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                if(atoi(e1.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e1.c_str())>0){
                     cout<<"el equipo con id: "<<atoi(e1.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
-                if(atoi(e2.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                if(atoi(e2.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e2.c_str())>0){
                     cout<<"el equipo con id: "<<atoi(e2.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
-                if(atoi(e3.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                if(atoi(e3.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e3.c_str())>0){
                     cout<<"el equipo con id: "<<atoi(e3.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
-                if(atoi(e4.c_str())==getId(*(Equipo*)cursor2->ptrDato)){
+                if(atoi(e4.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e4.c_str())>0){
                     cout<<"el equipo con id: "<<atoi(e4.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
                 cursor2=siguiente(*(getEquipos(*(Grupo*)cursor->ptrDato)),cursor2);
             }
             cursor=siguiente(*sistema.grupos,cursor);
+        }
+
+        /** Validacion para que equipos ingresados existan*/
+        cursor=primero(*sistema.equipos);
+        while(cursor!=fin()){
+            if(atoi(e2.c_str())==getId(*(Equipo*)cursor->ptrDato)){
+                encontrado=true;
+            }
+            if(atoi(e1.c_str())==getId(*(Equipo*)cursor->ptrDato)){
+                encontrado=true;
+            }
+            if(atoi(e3.c_str())==getId(*(Equipo*)cursor->ptrDato)){
+                encontrado=true;
+            }
+            if(atoi(e4.c_str())==getId(*(Equipo*)cursor->ptrDato)){
+                encontrado=true;
+            }
+            cursor=siguiente(*sistema.equipos,cursor);
+        }
+
+        if(!encontrado){
+            cout<<"Se ingreso un id de equipo que no existe"<<endl;
+            flag=true;
         }
 
         Lista *equipos = new Lista;
