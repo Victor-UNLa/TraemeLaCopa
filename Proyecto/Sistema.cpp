@@ -98,6 +98,7 @@ void levantarEquipos(Sistema &sistema) {
 
     int vectorValidar[32];
     int i = 0;
+    string letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -107,9 +108,26 @@ void levantarEquipos(Sistema &sistema) {
         getline(archivo, puntos);
 
         Equipo *e = new Equipo;
+
+        bool errorLetra = false;
+        if(atoi(id.c_str())==atoi(letras.c_str())){
+            cout << "Error el equipo tiene el id tiene una letra, deberia tener numero"<< endl;
+            cout << "No se puede cargar el equipo:" << nombre<< endl;
+            //si entro aca hago el id es positivo para que no entre al otro error
+            errorLetra = true;
+        }
+
+        if (!errorLetra){
         if(atoi(id.c_str())<=0){
             cout << "Error el equipo tiene el id negativo"<< endl;
             cout << "No se puede cargar el equipo:" << nombre<< endl;
+             }
+        }
+
+        if(atoi(id.c_str())>32) {
+           cout << "Error el equipo no debe tener mas de 32"<< endl;
+            system("pause");
+            exit(0);
         }
 
         for (int indice=0; indice<i; indice++){
@@ -145,6 +163,7 @@ void levantarJugadores(Sistema &sistema) {
     int vectorValidar[100];
     int i = 0;
     bool error = false;
+    string letras = "abcdefghijklmnopqrstuvwxyz";
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -153,12 +172,32 @@ void levantarJugadores(Sistema &sistema) {
         getline(archivo, equipo);
 
         Jugador *j = new Jugador;
+
+        bool errorLetra = false;
+        if(atoi(id.c_str())==atoi(letras.c_str())){
+            cout << "Error el equipo tiene el id tiene una letra, deberia tener numero"<< endl;
+            cout << "No se puede cargar el equipo:" << nombre<< endl;
+            errorLetra = true;
+            system("pause");
+            exit(0);
+        }
+
+        if (!errorLetra){
         if(atoi(id.c_str())<=0){
             cout << "Error el jugador tiene el id negativo"<< endl;
             cout << "No se puede cargar el jugador:" << nombre<< endl;
             system("pause");
             exit(0);
+             }
         }
+
+        if(atoi(equipo.c_str())<=0){
+            cout << "Error en el jugador por un id negativo del equipo"<< endl;
+            cout << "No se puede cargar el jugador:" << nombre<< "  por error de id de equipo "<< endl;
+            system("pause");
+            exit(0);
+        }
+
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
@@ -171,6 +210,7 @@ void levantarJugadores(Sistema &sistema) {
 
         vectorValidar[i] = atoi(id.c_str());
         i = i +1;
+
         crear(*j, atoi(id.c_str()), nombre, atoi(goles.c_str()));
 
         setJugadores(*traerEquipo(sistema, atoi(equipo.c_str())), j);
