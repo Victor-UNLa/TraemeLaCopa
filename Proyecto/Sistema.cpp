@@ -96,6 +96,7 @@ void levantarEquipos(Sistema &sistema) {
 
     string id, nombre, golesAFavor, golesEnContra, puntos;
 
+    bool flag=false;
     int vectorValidar[32];
     int i = 0;
     string letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -111,36 +112,60 @@ void levantarEquipos(Sistema &sistema) {
 
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
-            cout << "Error el equipo tiene el id tiene una letra, deberia tener numero"<< endl;
+            cout<<"------------------------------------------------"<<endl;
+            cout << "Error el equipo en el id tiene una letra, deberia tener numero"<< endl;
             cout << "No se puede cargar el equipo:" << nombre<< endl;
             //si entro aca hago el id es positivo para que no entre al otro error
             errorLetra = true;
+            flag=true;
         }
 
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
-            cout << "Error el equipo tiene el id negativo"<< endl;
-            cout << "No se puede cargar el equipo:" << nombre<< endl;
-             }
+                cout<<"------------------------------------------------"<<endl;
+                cout << "Error el equipo tiene el id negativo"<< endl;
+                cout << "No se puede cargar el equipo:" << nombre<< endl;
+                flag=true;
+            }
         }
 
         if(atoi(id.c_str())>32) {
-           cout << "Error el equipo no debe tener mas de 32"<< endl;
-            system("pause");
-            exit(0);
+            cout<<"------------------------------------------------"<<endl;
+            cout << "Error el id del equipo no debe ser mayor de 32"<< endl;
+            flag=true;
         }
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
+                cout<<"------------------------------------------------"<<endl;
                 cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
                 cout << "No se puede cargar el equipo:" << nombre<< endl;
+                flag=true;
             }
+        }
+
+        if(atoi(golesAFavor.c_str())<0 || atoi(golesEnContra.c_str())<0){
+            cout<<"------------------------------------------------"<<endl;
+            cout<<"No se puede ingresar los goles con un valor negativo"<<endl;
+            cout<<"Revise los goles de "<<nombre<<endl;
+            flag=true;
+        }
+
+        if(atoi(puntos.c_str())>9 || atoi(puntos.c_str())<0 || atoi(puntos.c_str())==8){
+            cout<<"------------------------------------------------"<<endl;
+            cout<<"Los puntos ingresados no son validos"<<endl;
+            cout<<"Revise los puntos de "<<nombre<<endl;
+            flag=true;
         }
 
         vectorValidar[i] = atoi(id.c_str());
         i = i +1;
         crear(*e, atoi(id.c_str()), nombre, atoi(golesAFavor.c_str()), atoi(golesEnContra.c_str()), atoi(puntos.c_str()));
         adicionarFinal(*sistema.equipos, e);
+    }
+
+    if(flag==true){
+        exit(1);
     }
 
     reordenar(*sistema.equipos);
@@ -163,6 +188,8 @@ void levantarJugadores(Sistema &sistema) {
     int vectorValidar[100];
     int i = 0;
     bool error = false;
+    bool flag=false;
+    bool aux=false;
     string letras = "abcdefghijklmnopqrstuvwxyz";
 
     while (!archivo.eof()) {
@@ -175,37 +202,73 @@ void levantarJugadores(Sistema &sistema) {
 
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
-            cout << "Error el equipo tiene el id tiene una letra, deberia tener numero"<< endl;
-            cout << "No se puede cargar el equipo:" << nombre<< endl;
+            cout<<"------------------------------------------------"<<endl;
+            cout << "Error un jugador en el id tiene una letra, deberia tener numero"<< endl;
+            cout << "No se puede cargar el jugador:" << nombre<< endl;
             errorLetra = true;
-            system("pause");
-            exit(0);
+            flag=true;
         }
 
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
-            cout << "Error el jugador tiene el id negativo"<< endl;
-            cout << "No se puede cargar el jugador:" << nombre<< endl;
-            system("pause");
-            exit(0);
+                cout<<"------------------------------------------------"<<endl;
+                cout << "Error el jugador tiene el id negativo"<< endl;
+                cout << "No se puede cargar el jugador:" << nombre<< endl;
+                flag=true;
              }
         }
 
         if(atoi(equipo.c_str())<=0){
+            cout<<"------------------------------------------------"<<endl;
             cout << "Error en el jugador por un id negativo del equipo"<< endl;
             cout << "No se puede cargar el jugador:" << nombre<< "  por error de id de equipo "<< endl;
-            system("pause");
-            exit(0);
+            flag=true;
         }
 
+        aux=false;
+        PtrNodoLista cursor=primero(*sistema.equipos);
+        while(cursor!=fin()){
+            if(atoi(equipo.c_str())==getId(*(Equipo*)cursor->ptrDato)){
+                aux=true;
+            }
+            cursor=siguiente(*sistema.equipos,cursor);
+        }
+        if(!aux){
+            cout<<"------------------------------------------------"<<endl;
+            cout<<"Error en la carga del jugador "<<nombre<<endl;
+            cout<<"No existe el equipo con id: "<<atoi(equipo.c_str())<<endl;
+            flag=true;
+        }
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
+                cout<<"------------------------------------------------"<<endl;
                 cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
                 cout << "No se puede cargar el jugador:" << nombre<< endl;
-                system("pause");
-                exit(0);
+                flag=true;
             }
+        }
+
+        if(atoi(goles.c_str())>getGolesAFavor(*traerEquipo(sistema,atoi(equipo.c_str())))){
+            cout<<"------------------------------------------------"<<endl;
+            cout<<"La cantidad de goles marcados por "<<nombre<<endl;
+            cout<<"Es mayor a la cantidad de goles de su equipo"<<endl;
+            flag=true;
+        }
+
+        int sumgol=0;
+
+        cursor=primero(*getJugadores(*traerEquipo(sistema,atoi(equipo.c_str()))));
+        while(cursor!=fin()){
+            sumgol=sumgol+getGoles(*(Jugador*)cursor->ptrDato);
+            cursor=siguiente(*getJugadores(*traerEquipo(sistema,atoi(equipo.c_str()))),cursor);
+        }
+
+        if((sumgol+atoi(goles.c_str()))>getGolesAFavor(*traerEquipo(sistema,atoi(equipo.c_str())))){
+            cout<<"------------------------------------------------"<<endl;
+            cout<<"Con la cantidad de goles marcados por "<<nombre<<endl;
+            cout<<"Se supera la cantidad de goles a favor de su Seleccion"<<endl;
+            flag=true;
         }
 
         vectorValidar[i] = atoi(id.c_str());
@@ -216,6 +279,10 @@ void levantarJugadores(Sistema &sistema) {
         setJugadores(*traerEquipo(sistema, atoi(equipo.c_str())), j);
 
         adicionarFinal(*sistema.jugadores, j);
+    }
+
+    if(flag==true){
+        exit(1);
     }
 
     reordenar(*sistema.jugadores);
@@ -234,7 +301,9 @@ void levantarGrupos(Sistema &sistema) {
     }
 
     string id, nombre, e1, e2, e3, e4;
-    bool flag=false,encontrado=false;
+    bool flag=false,encontrado=false,encontrado1=false,encontrado2=false;
+    bool encontrado3=false;
+    string letras = "abcdefghijklmnopqrstuvwxyz";
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -246,31 +315,49 @@ void levantarGrupos(Sistema &sistema) {
 
         /** Validacion para los id*/
         if(id[0]<'A' || id[0]>'H'){
+            cout<<"------------------------------------------------"<<endl;
             cout<<"Se ingreso el id de un grupo de forma incorrecta"<<endl;
+            flag=true;
+        }
+
+        /** Validacion para letra en algun id de equipo*/
+        bool errorLetra = false;
+        if(atoi(e1.c_str())==atoi(letras.c_str()) || atoi(e2.c_str())==atoi(letras.c_str()) || atoi(e3.c_str())==atoi(letras.c_str()) || atoi(e4.c_str())==atoi(letras.c_str())){
+            cout<<"------------------------------------------------"<<endl;
+            cout << "Error, en el grupo "<<id<<endl;
+            cout << "Se ingreso un equipo con id en letras" <<endl;
+            errorLetra = true;
             flag=true;
         }
 
         /** Validacion id de equipo negativo o 0 y todos los grupos esten completos*/
         if(atoi(e2.c_str())<=0 || atoi(e3.c_str())<=0 || atoi(e4.c_str())<=0 || atoi(e1.c_str())<=0){
             if(e1=="" || e2=="" || e3=="" || e4==""){
+                cout<<"------------------------------------------------"<<endl;
                 cout<<"Al grupo "<<id<<" le falta algun equipo"<<endl;
                 flag=true;
             }else{
-                cout<<"Hay un id negativo o con id 0 en el grupo "<<id<<endl;
-                flag=true;
+                if(!errorLetra){
+                    cout<<"------------------------------------------------"<<endl;
+                    cout<<"Hay un id negativo o con id 0 en el grupo "<<id<<endl;
+                    flag=true;
+                }
             }
         }
 
         /** Validacion para que no haya dos ids iguales en el mismo grupo */
         if(atoi(e1.c_str())==atoi(e2.c_str()) || atoi(e1.c_str())== atoi(e3.c_str()) || atoi(e1.c_str())==atoi(e4.c_str())){
+            cout<<"------------------------------------------------"<<endl;
             cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e1.c_str())<<endl;
             flag=true;
         }
         if(atoi(e2.c_str())==atoi(e3.c_str()) || atoi(e2.c_str())==atoi(e4.c_str())){
+            cout<<"------------------------------------------------"<<endl;
             cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e2.c_str())<<endl;
             flag=true;
         }
         if(atoi(e3.c_str())==atoi(e4.c_str())){
+            cout<<"------------------------------------------------"<<endl;
             cout<<"El grupo: "<<id<<" tiene dos equipos con el id: "<<atoi(e3.c_str())<<endl;
             flag=true;
         }
@@ -281,24 +368,29 @@ void levantarGrupos(Sistema &sistema) {
             PtrNodoLista cursor2 = primero(*(getEquipos(*(Grupo*)cursor->ptrDato)));
             if(id[0]==getId(*(Grupo*)cursor->ptrDato)){
                 if(id[0]!=0){
-                cout<<"hay dos o mas grupos con el id: "<<id<<endl;
-                flag=true;
+                    cout<<"------------------------------------------------"<<endl;
+                    cout<<"hay dos o mas grupos con el id: "<<id<<endl;
+                    flag=true;
                 }
             }
             while(cursor2!=fin()){
                 if(atoi(e1.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e1.c_str())>0){
+                    cout<<"------------------------------------------------"<<endl;
                     cout<<"el equipo con id: "<<atoi(e1.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
                 if(atoi(e2.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e2.c_str())>0){
+                    cout<<"------------------------------------------------"<<endl;
                     cout<<"el equipo con id: "<<atoi(e2.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
                 if(atoi(e3.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e3.c_str())>0){
+                    cout<<"------------------------------------------------"<<endl;
                     cout<<"el equipo con id: "<<atoi(e3.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
                 if(atoi(e4.c_str())==getId(*(Equipo*)cursor2->ptrDato) && atoi(e4.c_str())>0){
+                    cout<<"------------------------------------------------"<<endl;
                     cout<<"el equipo con id: "<<atoi(e4.c_str())<<" esta cargado en dos grupos distintos"<<endl;
                     flag=true;
                 }
@@ -309,25 +401,31 @@ void levantarGrupos(Sistema &sistema) {
 
         /** Validacion para que equipos ingresados existan*/
         cursor=primero(*sistema.equipos);
+        encontrado1=false;encontrado2=false;encontrado3=false;
+        encontrado=false;
         while(cursor!=fin()){
             if(atoi(e2.c_str())==getId(*(Equipo*)cursor->ptrDato)){
                 encontrado=true;
             }
             if(atoi(e1.c_str())==getId(*(Equipo*)cursor->ptrDato)){
-                encontrado=true;
+                encontrado1=true;
             }
             if(atoi(e3.c_str())==getId(*(Equipo*)cursor->ptrDato)){
-                encontrado=true;
+                encontrado2=true;
             }
             if(atoi(e4.c_str())==getId(*(Equipo*)cursor->ptrDato)){
-                encontrado=true;
+                encontrado3=true;
             }
             cursor=siguiente(*sistema.equipos,cursor);
         }
 
-        if(!encontrado){
-            cout<<"Se ingreso un id de equipo que no existe"<<endl;
-            flag=true;
+        if(!encontrado || !encontrado2 || !encontrado1 || !encontrado3){
+            if(!errorLetra){
+                cout<<"------------------------------------------------"<<endl;
+                cout<<"En el grupo "<<id<<endl;
+                cout<<"Se ingreso un id de equipo que no existe"<<endl;
+                flag=true;
+            }
         }
 
         Lista *equipos = new Lista;
@@ -365,6 +463,7 @@ void levantarPartidos(Sistema &sistema) {
 
     int vectorValidar[64];
     int i = 0;
+    bool flag=false;
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -374,16 +473,16 @@ void levantarPartidos(Sistema &sistema) {
         getline(archivo, golV);
 
         if(atoi(id.c_str())<=0){
+            cout<<"------------------------------------------------"<<endl;
             cout << "Error el partido tiene el id negativo"<< endl;
-            system("pause");
-            exit(0);
+            flag=true;
         }
 
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
+                cout<<"------------------------------------------------"<<endl;
                 cout << "Error el id:  " << atoi(id.c_str()) << " esta repetido"<<endl;
-                system("pause");
-                exit(0);
+                flag=true;
             }
         }
 
@@ -403,6 +502,10 @@ void levantarPartidos(Sistema &sistema) {
 
 
         adicionarFinal(*sistema.partidos, p);
+    }
+
+    if(flag==true){
+        exit(1);
     }
 
     reordenar(*sistema.partidos);

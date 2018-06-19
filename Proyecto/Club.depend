@@ -425,7 +425,7 @@
 	"Equipo.h"
 	"Partido.h"
 
-1529248584 source:c:\users\jose_\documents\github\traemelacopa\proyecto\sistema.cpp
+1529422280 source:c:\users\jose_\documents\github\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>
