@@ -939,14 +939,14 @@ void setearFases(Sistema &sistema){
     if(!esFinal(sistema)){
         ///FINAL!!!!!!!!!!!!!!!!!!
         if(getGolesL(*traerPartido(sistema, 61)) > getGolesV(*traerPartido(sistema, 61))){
-            setEquipoL(*traerPartido(sistema, 63),getEquipoL(*traerPartido(sistema, 61)));
+            setEquipoL(*traerPartido(sistema, 64),getEquipoL(*traerPartido(sistema, 61)));
         }else{
-            setEquipoL(*traerPartido(sistema, 63),getEquipoV(*traerPartido(sistema, 61)));
+            setEquipoL(*traerPartido(sistema, 64),getEquipoV(*traerPartido(sistema, 61)));
         }
         if(getGolesL(*traerPartido(sistema, 62)) > getGolesV(*traerPartido(sistema, 62))){
-            setEquipoV(*traerPartido(sistema, 63),getEquipoL(*traerPartido(sistema, 62)));
+            setEquipoV(*traerPartido(sistema, 64),getEquipoL(*traerPartido(sistema, 62)));
         }else{
-            setEquipoV(*traerPartido(sistema, 63),getEquipoV(*traerPartido(sistema, 62)));
+            setEquipoV(*traerPartido(sistema, 64),getEquipoV(*traerPartido(sistema, 62)));
         }
 
     }

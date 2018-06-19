@@ -504,3 +504,69 @@
 	"Partido.h"
 	"Sistema.h"
 
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\equipo.cpp
+	<iostream>
+	<sstream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\lista.h
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\jugador.h
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\equipo.h
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\grupo.cpp
+	<iostream>
+	<sstream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\grupo.h
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\jugador.cpp
+	<iostream>
+	<sstream>
+	"Jugador.h"
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\lista.cpp
+	"Lista.h"
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\main.cpp
+	<iostream>
+	<stdlib.h>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+	"Partido.h"
+	"Sistema.h"
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\partido.h
+
+1529363076 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.h
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\partido.cpp
+	<iostream>
+	<sstream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Partido.h"
+
+1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.cpp
+	<fstream>
+	<cstring>
+	<cstdlib>
+	<windows.h>
+	<iostream>
+	"Lista.h"
+	"Jugador.h"
+	"Equipo.h"
+	"Grupo.h"
+	"Partido.h"
+	"Sistema.h"
+
