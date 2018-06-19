@@ -35,7 +35,11 @@ void mostrarPartidosEnCurso(Sistema &sistema);
 void porcentajeGoles(Sistema &sistema);
 void grupoDeLaMuerte(Sistema &sistema);
 
-
+bool validar(Sistema& sistema);
+void validarEquipo(Lista* equipos,string& warning);
+void validarGoles(Lista* equipos,Lista* partidos,string& warning);
+void validarEmpates(Lista* partidos,string& warning);
+void validarJugadores(Lista* equipos,string& warning);
 void setearFases(Sistema &sistema);
 
 #endif // _SISTEMA_H_

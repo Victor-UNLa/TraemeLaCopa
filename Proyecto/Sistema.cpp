@@ -2,6 +2,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <windows.h>
+#include <stdexcept>
+#include <sstream>
 #include <iostream>
 using namespace std;
 #include "Lista.h"
@@ -493,14 +495,6 @@ void levantarPartidos(Sistema &sistema) {
         crear(*p, atoi(id.c_str()),traerEquipo(sistema, atoi(e1.c_str())),traerEquipo(sistema, atoi(e2.c_str())),
               atoi(golL.c_str()),atoi(golV.c_str()));
 
-
-
-        /*if((atoi(golL.c_str())!=-1)&&(atoi(golV.c_str())!=-1)){
-            setEstado(*p,FINALIZADO);
-        }*/
-
-
-
         adicionarFinal(*sistema.partidos, p);
     }
 
@@ -815,6 +809,118 @@ bool esFinal(Sistema &sistema){
     return bandera;
 }
 
+bool validar(Sistema& sistema){
+    string warning="";
+    boolean values=true;
+    try{
+        validarEquipo(sistema.equipos,warning);
+        validarGoles(sistema.equipos,sistema.partidos,warning);
+        validarEmpates(sistema.partidos,warning);
+        validarJugadores(sistema.equipos,warning);
+        //validarPartidos(sistema.partidos,warning);
+        if(warning!="") throw invalid_argument(warning);
+    }catch(invalid_argument& e){
+        cout << e.what() << endl;
+        values=false;
+        system("pause");
+        system("cls");
+    }
+    return values;
+}
+/* Valida los Jugadores de cada Equipo que no se encuentre en otro Equipo */
+void validarEquipo(Lista* equipos,string& warning){
+    PtrNodoLista cursorE = primero(*equipos);
+    while(cursorE != fin() && !listaVacia(*equipos)){
+        PtrNodoLista cursorEAux = primero(*equipos);
+        while(cursorEAux != fin()){
+            if(getId(*(Equipo*)cursorE->ptrDato)!=getId(*(Equipo*)cursorEAux->ptrDato)){
+
+                PtrNodoLista cursorJ = primero(*getJugadores(*(Equipo*)cursorE->ptrDato));
+                while(cursorJ != fin() && !listaVacia(*getJugadores(*(Equipo*)cursorE->ptrDato))){
+                    PtrNodoLista cursorJAux = primero(*getJugadores(*(Equipo*)cursorEAux->ptrDato));
+                    while(cursorJAux != fin() && !listaVacia(*getJugadores(*(Equipo*)cursorEAux->ptrDato))){
+                        if(getId(*(Jugador*)cursorJ->ptrDato)==getId(*(Jugador*)cursorJAux->ptrDato)){
+                            warning+="Jugador en otro Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+"\n";
+                        }
+                        cursorJAux=siguiente(*getJugadores(*(Equipo*)cursorE->ptrDato),cursorJAux);
+                    }
+                    cursorJ=siguiente(*getJugadores(*(Equipo*)cursorE->ptrDato),cursorJ);
+                }
+
+            }
+            cursorEAux=siguiente(*equipos,cursorEAux);
+        }
+        cursorE = siguiente(*equipos,cursorE);
+    }
+}
+
+/* Valida los goles del Archivo Equipos.txt con respecto a los partidos jugados */
+void validarGoles(Lista* equipos,Lista* partidos,string& warning){
+    int sumaGAFavor=0,sumaGEnContra=0;
+    PtrNodoLista cursorE = primero(*equipos);
+    while(cursorE != fin() && !listaVacia(*equipos)){
+
+        PtrNodoLista cursorP = primero(*partidos);
+        while(cursorP != fin() && !listaVacia(*partidos)){
+            if(getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
+                if(getId(*getEquipoL(*(Partido*)cursorP->ptrDato))==getId(*(Equipo*)cursorE->ptrDato)){
+                    sumaGAFavor+=getGolesL(*(Partido*)cursorP->ptrDato);
+                    sumaGEnContra+=getGolesV(*(Partido*)cursorP->ptrDato);
+                }else if(getId(*getEquipoV(*(Partido*)cursorP->ptrDato))==getId(*(Equipo*)cursorE->ptrDato)){
+                    sumaGAFavor+=getGolesV(*(Partido*)cursorP->ptrDato);
+                    sumaGEnContra+=getGolesL(*(Partido*)cursorP->ptrDato);
+                }
+            }
+            cursorP = siguiente(*partidos,cursorP);
+        }
+        if(sumaGAFavor!=getGolesAFavor(*(Equipo*)cursorE->ptrDato)){
+            warning+="Los golesAFavor para -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos\n";
+        }
+        if(sumaGEnContra!=getGolesEnContra(*(Equipo*)cursorE->ptrDato)){
+            warning+="Los GolesEnContra para -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos\n";
+        }
+        sumaGAFavor=0;sumaGEnContra=0;
+        cursorE = siguiente(*equipos,cursorE);
+    }
+}
+/* Valida Ronda de eliminatorias que no halla empates */
+void validarEmpates(Lista* partidos,string& warning){
+    PtrNodoLista cursorP = primero(*partidos);
+    while(cursorP != fin() && !listaVacia(*partidos)){
+        if(getGolesL(*(Partido*)cursorP->ptrDato)!=-1 && getId(*(Partido*)cursorP->ptrDato)>48 &&
+           getId(*getEquipoL(*(Partido*)cursorP->ptrDato))!=0){
+            if(getGolesL(*(Partido*)cursorP->ptrDato)==getGolesV(*(Partido*)cursorP->ptrDato)){
+                ostringstream convert;
+                convert << getId(*(Partido*)cursorP->ptrDato);
+                warning+="El Partido id["+ convert.str()+"] esta en empate\n";
+            }
+        }
+        cursorP = siguiente(*partidos,cursorP);
+    }
+}
+/* Valida los goles de los jugadores con respecto al Equipo (GolesAFavor)*/
+void validarJugadores(Lista* equipos,string& warning){
+    int sumG=0;
+    PtrNodoLista cursor = primero(*equipos);
+    while(cursor!=fin() && !listaVacia(*equipos)){
+
+        PtrNodoLista cursorJ=primero(*getJugadores(*(Equipo*)cursor->ptrDato));
+        while (cursorJ!=fin() && !listaVacia(*getJugadores(*(Equipo*)cursor->ptrDato))){
+            sumG+=getGoles(*(Jugador*)cursorJ->ptrDato);
+            cursorJ=siguiente(*getJugadores(*(Equipo*)cursor->ptrDato),cursorJ);
+        }
+        if(sumG!=getGolesAFavor(*(Equipo*)cursor->ptrDato)){
+            ostringstream convert,convert2;
+            convert << sumG;
+            convert2 << getGolesAFavor(*(Equipo*)cursor->ptrDato);
+            warning+="Los Goleadores del Equipo ["+getNombre(*(Equipo*)cursor->ptrDato)
+                   +"] su suma es incorrecta, GolesAFavor["+convert2.str()+"] goleadores: "+convert.str()+" goles \n";
+        }
+        sumG=0;
+        cursor=siguiente(*equipos,cursor);
+    }
+
+}
 
 void setearFases(Sistema &sistema){
     /*

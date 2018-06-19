@@ -26,7 +26,7 @@
 26;Panama;0;0;0
 27;Tunez;0;0;0
 28;Inglaterra;0;0;0
-29;Polinia;0;0;0
+29;Polonia;0;0;0
 30;Senegal;0;0;0
 31;Colombia;0;0;0
 32;Japon;0;0;0
