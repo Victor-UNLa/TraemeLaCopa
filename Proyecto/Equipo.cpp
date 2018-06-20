@@ -17,6 +17,11 @@ ResultadoComparacion compararIdE(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/******************************************************************************/
+/* Implementación de Primitivas */
+/*------------------------------*/
+
+/*----------------------------------------------------------------------------*/
 void crear(Equipo &equipo) {
     equipo.id = 0;
     equipo.nombre = "";
@@ -27,6 +32,7 @@ void crear(Equipo &equipo) {
     crearLista(*equipo.jugadores, compararIdE);
 }
 
+/*----------------------------------------------------------------------------*/
 void crear(Equipo &equipo, int id, string nombre, int golesAFavor, int golesEnContra, int puntos) {
     equipo.id = id;
     equipo.nombre = nombre;
@@ -37,6 +43,7 @@ void crear(Equipo &equipo, int id, string nombre, int golesAFavor, int golesEnCo
     crearLista(*equipo.jugadores, compararIdE);
 }
 
+/*----------------------------------------------------------------------------*/
 void destruir(Equipo &equipo) {
     equipo.id = 0;
     equipo.nombre = "";
@@ -46,62 +53,77 @@ void destruir(Equipo &equipo) {
     eliminarLista(*equipo.jugadores);
 }
 
+/*----------------------------------------------------------------------------*/
 void setId(Equipo &equipo, int id) {
     equipo.id = id;
 }
 
+/*----------------------------------------------------------------------------*/
 int getId(Equipo &equipo) {
     return equipo.id;
 }
 
+/*----------------------------------------------------------------------------*/
 void setNombre(Equipo &equipo, string nombre) {
     equipo.nombre = nombre;
 }
 
+/*----------------------------------------------------------------------------*/
 string getNombre(Equipo &equipo) {
     return equipo.nombre;
 }
 
+/*----------------------------------------------------------------------------*/
 void setGolesAFavor(Equipo &equipo, int golesAFavor) {
     equipo.golesAFavor = golesAFavor;
 }
 
+/*----------------------------------------------------------------------------*/
 int getGolesAFavor(Equipo &equipo) {
     return equipo.golesAFavor;
 }
 
+/*----------------------------------------------------------------------------*/
 void setGolesEnContra(Equipo &equipo, int golesEnContra) {
     equipo.golesEnContra = golesEnContra;
 }
 
+/*----------------------------------------------------------------------------*/
 int getGolesEnContra(Equipo &equipo) {
     return equipo.golesEnContra;
 }
 
+/*----------------------------------------------------------------------------*/
 void setPuntos(Equipo &equipo, int puntos) {
     equipo.puntos = puntos;
 }
 
+/*----------------------------------------------------------------------------*/
 int getPuntos(Equipo &equipo) {
     return equipo.puntos;
 }
 
+/*----------------------------------------------------------------------------*/
 void setJugadores(Equipo &equipo, Lista *jugadores) {
     equipo.jugadores = jugadores;
 }
 
+/*----------------------------------------------------------------------------*/
 void setJugadores(Equipo &equipo, Jugador *jugador) {
     adicionarFinal(*equipo.jugadores, jugador);
 }
 
+/*----------------------------------------------------------------------------*/
 Lista* getJugadores(Equipo &equipo) {
     return equipo.jugadores;
 }
 
+/*----------------------------------------------------------------------------*/
 bool equals(Equipo &equipo, Equipo e) {
     return equipo.id == e.id;
 }
 
+/*----------------------------------------------------------------------------*/
 string toString(Equipo &equipo) {
     string dato="NULL\n";
     if(getId(equipo)>0){

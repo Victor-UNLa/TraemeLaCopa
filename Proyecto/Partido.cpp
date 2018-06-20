@@ -7,6 +7,11 @@ using namespace std;
 #include "Equipo.h"
 #include "Partido.h"
 
+/******************************************************************************/
+/* Implementación de Primitivas */
+/*------------------------------*/
+
+/*----------------------------------------------------------------------------*/
 void crear(Partido &partido) {
     partido.id = 0;
     crear(*partido.equipoL);
@@ -16,6 +21,7 @@ void crear(Partido &partido) {
     partido.estado = SIN_COMENZAR;
 }
 
+/*----------------------------------------------------------------------------*/
 void crear(Partido &partido, int id, Equipo *equipoL, Equipo *equipoV, int golesL, int golesV) {
     partido.id = id;
     partido.equipoL = equipoL;
@@ -25,6 +31,7 @@ void crear(Partido &partido, int id, Equipo *equipoL, Equipo *equipoV, int goles
     partido.estado = SIN_COMENZAR;
 }
 
+/*----------------------------------------------------------------------------*/
 void destruir(Partido &partido) {
     partido.id = 0;
     destruir(*partido.equipoL);
@@ -34,58 +41,72 @@ void destruir(Partido &partido) {
     partido.estado = FINALIZADO;
 }
 
+/*----------------------------------------------------------------------------*/
 void setId(Partido &partido, int id) {
     partido.id = id;
 }
 
+/*----------------------------------------------------------------------------*/
 int getId(Partido &partido) {
     return partido.id;
 }
 
+/*----------------------------------------------------------------------------*/
 void setEquipoL(Partido &partido, Equipo *equipoL) {
     partido.equipoL = equipoL;
 }
 
+/*----------------------------------------------------------------------------*/
 Equipo* getEquipoL(Partido &partido) {
     return partido.equipoL;
 }
 
+/*----------------------------------------------------------------------------*/
 void setEquipoV(Partido &partido, Equipo *equipoV) {
     partido.equipoV = equipoV;
 }
 
+/*----------------------------------------------------------------------------*/
 Equipo* getEquipoV(Partido &partido) {
     return partido.equipoV;
 }
 
+/*----------------------------------------------------------------------------*/
 void setGolesL(Partido &partido, int golesL) {
     partido.golesL = golesL;
 }
 
+/*----------------------------------------------------------------------------*/
 int getGolesL(Partido &partido) {
     return partido.golesL;
 }
 
+/*----------------------------------------------------------------------------*/
 void setGolesV(Partido &partido, int golesV) {
     partido.golesV = golesV;
 }
 
+/*----------------------------------------------------------------------------*/
 int getGolesV(Partido &partido) {
     return partido.golesV;
 }
 
+/*----------------------------------------------------------------------------*/
 void setEstado(Partido &partido, Estado estado) {
     partido.estado = estado;
 }
 
+/*----------------------------------------------------------------------------*/
 Estado getEstado(Partido &partido) {
     return partido.estado;
 }
 
+/*----------------------------------------------------------------------------*/
 bool equals(Partido &partido, Partido p) {
     return partido.id == p.id;
 }
 
+/*----------------------------------------------------------------------------*/
 string toString(Partido &partido) {
     string dato="NULL\n";
     if(getId(partido)>0){

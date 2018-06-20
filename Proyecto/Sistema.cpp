@@ -24,6 +24,7 @@ ResultadoComparacion compararGoles(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/*----------------------------------------------------------------------------*/
 ResultadoComparacion compararEquipo(PtrDato ptrDato1, PtrDato ptrDato2) {
     if (getId(*(Equipo*)ptrDato1) > getId(*(Equipo*)ptrDato2))
         return MAYOR;
@@ -35,6 +36,7 @@ ResultadoComparacion compararEquipo(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/*----------------------------------------------------------------------------*/
 ResultadoComparacion compararJugador(PtrDato ptrDato1, PtrDato ptrDato2) {
     if (getId(*(Jugador*)ptrDato1) > getId(*(Jugador*)ptrDato2))
         return MAYOR;
@@ -46,6 +48,7 @@ ResultadoComparacion compararJugador(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/*----------------------------------------------------------------------------*/
 ResultadoComparacion compararGrupo(PtrDato ptrDato1, PtrDato ptrDato2) {
     if (getId(*(Grupo*)ptrDato1) > getId(*(Grupo*)ptrDato2))
         return MAYOR;
@@ -57,6 +60,7 @@ ResultadoComparacion compararGrupo(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/*----------------------------------------------------------------------------*/
 ResultadoComparacion compararPartido(PtrDato ptrDato1, PtrDato ptrDato2) {
     if (getId(*(Partido*)ptrDato1) > getId(*(Partido*)ptrDato2))
         return MAYOR;
@@ -68,6 +72,7 @@ ResultadoComparacion compararPartido(PtrDato ptrDato1, PtrDato ptrDato2) {
         return IGUAL;
 }
 
+/*----------------------------------------------------------------------------*/
 void crear(Sistema &sistema) {
     sistema.equipos = new Lista;
     crearLista(*sistema.equipos, compararEquipo);
@@ -79,6 +84,7 @@ void crear(Sistema &sistema) {
     crearLista(*sistema.partidos, compararPartido);
 }
 
+/*----------------------------------------------------------------------------*/
 void destruir(Sistema &sistema) {
     eliminarLista(*sistema.equipos);
     eliminarLista(*sistema.jugadores);
@@ -86,6 +92,7 @@ void destruir(Sistema &sistema) {
     eliminarLista(*sistema.partidos);
 }
 
+/*----------------------------------------------------------------------------*/
 void levantarEquipos(Sistema &sistema) {
     ifstream archivo;
 
@@ -112,6 +119,7 @@ void levantarEquipos(Sistema &sistema) {
 
         Equipo *e = new Equipo;
 
+        /**Valido si el id de equipo tiene una letra, si es asi el progrema no funciona */
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
             cout<<"------------------------------------------------"<<endl;
@@ -122,6 +130,7 @@ void levantarEquipos(Sistema &sistema) {
             flag=true;
         }
 
+        /**Valido si el id de equipo no tiene una letra y tiene un id negativo, si es asi el progrema no funciona */
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
                 cout<<"------------------------------------------------"<<endl;
@@ -131,12 +140,14 @@ void levantarEquipos(Sistema &sistema) {
             }
         }
 
+        /**Valido si el id de equipo tiene mas de 32 equipos, si es asi el progrema no funciona */
         if(atoi(id.c_str())>32) {
             cout<<"------------------------------------------------"<<endl;
             cout << "Error el id del equipo no debe ser mayor de 32"<< endl;
             flag=true;
         }
 
+        /**Valido si el id de equipo esta repetido, si es asi el progrema no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
@@ -146,6 +157,7 @@ void levantarEquipos(Sistema &sistema) {
             }
         }
 
+        /**Valido si los goles a favor o goles en contra no este en un valor negativo, si es asi el progrema no funciona */
         if(atoi(golesAFavor.c_str())<0 || atoi(golesEnContra.c_str())<0){
             cout<<"------------------------------------------------"<<endl;
             cout<<"No se puede ingresar los goles con un valor negativo"<<endl;
@@ -153,6 +165,7 @@ void levantarEquipos(Sistema &sistema) {
             flag=true;
         }
 
+        /**Valido si los puntos no sean menor que cero o mayor que 9, si es asi el progrema no funciona */
         if(atoi(puntos.c_str())>9 || atoi(puntos.c_str())<0 || atoi(puntos.c_str())==8){
             cout<<"------------------------------------------------"<<endl;
             cout<<"Los puntos ingresados no son validos"<<endl;
@@ -175,6 +188,7 @@ void levantarEquipos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void levantarJugadores(Sistema &sistema) {
     ifstream archivo;
 
@@ -191,7 +205,7 @@ void levantarJugadores(Sistema &sistema) {
     int i = 0;
     bool flag=false;
     bool aux=false;
-    string letras = "abcdefghijklmnopqrstuvwxyz";
+    string letras = "abcdefghijklmnopqrstuvwxyzABECDEFGHIJKLMNOPQRSTVWXYZ";
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -201,6 +215,7 @@ void levantarJugadores(Sistema &sistema) {
 
         Jugador *j = new Jugador;
 
+        /**Valido si el id de jugador tiene letra, si es asi el progrema no funciona */
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
             cout<<"------------------------------------------------"<<endl;
@@ -210,6 +225,7 @@ void levantarJugadores(Sistema &sistema) {
             flag=true;
         }
 
+        /**Valido si el id de jugador tiene un valor negativo, si es asi el progrema no funciona */
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
                 cout<<"------------------------------------------------"<<endl;
@@ -219,6 +235,7 @@ void levantarJugadores(Sistema &sistema) {
              }
         }
 
+        /**Valido si el jugador tiene un equipo con un valor negativo, si es asi el progrema no funciona */
         if(atoi(equipo.c_str())<=0){
             cout<<"------------------------------------------------"<<endl;
             cout << "Error en el jugador por un id negativo del equipo"<< endl;
@@ -234,6 +251,8 @@ void levantarJugadores(Sistema &sistema) {
             }
             cursor=siguiente(*sistema.equipos,cursor);
         }
+
+        /**Valido si el jugador no tiene equipo con id, si es asi el progrema no funciona */
         if(!aux){
             cout<<"------------------------------------------------"<<endl;
             cout<<"Error en la carga del jugador "<<nombre<<endl;
@@ -241,6 +260,7 @@ void levantarJugadores(Sistema &sistema) {
             flag=true;
         }
 
+        /**Valido si el id de jugador esta repetido, si es asi el progrema no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
@@ -291,6 +311,7 @@ void levantarJugadores(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void levantarGrupos(Sistema &sistema) {
     ifstream archivo;
 
@@ -450,6 +471,7 @@ void levantarGrupos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void levantarPartidos(Sistema &sistema) {
     ifstream archivo;
 
@@ -473,12 +495,14 @@ void levantarPartidos(Sistema &sistema) {
         getline(archivo, golL, ';');
         getline(archivo, golV);
 
+        /**Valido si el id de partido si tiene un valor negativo, si es asi el progrema no funciona */
         if(atoi(id.c_str())<=0){
             cout<<"------------------------------------------------"<<endl;
             cout << "Error el partido tiene el id negativo"<< endl;
             flag=true;
         }
 
+        /**Valido si el id de partido esta repetido, si es asi el progrema no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
@@ -506,6 +530,7 @@ void levantarPartidos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void mostrarEquipos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.equipos);
 
@@ -516,6 +541,7 @@ void mostrarEquipos(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void mostrarJugadores(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.jugadores);
 
@@ -526,6 +552,7 @@ void mostrarJugadores(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void mostrarGrupos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.grupos);
 
@@ -539,6 +566,7 @@ void mostrarGrupos(Sistema &sistema) {
     cout << "Total de goles: " << golesTotales << endl;
 }
 
+/*----------------------------------------------------------------------------*/
 void mostrarPartidos(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.partidos);
 
@@ -551,6 +579,7 @@ void mostrarPartidos(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void goleadores(Sistema &sistema) {
     sistema.jugadores->compara = compararGoles;
     reordenar(*sistema.jugadores);
@@ -584,6 +613,7 @@ void goleadores(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void bajarEquipos(Sistema &sistema) {
     ofstream archivo;
 
@@ -609,6 +639,7 @@ void bajarEquipos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void bajarJugadores(Sistema &sistema) {
     ofstream archivo;
 
@@ -632,6 +663,7 @@ void bajarJugadores(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void bajarGrupos(Sistema &sistema) {
     ofstream archivo;
 
@@ -669,6 +701,7 @@ void bajarGrupos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 void bajarPartidos(Sistema &sistema) {
     ofstream archivo;
 
@@ -694,6 +727,7 @@ void bajarPartidos(Sistema &sistema) {
     archivo.close();
 }
 
+/*----------------------------------------------------------------------------*/
 Equipo* traerEquipoPorJugador(Sistema &sistema, int id) {
     PtrNodoLista cursor = primero(*sistema.equipos);
     Equipo *e = new Equipo;
@@ -716,6 +750,7 @@ Equipo* traerEquipoPorJugador(Sistema &sistema, int id) {
     return e;
 }
 
+/*----------------------------------------------------------------------------*/
 Equipo* traerEquipo(Sistema &sistema, int id) {
     PtrNodoLista cursor = primero(*sistema.equipos);
     Equipo *e = new Equipo;
@@ -732,6 +767,7 @@ Equipo* traerEquipo(Sistema &sistema, int id) {
     return e;
 }
 
+/*----------------------------------------------------------------------------*/
 bool esOctavos(Sistema &sistema){
     bool bandera=false;
     PtrNodoLista cursor = primero(*sistema.partidos);
@@ -747,6 +783,7 @@ bool esOctavos(Sistema &sistema){
     return bandera;
 }
 
+/*----------------------------------------------------------------------------*/
 bool esCuartos(Sistema &sistema){
     bool bandera=false;
     PtrNodoLista cursor = primero(*sistema.partidos);
@@ -762,6 +799,7 @@ bool esCuartos(Sistema &sistema){
     return bandera;
 }
 
+/*----------------------------------------------------------------------------*/
 bool esSemis(Sistema &sistema){
     bool bandera=false;
     PtrNodoLista cursor = primero(*sistema.partidos);
@@ -777,7 +815,7 @@ bool esSemis(Sistema &sistema){
     return bandera;
 }
 
-
+/*----------------------------------------------------------------------------*/
 bool es3erY4to(Sistema &sistema){
     bool bandera=false;
     PtrNodoLista cursor = primero(*sistema.partidos);
@@ -793,6 +831,7 @@ bool es3erY4to(Sistema &sistema){
     return bandera;
 }
 
+/*----------------------------------------------------------------------------*/
 bool esFinal(Sistema &sistema){
     bool bandera=false;
     PtrNodoLista cursor = primero(*sistema.partidos);
@@ -808,6 +847,7 @@ bool esFinal(Sistema &sistema){
     return bandera;
 }
 
+/*----------------------------------------------------------------------------*/
 bool validar(Sistema& sistema){
     string warning="";
     boolean values=true;
@@ -828,6 +868,8 @@ bool validar(Sistema& sistema){
     }
     return values;
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida los Jugadores de cada Equipo que no se encuentre en otro Equipo */
 void validarEquipo(Lista* equipos,string& warning){
     PtrNodoLista cursorE = primero(*equipos);
@@ -854,6 +896,8 @@ void validarEquipo(Lista* equipos,string& warning){
         cursorE = siguiente(*equipos,cursorE);
     }
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida los goles de cada Equipo con respecto a los partidos jugados */
 void validarGoles(Lista* equipos,Lista* partidos,string& warning){
     int sumaGAFavor=0,sumaGEnContra=0;
@@ -889,6 +933,8 @@ void validarGoles(Lista* equipos,Lista* partidos,string& warning){
         cursorE = siguiente(*equipos,cursorE);
     }
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida Ronda de eliminatorias que no halla empates */
 void validarEmpates(Lista* partidos,string& warning){
     PtrNodoLista cursorP = primero(*partidos);
@@ -904,6 +950,8 @@ void validarEmpates(Lista* partidos,string& warning){
         cursorP = siguiente(*partidos,cursorP);
     }
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida los goles de los jugadores con respecto al Equipo (GolesAFavor) */
 void validarJugadores(Lista* equipos,string& warning){
     int sumG=0;
@@ -928,6 +976,8 @@ void validarJugadores(Lista* equipos,string& warning){
     }
 
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida los puntos de cada Equipo */
 void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
 
@@ -968,6 +1018,8 @@ void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
     }
 
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida 1ra Ronda si el Equipo completa el cuadrangular simple de partidos a jugar */
 void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
     PtrNodoLista cursorG=primero(*grupos);
@@ -1013,6 +1065,8 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
         cursorG=siguiente(*grupos,cursorG);
     }
 }
+
+/*----------------------------------------------------------------------------*/
 bool verificarGrupo(Lista* equipos,Equipo* equipo){
     bool values=false;
     PtrNodoLista cursor=primero(*equipos);
@@ -1022,6 +1076,8 @@ bool verificarGrupo(Lista* equipos,Equipo* equipo){
     }
     return values;
 }
+
+/*----------------------------------------------------------------------------*/
 /* Valida 2da Ronda si el Equipo ganador es correcto */
 void validarPartidosFaseFinal(Lista* partidos,string& warning){
     PtrNodoLista cursorP=ultimo(*partidos);
@@ -1050,6 +1106,8 @@ void validarPartidosFaseFinal(Lista* partidos,string& warning){
         cursorP=anterior(*partidos,cursorP);
     }
 }
+
+/*----------------------------------------------------------------------------*/
 void setearFases(Sistema &sistema){
 
     if(!esOctavos(sistema)){
@@ -1233,6 +1291,7 @@ void setearFases(Sistema &sistema){
 
 }
 
+/*----------------------------------------------------------------------------*/
 Jugador* traerJugador(Sistema &sistema, int id) {
     PtrNodoLista cursor = primero(*sistema.jugadores);
     Jugador *j = new Jugador;
@@ -1249,6 +1308,7 @@ Jugador* traerJugador(Sistema &sistema, int id) {
     return j;
 }
 
+/*----------------------------------------------------------------------------*/
 Grupo* traerGrupo(Sistema &sistema, char id) {
     PtrNodoLista cursor = primero(*sistema.grupos);
     Grupo *g = new Grupo;
@@ -1265,6 +1325,7 @@ Grupo* traerGrupo(Sistema &sistema, char id) {
     return g;
 }
 
+/*----------------------------------------------------------------------------*/
 Partido* traerPartido(Sistema &sistema, int id) {
     PtrNodoLista cursor = primero(*sistema.partidos);
     Partido *p = new Partido;
@@ -1281,6 +1342,7 @@ Partido* traerPartido(Sistema &sistema, int id) {
     return p;
 }
 
+/*----------------------------------------------------------------------------*/
 void inicioPartido(Sistema &sistema) {
     int id;
     bool encontrado = false;
@@ -1345,6 +1407,7 @@ void inicioPartido(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void golesPartido(Sistema &sistema) {
     int id = 0;
 
@@ -1426,6 +1489,7 @@ void golesPartido(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void finPartido(Sistema &sistema) {
     int id;
 
@@ -1458,6 +1522,7 @@ void finPartido(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void mostrarPartidosEnCurso(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.partidos);
 
@@ -1469,6 +1534,7 @@ void mostrarPartidosEnCurso(Sistema &sistema) {
     }
 }
 
+/*----------------------------------------------------------------------------*/
 void porcentajeGoles(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.partidos);
     int golesL = 0;
@@ -1491,6 +1557,7 @@ void porcentajeGoles(Sistema &sistema) {
         cout << "Todavia no hubo goles" << endl;
 }
 
+/*----------------------------------------------------------------------------*/
 void grupoDeLaMuerte(Sistema &sistema) {
     PtrNodoLista cursor = primero(*sistema.grupos);
     char id = 'A';

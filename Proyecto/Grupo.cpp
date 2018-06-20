@@ -35,6 +35,11 @@ ResultadoComparacion compararPuntos(PtrDato ptrDato1, PtrDato ptrDato2) {
     }
 }
 
+/******************************************************************************/
+/* Implementación de Primitivas */
+/*------------------------------*/
+
+/*----------------------------------------------------------------------------*/
 void crear(Grupo &grupo) {
     grupo.id = '0';
     grupo.nombre = "";
@@ -42,6 +47,7 @@ void crear(Grupo &grupo) {
     crearLista(*grupo.equipos, compararPuntos);
 }
 
+/*----------------------------------------------------------------------------*/
 void crear(Grupo &grupo, char id, string nombre, Lista *equipos) {
     grupo.id = id;
     grupo.nombre = nombre;
@@ -49,40 +55,49 @@ void crear(Grupo &grupo, char id, string nombre, Lista *equipos) {
     grupo.equipos->compara = compararPuntos;
 }
 
+/*----------------------------------------------------------------------------*/
 void destruir(Grupo &grupo) {
     grupo.id = '0';
     grupo.nombre = "";
     eliminarLista(*grupo.equipos);
 }
 
+/*----------------------------------------------------------------------------*/
 void setId(Grupo &grupo, char id) {
     grupo.id = id;
 }
 
+/*----------------------------------------------------------------------------*/
 char getId(Grupo &grupo) {
     return grupo.id;
 }
 
+/*----------------------------------------------------------------------------*/
 void setNombre(Grupo &grupo, string nombre) {
     grupo.nombre = nombre;
 }
 
+/*----------------------------------------------------------------------------*/
 string getNombre(Grupo &grupo) {
     return grupo.nombre;
 }
 
+/*----------------------------------------------------------------------------*/
 void setEquipos(Grupo &grupo, Lista *equipos) {
     grupo.equipos = equipos;
 }
 
+/*----------------------------------------------------------------------------*/
 Lista* getEquipos(Grupo &grupo) {
     return grupo.equipos;
 }
 
+/*----------------------------------------------------------------------------*/
 bool equals(Grupo &grupo, Grupo g) {
     return grupo.id == g.id;
 }
 
+/*----------------------------------------------------------------------------*/
 string toString(Grupo &grupo) {
     string dato="NULL\n";
     if(getId(grupo)>0){
@@ -115,6 +130,7 @@ string toString(Grupo &grupo) {
     return dato;
 }
 
+/*----------------------------------------------------------------------------*/
 int golesPorGrupo(Grupo &grupo) {
     PtrNodoLista cursor = primero(*grupo.equipos);
     int golesDelGrupo = 0;
