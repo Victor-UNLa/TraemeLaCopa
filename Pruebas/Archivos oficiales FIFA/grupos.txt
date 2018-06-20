@@ -1,0 +1,8 @@
+A;Grupo A;1;4;3;2
+B;Grupo B;8;6;5;7
+C;Grupo C;9;10;11;12
+D;Grupo D;13;14;15;16
+E;Grupo E;17;18;19;20
+F;Grupo F;21;22;23;24
+G;Grupo G;25;26;27;28
+H;Grupo H;29;30;31;32

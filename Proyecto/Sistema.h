@@ -40,6 +40,9 @@ void validarEquipo(Lista* equipos,string& warning);
 void validarGoles(Lista* equipos,Lista* partidos,string& warning);
 void validarEmpates(Lista* partidos,string& warning);
 void validarJugadores(Lista* equipos,string& warning);
+void validarPuntos(Lista* equipos,Lista* partidos,string& warning);
+void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning);
+void validarPartidosFaseFinal(Lista* partidos,string& warning);
 void setearFases(Sistema &sistema);
 
 #endif // _SISTEMA_H_

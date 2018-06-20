@@ -817,7 +817,9 @@ bool validar(Sistema& sistema){
         validarGoles(sistema.equipos,sistema.partidos,warning);
         validarEmpates(sistema.partidos,warning);
         validarJugadores(sistema.equipos,warning);
-        //validarPartidos(sistema.partidos,warning);
+        validarPuntos(sistema.equipos,sistema.partidos,warning);
+        validarPartidosFaseInicial(sistema.grupos,sistema.partidos,warning);
+        //validarPartidosFaseFinal(sistema.partidos,warning);
         if(warning!="") throw invalid_argument(warning);
     }catch(invalid_argument& e){
         cout << e.what() << endl;
@@ -854,7 +856,7 @@ void validarEquipo(Lista* equipos,string& warning){
     }
 }
 
-/* Valida los goles del Archivo Equipos.txt con respecto a los partidos jugados */
+/* Valida los goles de cada Equipo con respecto a los partidos jugados */
 void validarGoles(Lista* equipos,Lista* partidos,string& warning){
     int sumaGAFavor=0,sumaGEnContra=0;
     PtrNodoLista cursorE = primero(*equipos);
@@ -921,7 +923,82 @@ void validarJugadores(Lista* equipos,string& warning){
     }
 
 }
+/* Valida los puntos de cada Equipo */
+void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
 
+    PtrNodoLista cursorE=primero(*equipos);
+    int puntos=0;
+    while(cursorE!=fin() && !listaVacia(*equipos)){
+
+        PtrNodoLista cursorP=primero(*partidos);
+        while(cursorP!=fin() && !listaVacia(*partidos)){
+
+            if(getId(*(Partido*)cursorP->ptrDato) <= 48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
+                if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))){
+                    if (getGolesL(*(Partido*)cursorP->ptrDato) > getGolesV(*(Partido*)cursorP->ptrDato)) {
+                        puntos+=3;
+                    }else if(getGolesL(*(Partido*)cursorP->ptrDato) == getGolesV(*(Partido*)cursorP->ptrDato)) {
+                        puntos+=1;
+                    }
+                }else if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                    if (getGolesL(*(Partido*)cursorP->ptrDato) < getGolesV(*(Partido*)cursorP->ptrDato)) {
+                        puntos+=3;
+                    }else if(getGolesL(*(Partido*)cursorP->ptrDato) == getGolesV(*(Partido*)cursorP->ptrDato)) {
+                        puntos+=1;
+                    }
+                }
+            }
+            cursorP=siguiente(*partidos,cursorP);
+        }
+        if(puntos!=getPuntos(*(Equipo*)cursorE->ptrDato)){
+            ostringstream convert,convert2,convert3;
+            convert << getId(*(Equipo*)cursorE->ptrDato);
+            convert2 << puntos;
+            convert3 << getPuntos(*(Equipo*)cursorE->ptrDato);
+            warning+="Puntos del Equipo id["+convert.str()+"] "+getNombre(*(Equipo*)cursorE->ptrDato)
+            +" son incorrectos: ["+convert3.str()+ "] se calculo -> ["+convert2.str()+"]\n";
+        }
+        puntos=0;
+        cursorE=siguiente(*equipos,cursorE);
+    }
+}
+/* Valida 1ra Ronda si el Equipo completa el cuadrangular simple de partidos a jugar */
+void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
+    PtrNodoLista cursorG=primero(*grupos);
+    int contP=0;
+    while(cursorG!=fin() && !listaVacia(*grupos)){
+        PtrNodoLista cursorE=primero(*getEquipos(*(Grupo*)cursorG->ptrDato));
+        while(cursorE!=fin() && !listaVacia(*getEquipos(*(Grupo*)cursorG->ptrDato))){
+
+            PtrNodoLista cursorP=primero(*partidos);
+            while(cursorP!=fin() && !listaVacia(*partidos)){
+
+                if(getId(*(Partido*)cursorP->ptrDato) <= 48 ){
+                    if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))
+                    || getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                        contP++;
+                    }
+                }
+                cursorP=siguiente(*partidos,cursorP);
+            }
+            if(contP!=3){
+                ostringstream convert,convert2,convert3;
+                convert << getId(*(Equipo*)cursorE->ptrDato);
+                convert2 << contP;
+                warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*(Equipo*)cursorE->ptrDato)
+                +"] no completa el cuadrangular simple, se calcul\242 -> ["+convert2.str()
+                +"] partidos que jugara\n";
+            }
+            contP=0;
+            cursorE=siguiente(*getEquipos(*(Grupo*)cursorG->ptrDato),cursorE);
+        }
+        cursorG=siguiente(*grupos,cursorG);
+    }
+}
+/* Valida 2da Ronda si el Equipo ganador es correcto */
+void validarPartidosFaseFinal(Lista* partidos,string& warning){
+
+}
 void setearFases(Sistema &sistema){
 
     if(!esOctavos(sistema)){
