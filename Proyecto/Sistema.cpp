@@ -858,14 +858,14 @@ bool validar(Sistema& sistema){
         validarJugadores(sistema.equipos,warning);
         validarPuntos(sistema.equipos,sistema.partidos,warning);
         validarPartidosFaseInicial(sistema.grupos,sistema.partidos,warning);
-        //validarPartidosFaseFinal(sistema.partidos,warning);
+        validarPartidosFaseFinal(sistema.partidos,sistema,warning);
         if(warning!="") throw invalid_argument(warning);
     }catch(invalid_argument& e){
         cout << e.what() << endl;
         values=false;
         system("pause");
-        system("cls");
     }
+    system("cls");
     return values;
 }
 
@@ -876,13 +876,13 @@ void validarEquipo(Lista* equipos,string& warning){
     while(cursorE != fin() && !listaVacia(*equipos)){
         PtrNodoLista cursorEAux = primero(*equipos);
         while(cursorEAux != fin()){
-            if(getId(*(Equipo*)cursorE->ptrDato)!=getId(*(Equipo*)cursorEAux->ptrDato)){
+            if(!equals(*(Equipo*)cursorE->ptrDato,*(Equipo*)cursorEAux->ptrDato)){
 
                 PtrNodoLista cursorJ = primero(*getJugadores(*(Equipo*)cursorE->ptrDato));
                 while(cursorJ != fin() && !listaVacia(*getJugadores(*(Equipo*)cursorE->ptrDato))){
                     PtrNodoLista cursorJAux = primero(*getJugadores(*(Equipo*)cursorEAux->ptrDato));
                     while(cursorJAux != fin() && !listaVacia(*getJugadores(*(Equipo*)cursorEAux->ptrDato))){
-                        if(getId(*(Jugador*)cursorJ->ptrDato)==getId(*(Jugador*)cursorJAux->ptrDato)){
+                        if(equals(*(Jugador*)cursorJ->ptrDato,*(Jugador*)cursorJAux->ptrDato)){
                             warning+="Jugador en otro Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+"\n";
                         }
                         cursorJAux=siguiente(*getJugadores(*(Equipo*)cursorE->ptrDato),cursorJAux);
@@ -906,29 +906,31 @@ void validarGoles(Lista* equipos,Lista* partidos,string& warning){
 
         PtrNodoLista cursorP = primero(*partidos);
         while(cursorP != fin() && !listaVacia(*partidos)){
-            if(getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
-                if(getId(*getEquipoL(*(Partido*)cursorP->ptrDato))==getId(*(Equipo*)cursorE->ptrDato)){
+            if(isPartidoJugado((Partido*)cursorP->ptrDato)){
+                if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),*(Equipo*)cursorE->ptrDato)){
                     sumaGAFavor+=getGolesL(*(Partido*)cursorP->ptrDato);
                     sumaGEnContra+=getGolesV(*(Partido*)cursorP->ptrDato);
-                }else if(getId(*getEquipoV(*(Partido*)cursorP->ptrDato))==getId(*(Equipo*)cursorE->ptrDato)){
+                }else if(equals(*getEquipoV(*(Partido*)cursorP->ptrDato),*(Equipo*)cursorE->ptrDato)){
                     sumaGAFavor+=getGolesV(*(Partido*)cursorP->ptrDato);
                     sumaGEnContra+=getGolesL(*(Partido*)cursorP->ptrDato);
                 }
             }
             cursorP = siguiente(*partidos,cursorP);
         }
-        if(sumaGAFavor!=getGolesAFavor(*(Equipo*)cursorE->ptrDato)){
-            ostringstream convert,convert2;
-            convert << sumaGAFavor;
-            convert2 << getGolesAFavor(*(Equipo*)cursorE->ptrDato);
-            warning+="Los golesAFavor para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos. goles ["+convert2.str()+"] de ["+convert.str()+"] goles encontrados\n";
+        ostringstream convert1,convert2,convert3,convert4;
+        convert1 << getGolesAFavor(*(Equipo*)cursorE->ptrDato);
+        convert2 << sumaGAFavor;
+        convert3 << getGolesEnContra(*(Equipo*)cursorE->ptrDato);
+        convert4 << sumaGEnContra;
+        if(convert1.str()!=convert2.str()){
+            warning+="Los golesAFavor para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)
+            +" son incorrectos. goles ["+convert1.str()+"] de ["+convert2.str()+"] goles encontrados\n";
         }
-        if(sumaGEnContra!=getGolesEnContra(*(Equipo*)cursorE->ptrDato)){
-            ostringstream convert,convert2;
-            convert << sumaGEnContra;
-            convert2 << getGolesEnContra(*(Equipo*)cursorE->ptrDato);
-            warning+="Los GolesEnContra para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos. goles ["+convert2.str()+"] de ["+convert.str()+"] goles encontrados\n";
+        if(convert3.str()!=convert4.str()){
+            warning+="Los GolesEnContra para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)
+            +" son incorrectos. goles ["+convert3.str()+"] de ["+convert4.str()+"] goles encontrados\n";
         }
+
         sumaGAFavor=0;sumaGEnContra=0;
         cursorE = siguiente(*equipos,cursorE);
     }
@@ -939,9 +941,9 @@ void validarGoles(Lista* equipos,Lista* partidos,string& warning){
 void validarEmpates(Lista* partidos,string& warning){
     PtrNodoLista cursorP = primero(*partidos);
     while(cursorP != fin() && !listaVacia(*partidos)){
-        if(getGolesL(*(Partido*)cursorP->ptrDato)!=-1 && getId(*(Partido*)cursorP->ptrDato)>48 &&
-           getId(*getEquipoL(*(Partido*)cursorP->ptrDato))!=0){
-            if(getGolesL(*(Partido*)cursorP->ptrDato)==getGolesV(*(Partido*)cursorP->ptrDato)){
+        if(isPartidoJugado((Partido*)cursorP->ptrDato) && getId(*(Partido*)cursorP->ptrDato)>48 &&
+            isPartidoCreado((Partido*)cursorP->ptrDato)){
+            if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)){
                 ostringstream convert;
                 convert << getId(*(Partido*)cursorP->ptrDato);
                 warning+="El Partido id["+ convert.str()+"] esta en empate\n";
@@ -963,18 +965,18 @@ void validarJugadores(Lista* equipos,string& warning){
             sumG+=getGoles(*(Jugador*)cursorJ->ptrDato);
             cursorJ=siguiente(*getJugadores(*(Equipo*)cursor->ptrDato),cursorJ);
         }
-        if(sumG!=getGolesAFavor(*(Equipo*)cursor->ptrDato)){
-            ostringstream convert,convert2,convert3;
-            convert<<sumG;
-            convert2<<getGolesAFavor(*(Equipo*)cursor->ptrDato);
-            convert3<<getId(*(Equipo*)cursor->ptrDato);
+        ostringstream convert,convert2,convert3;
+        convert<<sumG;
+        convert2<<getGolesAFavor(*(Equipo*)cursor->ptrDato);
+        convert3<<getId(*(Equipo*)cursor->ptrDato);
+        if(convert.str()!=convert2.str()){
             warning+="Los Goleadores del Equipo ["+convert3.str()+"] ["+getNombre(*(Equipo*)cursor->ptrDato)
                    +"] su suma es incorrecta, GolesAFavor["+convert2.str()+"] goleadores: "+convert.str()+" goles \n";
         }
+
         sumG=0;
         cursor=siguiente(*equipos,cursor);
     }
-
 }
 
 /*----------------------------------------------------------------------------*/
@@ -988,28 +990,28 @@ void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
         PtrNodoLista cursorP=primero(*partidos);
         while(cursorP!=fin() && !listaVacia(*partidos)){
 
-            if(getId(*(Partido*)cursorP->ptrDato)<=48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
-                if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))){
+            if(getId(*(Partido*)cursorP->ptrDato)<=48 && isPartidoJugado((Partido*)cursorP->ptrDato)){
+                if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoL(*(Partido*)cursorP->ptrDato))){
                     if (getGolesL(*(Partido*)cursorP->ptrDato) > getGolesV(*(Partido*)cursorP->ptrDato)) {
                         puntos+=3;
-                    }else if(getGolesL(*(Partido*)cursorP->ptrDato) == getGolesV(*(Partido*)cursorP->ptrDato)) {
+                    }else if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)) {
                         puntos+=1;
                     }
-                }else if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                }else if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoV(*(Partido*)cursorP->ptrDato))){
                     if (getGolesL(*(Partido*)cursorP->ptrDato) < getGolesV(*(Partido*)cursorP->ptrDato)) {
                         puntos+=3;
-                    }else if(getGolesL(*(Partido*)cursorP->ptrDato) == getGolesV(*(Partido*)cursorP->ptrDato)) {
+                    }else if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)) {
                         puntos+=1;
                     }
                 }
             }
             cursorP=siguiente(*partidos,cursorP);
         }
+        ostringstream convert,convert2,convert3;
+        convert << getId(*(Equipo*)cursorE->ptrDato);
+        convert2 << puntos;
+        convert3 << getPuntos(*(Equipo*)cursorE->ptrDato);
         if(puntos!=getPuntos(*(Equipo*)cursorE->ptrDato)){
-            ostringstream convert,convert2,convert3;
-            convert << getId(*(Equipo*)cursorE->ptrDato);
-            convert2 << puntos;
-            convert3 << getPuntos(*(Equipo*)cursorE->ptrDato);
             warning+="Puntos del Equipo id["+convert.str()+"] "+getNombre(*(Equipo*)cursorE->ptrDato)
             +" son incorrectos: ["+convert3.str()+ "] se calculo -> ["+convert2.str()+"]\n";
         }
@@ -1035,13 +1037,13 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
                     // verifico si es del grupo su rival
                     ostringstream convert;
                     convert << getId(*(Partido*)cursorP->ptrDato);
-                    if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))){
+                    if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoL(*(Partido*)cursorP->ptrDato))){
                         if(!verificarGrupo(getEquipos(*(Grupo*)cursorG->ptrDato),getEquipoV(*(Partido*)cursorP->ptrDato))){
                             warning+="El Partido id ["+convert.str()+"] Equipo Local ["+getNombre(*getEquipoL(*(Partido*)cursorP->ptrDato))
                             +"] .su rival no es del grupo ["+getNombre(*(Grupo*)cursorG->ptrDato)+"] No se puede concretar partido\n";
                         }
                         contP++;
-                    }else if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                    }else if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoV(*(Partido*)cursorP->ptrDato))){
                         if(!verificarGrupo(getEquipos(*(Grupo*)cursorG->ptrDato),getEquipoL(*(Partido*)cursorP->ptrDato))){
                             warning+="El Partido id ["+convert.str()+"] Equipo Visitante ["+getNombre(*getEquipoV(*(Partido*)cursorP->ptrDato))
                             +"] .su rival no es del grupo ["+getNombre(*(Grupo*)cursorG->ptrDato)+"] No se puede concretar partido\n";
@@ -1052,11 +1054,11 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
                 cursorP=siguiente(*partidos,cursorP);
             }
             if(contP!=3){
-                ostringstream convert,convert2,convert3;
+                ostringstream convert,convert2;
                 convert << getId(*(Equipo*)cursorE->ptrDato);
                 convert2 << contP;
                 warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*(Equipo*)cursorE->ptrDato)
-                +"] no completa el cuadrangular simple, se calcul\242 -> ["+convert2.str()
+                +"] no completa el cuadrangular simple, se calcula -> ["+convert2.str()
                 +"] partidos que jugara\n";
             }
             contP=0;
@@ -1067,6 +1069,70 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
 }
 
 /*----------------------------------------------------------------------------*/
+/* Valida 2da Ronda si el Equipo que juega es correcto */
+void validarPartidosFaseFinal(Lista* partidos,Sistema& sistema,string& warning){
+    PtrNodoLista cursorP=primero(*partidos);
+    while(cursorP!=fin()){
+
+        if(getId(*(Partido*)cursorP->ptrDato)>48 && isPartidoCreado((Partido*)cursorP->ptrDato)){
+            /* para partido del 49 al 62*/
+            if(getId(*(Partido*)cursorP->ptrDato)<63){
+                if(verificarContinuidadEquipo(partidos,siguiente(*partidos,cursorP),traerPerdedor((Partido*)cursorP->ptrDato))){
+                    ostringstream convert,convert2;
+                    convert << getId(*traerPerdedor((Partido*)cursorP->ptrDato));
+                    convert2 << getId(*(Partido*)cursorP->ptrDato);
+                    warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*traerPerdedor((Partido*)cursorP->ptrDato))
+                    +"] Perdio fase Eliminatoria. se encontro en el partido id ["+convert2.str()+"]\n";
+                }
+            }else if(getId(*(Partido*)cursorP->ptrDato)==63){
+                /* para 3er y 4to puesto*/
+                if(!verificarPartido(sistema,traerPerdedor(traerPartido(sistema, 61)),63) ){
+                    ostringstream convert;
+                    convert << getId(*traerPerdedor(traerPartido(sistema, 61)));
+                    warning+="El Partido id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    +getNombre(*traerPerdedor(traerPartido(sistema, 61)))+"] posible correcto\n";
+                }
+                if(!verificarPartido(sistema,traerPerdedor(traerPartido(sistema, 62)),63) ){
+                    ostringstream convert;
+                    convert << getId(*traerPerdedor(traerPartido(sistema, 62)));
+                    warning+="El Partido id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    +getNombre(*traerPerdedor(traerPartido(sistema, 62)))+"] posible correcto\n";
+                }
+            }else{
+                /* para 1er y 2do puesto*/
+                if(!verificarPartido(sistema,traerGanador(traerPartido(sistema, 61)),64) ){
+                    ostringstream convert;
+                    convert << getId(*traerGanador(traerPartido(sistema, 61)));
+                    warning+="El Partido id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    +getNombre(*traerGanador(traerPartido(sistema, 61)))+"] posible correcto\n";
+                }
+                if(!verificarPartido(sistema,traerGanador(traerPartido(sistema, 62)),64) ){
+                    ostringstream convert;
+                    convert << getId(*traerGanador(traerPartido(sistema, 62)));
+                    warning+="El Partido id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    +getNombre(*traerGanador(traerPartido(sistema, 62)))+"] posible correcto\n";
+                }
+            }
+        }
+        cursorP=siguiente(*partidos,cursorP);
+    }
+}
+/*----------------------------------------------------------------------------*/
+bool verificarPartido(Sistema& sistema,Equipo* equipo,int id){
+    bool values=false;
+    if(equals(*getEquipoL(*traerPartido(sistema, id)),*equipo)
+       ||equals(*getEquipoV(*traerPartido(sistema, id)),*equipo))values=true;
+    return values;
+}
+bool verificarContinuidadEquipo(Lista* partidos,PtrNodoLista cursor,Equipo* equipo){
+    bool values=false;
+    while(cursor!=fin() && !values && getId(*(Partido*)cursor->ptrDato)<63){
+        if(equals(*getEquipoL(*(Partido*)cursor->ptrDato),*equipo) ||
+           equals(*getEquipoV(*(Partido*)cursor->ptrDato),*equipo)){values=true;}
+        cursor=siguiente(*partidos,cursor);
+    }
+    return values;
+}
 bool verificarGrupo(Lista* equipos,Equipo* equipo){
     bool values=false;
     PtrNodoLista cursor=primero(*equipos);
@@ -1076,35 +1142,26 @@ bool verificarGrupo(Lista* equipos,Equipo* equipo){
     }
     return values;
 }
-
-/*----------------------------------------------------------------------------*/
-/* Valida 2da Ronda si el Equipo ganador es correcto */
-void validarPartidosFaseFinal(Lista* partidos,string& warning){
-    PtrNodoLista cursorP=ultimo(*partidos);
-    bool valuesEL=false,valuesEV=false;
-    while(cursorP!=fin() && !listaVacia(*partidos)){
-
-        if(getId(*(Partido*)cursorP->ptrDato)>48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
-            PtrNodoLista cursorPAux=primero(*partidos);
-            while(cursorPAux!=fin()){
-                if(getId(*(Partido*)cursorPAux->ptrDato)>48 && getGolesL(*(Partido*)cursorPAux->ptrDato)!=-1){
-                    /*comparo equipo*/
-                    if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),*getEquipoL(*(Partido*)cursorPAux->ptrDato))
-                       || equals(*getEquipoL(*(Partido*)cursorP->ptrDato),*getEquipoV(*(Partido*)cursorPAux->ptrDato))){
-
-
-                    }
-                    if(equals(*getEquipoV(*(Partido*)cursorP->ptrDato),*getEquipoL(*(Partido*)cursorPAux->ptrDato))
-                       || equals(*getEquipoV(*(Partido*)cursorP->ptrDato),*getEquipoV(*(Partido*)cursorPAux->ptrDato))){
-
-
-                    }
-                }
-                cursorPAux=siguiente(*partidos,cursorPAux);
-            }
-        }
-        cursorP=anterior(*partidos,cursorP);
-    }
+bool isPartidoJugado(Partido* p){
+    return getGolesL(*p)!=-1;
+}
+bool isPartidoCreado(Partido* p){
+    return getId(*getEquipoL(*p))!=0 && getId(*getEquipoV(*p))!=0;
+}
+bool isEmpate(Partido* p1,Partido* p2){
+    return getGolesL(*p1)==getGolesV(*p2);
+}
+Equipo* traerGanador(Partido* p){
+    if (getGolesL(*p) > getGolesV(*p))
+        return getEquipoL(*p);
+    else
+        return getEquipoV(*p);
+}
+Equipo* traerPerdedor(Partido* p){
+    if (getGolesL(*p) < getGolesV(*p))
+        return getEquipoL(*p);
+    else
+        return getEquipoV(*p);
 }
 
 /*----------------------------------------------------------------------------*/

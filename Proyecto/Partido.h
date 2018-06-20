@@ -1,6 +1,20 @@
 #ifndef _PARTIDO_H_
 #define _PARTIDO_H_
 
+/**
+    Axiomas:
+
+    * Se considera de mayor prioridad el archivo Partidos.txt
+    para las "validaciones".
+    * Cuando el partido tiene sus dos equipos se considera
+    las victorias anteriores correspondientes aceptadas.
+    * En el caso de los partidos que aún no se hayan jugado,
+    los goles o los ids de equipos se registrarán con el valor “-1”.
+    * Se debe finalizar el partido en curso en la opción
+    Administrar partidos, para una correcta carga de valores.
+
+*/
+
 enum Estado {SIN_COMENZAR, EN_JUEGO, FINALIZADO};
 
 typedef struct {
@@ -121,9 +135,17 @@ void setEstado(Partido &partido, Estado estado);
 Estado getEstado(Partido &partido);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: el partido debe haberse creado y no destruido.
+  post: devuelve Verdadero o Falso si son iguales los partidos.
+*/
 bool equals(Partido &partido, Partido p);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: el partido debe haberse creado y no destruido.
+  post: devuelve los datos del partido.
+*/
 string toString(Partido &partido);
 
 #endif // _PARTIDO_H_
