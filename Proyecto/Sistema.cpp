@@ -189,7 +189,6 @@ void levantarJugadores(Sistema &sistema) {
 
     int vectorValidar[100];
     int i = 0;
-    bool error = false;
     bool flag=false;
     bool aux=false;
     string letras = "abcdefghijklmnopqrstuvwxyz";
@@ -253,7 +252,7 @@ void levantarJugadores(Sistema &sistema) {
 
         if(atoi(goles.c_str())>getGolesAFavor(*traerEquipo(sistema,atoi(equipo.c_str())))){
             cout<<"------------------------------------------------"<<endl;
-            cout<<"La cantidad de goles marcados por "<<nombre<<endl;
+            cout<<"La cantidad de goles marcados por "<< id <<" "<<nombre<<endl;
             cout<<"Es mayor a la cantidad de goles de su equipo"<<endl;
             flag=true;
         }
@@ -855,7 +854,6 @@ void validarEquipo(Lista* equipos,string& warning){
         cursorE = siguiente(*equipos,cursorE);
     }
 }
-
 /* Valida los goles de cada Equipo con respecto a los partidos jugados */
 void validarGoles(Lista* equipos,Lista* partidos,string& warning){
     int sumaGAFavor=0,sumaGEnContra=0;
@@ -876,10 +874,16 @@ void validarGoles(Lista* equipos,Lista* partidos,string& warning){
             cursorP = siguiente(*partidos,cursorP);
         }
         if(sumaGAFavor!=getGolesAFavor(*(Equipo*)cursorE->ptrDato)){
-            warning+="Los golesAFavor para -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos\n";
+            ostringstream convert,convert2;
+            convert << sumaGAFavor;
+            convert2 << getGolesAFavor(*(Equipo*)cursorE->ptrDato);
+            warning+="Los golesAFavor para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos. goles ["+convert2.str()+"] de ["+convert.str()+"] goles encontrados\n";
         }
         if(sumaGEnContra!=getGolesEnContra(*(Equipo*)cursorE->ptrDato)){
-            warning+="Los GolesEnContra para -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos\n";
+            ostringstream convert,convert2;
+            convert << sumaGEnContra;
+            convert2 << getGolesEnContra(*(Equipo*)cursorE->ptrDato);
+            warning+="Los GolesEnContra para Equipo -> "+getNombre(*(Equipo*)cursorE->ptrDato)+" son incorrectos. goles ["+convert2.str()+"] de ["+convert.str()+"] goles encontrados\n";
         }
         sumaGAFavor=0;sumaGEnContra=0;
         cursorE = siguiente(*equipos,cursorE);
@@ -900,7 +904,7 @@ void validarEmpates(Lista* partidos,string& warning){
         cursorP = siguiente(*partidos,cursorP);
     }
 }
-/* Valida los goles de los jugadores con respecto al Equipo (GolesAFavor)*/
+/* Valida los goles de los jugadores con respecto al Equipo (GolesAFavor) */
 void validarJugadores(Lista* equipos,string& warning){
     int sumG=0;
     PtrNodoLista cursor = primero(*equipos);
@@ -912,10 +916,11 @@ void validarJugadores(Lista* equipos,string& warning){
             cursorJ=siguiente(*getJugadores(*(Equipo*)cursor->ptrDato),cursorJ);
         }
         if(sumG!=getGolesAFavor(*(Equipo*)cursor->ptrDato)){
-            ostringstream convert,convert2;
-            convert << sumG;
-            convert2 << getGolesAFavor(*(Equipo*)cursor->ptrDato);
-            warning+="Los Goleadores del Equipo ["+getNombre(*(Equipo*)cursor->ptrDato)
+            ostringstream convert,convert2,convert3;
+            convert<<sumG;
+            convert2<<getGolesAFavor(*(Equipo*)cursor->ptrDato);
+            convert3<<getId(*(Equipo*)cursor->ptrDato);
+            warning+="Los Goleadores del Equipo ["+convert3.str()+"] ["+getNombre(*(Equipo*)cursor->ptrDato)
                    +"] su suma es incorrecta, GolesAFavor["+convert2.str()+"] goleadores: "+convert.str()+" goles \n";
         }
         sumG=0;
@@ -933,7 +938,7 @@ void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
         PtrNodoLista cursorP=primero(*partidos);
         while(cursorP!=fin() && !listaVacia(*partidos)){
 
-            if(getId(*(Partido*)cursorP->ptrDato) <= 48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
+            if(getId(*(Partido*)cursorP->ptrDato)<=48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
                 if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))){
                     if (getGolesL(*(Partido*)cursorP->ptrDato) > getGolesV(*(Partido*)cursorP->ptrDato)) {
                         puntos+=3;
@@ -961,6 +966,7 @@ void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
         puntos=0;
         cursorE=siguiente(*equipos,cursorE);
     }
+
 }
 /* Valida 1ra Ronda si el Equipo completa el cuadrangular simple de partidos a jugar */
 void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
@@ -973,9 +979,21 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
             PtrNodoLista cursorP=primero(*partidos);
             while(cursorP!=fin() && !listaVacia(*partidos)){
 
-                if(getId(*(Partido*)cursorP->ptrDato) <= 48 ){
-                    if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))
-                    || getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                if(getId(*(Partido*)cursorP->ptrDato)<=48){
+                    // verifico si es del grupo su rival
+                    ostringstream convert;
+                    convert << getId(*(Partido*)cursorP->ptrDato);
+                    if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoL(*(Partido*)cursorP->ptrDato))){
+                        if(!verificarGrupo(getEquipos(*(Grupo*)cursorG->ptrDato),getEquipoV(*(Partido*)cursorP->ptrDato))){
+                            warning+="El Partido id ["+convert.str()+"] Equipo Local ["+getNombre(*getEquipoL(*(Partido*)cursorP->ptrDato))
+                            +"] .su rival no es del grupo ["+getNombre(*(Grupo*)cursorG->ptrDato)+"] No se puede concretar partido\n";
+                        }
+                        contP++;
+                    }else if(getId(*(Equipo*)cursorE->ptrDato)==getId(*getEquipoV(*(Partido*)cursorP->ptrDato))){
+                        if(!verificarGrupo(getEquipos(*(Grupo*)cursorG->ptrDato),getEquipoL(*(Partido*)cursorP->ptrDato))){
+                            warning+="El Partido id ["+convert.str()+"] Equipo Visitante ["+getNombre(*getEquipoV(*(Partido*)cursorP->ptrDato))
+                            +"] .su rival no es del grupo ["+getNombre(*(Grupo*)cursorG->ptrDato)+"] No se puede concretar partido\n";
+                        }
                         contP++;
                     }
                 }
@@ -995,9 +1013,42 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
         cursorG=siguiente(*grupos,cursorG);
     }
 }
+bool verificarGrupo(Lista* equipos,Equipo* equipo){
+    bool values=false;
+    PtrNodoLista cursor=primero(*equipos);
+    while(cursor!=fin() && !listaVacia(*equipos)){
+        if(equals(*(Equipo*)cursor->ptrDato,*equipo))values=true;
+        cursor=siguiente(*equipos,cursor);
+    }
+    return values;
+}
 /* Valida 2da Ronda si el Equipo ganador es correcto */
 void validarPartidosFaseFinal(Lista* partidos,string& warning){
+    PtrNodoLista cursorP=ultimo(*partidos);
+    bool valuesEL=false,valuesEV=false;
+    while(cursorP!=fin() && !listaVacia(*partidos)){
 
+        if(getId(*(Partido*)cursorP->ptrDato)>48 && getGolesL(*(Partido*)cursorP->ptrDato)!=-1){
+            PtrNodoLista cursorPAux=primero(*partidos);
+            while(cursorPAux!=fin()){
+                if(getId(*(Partido*)cursorPAux->ptrDato)>48 && getGolesL(*(Partido*)cursorPAux->ptrDato)!=-1){
+                    /*comparo equipo*/
+                    if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),*getEquipoL(*(Partido*)cursorPAux->ptrDato))
+                       || equals(*getEquipoL(*(Partido*)cursorP->ptrDato),*getEquipoV(*(Partido*)cursorPAux->ptrDato))){
+
+
+                    }
+                    if(equals(*getEquipoV(*(Partido*)cursorP->ptrDato),*getEquipoL(*(Partido*)cursorPAux->ptrDato))
+                       || equals(*getEquipoV(*(Partido*)cursorP->ptrDato),*getEquipoV(*(Partido*)cursorPAux->ptrDato))){
+
+
+                    }
+                }
+                cursorPAux=siguiente(*partidos,cursorPAux);
+            }
+        }
+        cursorP=anterior(*partidos,cursorP);
+    }
 }
 void setearFases(Sistema &sistema){
 

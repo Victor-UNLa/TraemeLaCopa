@@ -34,7 +34,6 @@ void finPartido(Sistema &sistema);
 void mostrarPartidosEnCurso(Sistema &sistema);
 void porcentajeGoles(Sistema &sistema);
 void grupoDeLaMuerte(Sistema &sistema);
-
 bool validar(Sistema& sistema);
 void validarEquipo(Lista* equipos,string& warning);
 void validarGoles(Lista* equipos,Lista* partidos,string& warning);
@@ -42,6 +41,7 @@ void validarEmpates(Lista* partidos,string& warning);
 void validarJugadores(Lista* equipos,string& warning);
 void validarPuntos(Lista* equipos,Lista* partidos,string& warning);
 void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning);
+bool verificarGrupo(Lista* equipos,Equipo* equipo);
 void validarPartidosFaseFinal(Lista* partidos,string& warning);
 void setearFases(Sistema &sistema);
 
