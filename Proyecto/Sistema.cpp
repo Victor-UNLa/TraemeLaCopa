@@ -119,7 +119,7 @@ void levantarEquipos(Sistema &sistema) {
 
         Equipo *e = new Equipo;
 
-        /**Valido si el id de equipo tiene una letra, si es asi el progrema no funciona */
+        /**Valido si el id de equipo tiene una letra, si es asi el programa no funciona */
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
             cout<<"------------------------------------------------"<<endl;
@@ -130,7 +130,7 @@ void levantarEquipos(Sistema &sistema) {
             flag=true;
         }
 
-        /**Valido si el id de equipo no tiene una letra y tiene un id negativo, si es asi el progrema no funciona */
+        /**Valido si el id de equipo no tiene una letra y tiene un id negativo, si es asi el programa no funciona */
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
                 cout<<"------------------------------------------------"<<endl;
@@ -140,14 +140,14 @@ void levantarEquipos(Sistema &sistema) {
             }
         }
 
-        /**Valido si el id de equipo tiene mas de 32 equipos, si es asi el progrema no funciona */
+        /**Valido si el id de equipo tiene mas de 32 equipos, si es asi el programa no funciona */
         if(atoi(id.c_str())>32) {
             cout<<"------------------------------------------------"<<endl;
             cout << "Error el id del equipo no debe ser mayor de 32"<< endl;
             flag=true;
         }
 
-        /**Valido si el id de equipo esta repetido, si es asi el progrema no funciona */
+        /**Valido si el id de equipo esta repetido, si es asi el programa no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
@@ -157,7 +157,7 @@ void levantarEquipos(Sistema &sistema) {
             }
         }
 
-        /**Valido si los goles a favor o goles en contra no este en un valor negativo, si es asi el progrema no funciona */
+        /**Valido si los goles a favor o goles en contra no este en un valor negativo, si es asi el programa no funciona */
         if(atoi(golesAFavor.c_str())<0 || atoi(golesEnContra.c_str())<0){
             cout<<"------------------------------------------------"<<endl;
             cout<<"No se puede ingresar los goles con un valor negativo"<<endl;
@@ -165,7 +165,7 @@ void levantarEquipos(Sistema &sistema) {
             flag=true;
         }
 
-        /**Valido si los puntos no sean menor que cero o mayor que 9, si es asi el progrema no funciona */
+        /**Valido si los puntos no sean menor que cero o mayor que 9, si es asi el programa no funciona */
         if(atoi(puntos.c_str())>9 || atoi(puntos.c_str())<0 || atoi(puntos.c_str())==8){
             cout<<"------------------------------------------------"<<endl;
             cout<<"Los puntos ingresados no son validos"<<endl;
@@ -215,7 +215,7 @@ void levantarJugadores(Sistema &sistema) {
 
         Jugador *j = new Jugador;
 
-        /**Valido si el id de jugador tiene letra, si es asi el progrema no funciona */
+        /**Valido si el id de jugador tiene letra, si es asi el programa no funciona */
         bool errorLetra = false;
         if(atoi(id.c_str())==atoi(letras.c_str())){
             cout<<"------------------------------------------------"<<endl;
@@ -225,7 +225,7 @@ void levantarJugadores(Sistema &sistema) {
             flag=true;
         }
 
-        /**Valido si el id de jugador tiene un valor negativo, si es asi el progrema no funciona */
+        /**Valido si el id de jugador tiene un valor negativo, si es asi el programa no funciona */
         if (!errorLetra){
         if(atoi(id.c_str())<=0){
                 cout<<"------------------------------------------------"<<endl;
@@ -235,7 +235,7 @@ void levantarJugadores(Sistema &sistema) {
              }
         }
 
-        /**Valido si el jugador tiene un equipo con un valor negativo, si es asi el progrema no funciona */
+        /**Valido si el jugador tiene un equipo con un valor negativo, si es asi el programa no funciona */
         if(atoi(equipo.c_str())<=0){
             cout<<"------------------------------------------------"<<endl;
             cout << "Error en el jugador por un id negativo del equipo"<< endl;
@@ -252,7 +252,7 @@ void levantarJugadores(Sistema &sistema) {
             cursor=siguiente(*sistema.equipos,cursor);
         }
 
-        /**Valido si el jugador no tiene equipo con id, si es asi el progrema no funciona */
+        /**Valido si el jugador no tiene equipo con id, si es asi el programa no funciona */
         if(!aux){
             cout<<"------------------------------------------------"<<endl;
             cout<<"Error en la carga del jugador "<<nombre<<endl;
@@ -260,7 +260,7 @@ void levantarJugadores(Sistema &sistema) {
             flag=true;
         }
 
-        /**Valido si el id de jugador esta repetido, si es asi el progrema no funciona */
+        /**Valido si el id de jugador esta repetido, si es asi el programa no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
@@ -325,7 +325,7 @@ void levantarGrupos(Sistema &sistema) {
     string id, nombre, e1, e2, e3, e4;
     bool flag=false,encontrado=false,encontrado1=false,encontrado2=false;
     bool encontrado3=false;
-    string letras = "abcdefghijklmnopqrstuvwxyz";
+    string letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTVWXYZ";
 
     while (!archivo.eof()) {
         getline(archivo, id, ';');
@@ -495,14 +495,14 @@ void levantarPartidos(Sistema &sistema) {
         getline(archivo, golL, ';');
         getline(archivo, golV);
 
-        /**Valido si el id de partido si tiene un valor negativo, si es asi el progrema no funciona */
+        /**Valido si el id de partido si tiene un valor negativo, si es asi el programa no funciona */
         if(atoi(id.c_str())<=0){
             cout<<"------------------------------------------------"<<endl;
             cout << "Error el partido tiene el id negativo"<< endl;
             flag=true;
         }
 
-        /**Valido si el id de partido esta repetido, si es asi el progrema no funciona */
+        /**Valido si el id de partido esta repetido, si es asi el programa no funciona */
         for (int indice=0; indice<i; indice++){
             if (vectorValidar[indice]==atoi(id.c_str())){
                 cout<<"------------------------------------------------"<<endl;
