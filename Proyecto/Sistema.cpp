@@ -518,6 +518,8 @@ void levantarPartidos(Sistema &sistema) {
         crear(*p, atoi(id.c_str()),traerEquipo(sistema, atoi(e1.c_str())),traerEquipo(sistema, atoi(e2.c_str())),
               atoi(golL.c_str()),atoi(golV.c_str()));
 
+        if(isPartidoJugado(p))setEstado(*p,FINALIZADO);
+
         adicionarFinal(*sistema.partidos, p);
     }
 
@@ -862,6 +864,7 @@ bool validar(Sistema& sistema){
         validarPartidosFaseInicial(sistema.grupos,sistema.partidos,warning);
         validarPartidosFaseFinal(sistema.partidos,sistema,warning);
         if(warning!="") throw invalid_argument(warning);
+        ordenarEquiposDeGrupos(*sistema.grupos);
     }catch(invalid_argument& e){
         cout << e.what() << endl;
         values=false;
@@ -870,7 +873,15 @@ bool validar(Sistema& sistema){
     system("cls");
     return values;
 }
-
+/*----------------------------------------------------------------------------*/
+/* Se encontró solución ordenando los grupos */
+void ordenarEquiposDeGrupos(Lista& grupos){
+    PtrNodoLista cursor = primero(grupos);
+    while(cursor != fin() && !listaVacia(grupos)) {
+        reordenar(*getEquipos(*(Grupo*)cursor->ptrDato));
+        cursor = siguiente(grupos, cursor);
+    }
+}
 /*----------------------------------------------------------------------------*/
 /* Valida los Jugadores de cada Equipo que no se encuentre en otro Equipo */
 void validarEquipo(Lista* equipos,string& warning){
@@ -1146,7 +1157,7 @@ bool verificarGrupo(Lista* equipos,Equipo* equipo){
     return values;
 }
 bool isPartidoJugado(Partido* p){
-    return getGolesL(*p)!=-1;
+    return getGolesL(*p)!=-1 || getGolesV(*p)!=-1;
 }
 bool isPartidoCreado(Partido* p){
     return getId(*getEquipoL(*p))!=0 && getId(*getEquipoV(*p))!=0;
@@ -1188,9 +1199,9 @@ void mostrarTablaPosiciones(Sistema &sistema) {
                 cout << partidosGanados(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
                 cout << partidosEmpatados(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
                 cout << partidosPerdidos(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
-                cout << getGolesAFavor(*(Equipo*)cursorE->ptrDato) << " \t|| ";
-                cout << getGolesEnContra(*(Equipo*)cursorE->ptrDato) << " \t|| ";
-                cout << diferenciaDeGoles(*(Equipo*)cursorE->ptrDato) << " \t|| ";
+                cout << traerGolesAFavor(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
+                cout << traerGolesEnContra(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
+                cout << diferenciaDeGoles(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
                 cout << getPuntos(*(Equipo*)cursorE->ptrDato) << " \t|| ";
                 cout << getNombre(*(Equipo*)cursorE->ptrDato) << endl;
                 i++;
@@ -1205,14 +1216,16 @@ void mostrarTablaPosiciones(Sistema &sistema) {
     }
     cout << "Total de goles: " << golesTotales << endl;
 }
-int diferenciaDeGoles(Equipo& e){
-    return getGolesAFavor(e) - getGolesEnContra(e);
+int diferenciaDeGoles(Lista* partidos,Equipo& e,int i,int f){
+    return traerGolesAFavor(partidos,e,i,f) - traerGolesEnContra(partidos,e,i,f);
 }
 int partidosPerdidos(Lista* partidos,Equipo& e){
     PtrNodoLista cursorP=primero(*partidos);
     int cont=0;
-    while(cursorP!=fin() && !listaVacia(*partidos)){
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)<=48){
+
         if(equals(*traerPerdedor((Partido*)cursorP->ptrDato),e) && !isEmpate((Partido*)cursorP->ptrDato))cont++;
+
         cursorP=siguiente(*partidos,cursorP);
     }
     return cont;
@@ -1220,11 +1233,13 @@ int partidosPerdidos(Lista* partidos,Equipo& e){
 int partidosEmpatados(Lista* partidos,Equipo& e){
     PtrNodoLista cursorP=primero(*partidos);
     int cont=0;
-    while(cursorP!=fin() && !listaVacia(*partidos)){
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)<=48){
+
         if(isEmpate((Partido*)cursorP->ptrDato) && isPartidoJugado((Partido*)cursorP->ptrDato)){
             if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),e)
                ||equals(*getEquipoV(*(Partido*)cursorP->ptrDato),e))cont++;
         }
+
         cursorP=siguiente(*partidos,cursorP);
     }
     return cont;
@@ -1232,8 +1247,10 @@ int partidosEmpatados(Lista* partidos,Equipo& e){
 int partidosGanados(Lista* partidos,Equipo& e){
     PtrNodoLista cursorP=primero(*partidos);
     int cont=0;
-    while(cursorP!=fin() && !listaVacia(*partidos)){
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)<=48){
+
         if(equals(*traerGanador((Partido*)cursorP->ptrDato),e) && !isEmpate((Partido*)cursorP->ptrDato))cont++;
+
         cursorP=siguiente(*partidos,cursorP);
     }
     return cont;
@@ -1241,11 +1258,52 @@ int partidosGanados(Lista* partidos,Equipo& e){
 int partidosJugados(Lista* partidos,Equipo& e){
     PtrNodoLista cursorP=primero(*partidos);
     int cont=0;
-    while(cursorP!=fin() && !listaVacia(*partidos)){
-        if(isPartidoJugado((Partido*)cursorP->ptrDato)){
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)<=48){
+
+        if(isPartidoJugado((Partido*)cursorP->ptrDato) ){
             if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),e)
                ||equals(*getEquipoV(*(Partido*)cursorP->ptrDato),e))cont++;
         }
+
+        cursorP=siguiente(*partidos,cursorP);
+    }
+    return cont;
+}
+int traerGoles(Partido* p,Equipo& e){
+    int goles=0;
+    if(equals(*getEquipoL(*p),e))
+        goles=getGolesL(*p);
+    else
+        goles=getGolesV(*p);
+    return goles;
+}
+int traerGolesAFavor(Lista* partidos,Equipo& e,int i,int f){
+    PtrNodoLista cursorP=primero(*partidos);
+    int cont=0;
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)>=i && getId(*(Partido*)cursorP->ptrDato)<=f){
+
+        if(isPartidoJugado((Partido*)cursorP->ptrDato) ){
+            if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),e)
+               ||equals(*getEquipoV(*(Partido*)cursorP->ptrDato),e))cont+=traerGoles((Partido*)cursorP->ptrDato,e);
+        }
+
+        cursorP=siguiente(*partidos,cursorP);
+    }
+    return cont;
+}
+int traerGolesEnContra(Lista* partidos,Equipo& e,int i,int f){
+    PtrNodoLista cursorP=primero(*partidos);
+    int cont=0;
+    while(cursorP!=fin() && !listaVacia(*partidos) && getId(*(Partido*)cursorP->ptrDato)>=i && getId(*(Partido*)cursorP->ptrDato)<=f){
+
+        if(isPartidoJugado((Partido*)cursorP->ptrDato) ){
+            if(equals(*getEquipoL(*(Partido*)cursorP->ptrDato),e)){
+                cont+=traerGoles((Partido*)cursorP->ptrDato,*getEquipoV(*(Partido*)cursorP->ptrDato));
+            }else if(equals(*getEquipoV(*(Partido*)cursorP->ptrDato),e)){
+                cont+=traerGoles((Partido*)cursorP->ptrDato,*getEquipoL(*(Partido*)cursorP->ptrDato));
+            }
+        }
+
         cursorP=siguiente(*partidos,cursorP);
     }
     return cont;

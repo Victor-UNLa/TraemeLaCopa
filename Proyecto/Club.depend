@@ -521,7 +521,7 @@
 
 1529541533 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\jugador.h
 
-1529541470 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\equipo.h
+1529586110 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\equipo.h
 
 1529556821 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\grupo.cpp
 	<iostream>
@@ -553,7 +553,7 @@
 
 1529541386 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\partido.h
 
-1529559396 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.h
+1529593175 d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.h
 
 1529515495 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\partido.cpp
 	<iostream>
@@ -563,7 +563,7 @@
 	"Equipo.h"
 	"Partido.h"
 
-1529559743 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.cpp
+1529593576 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>

@@ -69,7 +69,7 @@
 105;Aleksandr Golovin;1;1
 106;Diego Costa;3;6
 107;Antoine Griezmann;1;9
-108;Mile Jedinak;1;10
+108;Mile Jedinak;2;10
 109;Aziz Behich;1;9
 110;Ahmed Fathy;1;1
 111;Nacho Iglesias;1;6
@@ -88,3 +88,4 @@
 124;Thiago Rangel Cionek;1;30
 125;M Baye Niang;1;30
 126;Grzegorz Krychowiak;1;29
+127;Christian Eriksen;1;12

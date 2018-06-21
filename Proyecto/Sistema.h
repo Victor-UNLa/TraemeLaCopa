@@ -8,6 +8,8 @@
     para las "validaciones".
     * Se debe finalizar el partido en curso en la opción
     Administrar partidos, para una correcta carga de puntos para los Equipos.
+    * Los golesAFavor del Equipo se validan con la suma de
+    goles de sus jugadores
 */
 typedef struct {
     Lista *equipos;
@@ -57,11 +59,14 @@ bool isPartidoCreado(Partido* p);
 bool isPartidoJugado(Partido* p);
 bool isEmpate(Partido* p);
 void mostrarTablaPosiciones(Sistema &sistema);
-int diferenciaDeGoles(Equipo& e);
+int diferenciaDeGoles(Lista* partidos,Equipo& e,int i,int f);
 int partidosPerdidos(Lista* partidos,Equipo& e);
 int partidosEmpatados(Lista* partidos,Equipo& e);
 int partidosGanados(Lista* partidos,Equipo& e);
 int partidosJugados(Lista* partidos,Equipo& e);
+int traerGolesAFavor(Lista* partidos,Equipo& e,int i,int f);
+int traerGolesEnContra(Lista* partidos,Equipo& e,int i,int f);
+void ordenarEquiposDeGrupos(Lista& grupos);
 Equipo* traerGanador(Partido* p);
 Equipo* traerPerdedor(Partido* p);
 void setearFases(Sistema &sistema);

@@ -7,9 +7,9 @@
 7;Marruecos;0;2;0
 8;Iran;1;1;3
 9;Francia;2;1;3
-10;Australia;1;2;0
+10;Australia;2;3;1
 11;Peru;0;1;0
-12;Dinamarca;1;0;3
+12;Dinamarca;2;1;4
 13;Argentina;1;1;1
 14;Islandia;1;1;1
 15;Croacia;2;0;3

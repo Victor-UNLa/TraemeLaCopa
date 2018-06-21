@@ -2,8 +2,11 @@
 #define _EQUIPO_H_
 /**
     Axiomas:
-    * Los golesAFavor del Equipo se validan en a la suma de
-    goles de sus jugadores
+    * golesAFavor se cuenta con los goles a favor de todos los
+    partidos jugados
+    * golesEnContra se cuenta con los goles en contra de todos los
+    partidos jugados
+    * puntos se cuenta por los partidos ganados solo de la Primera Fase
 */
 typedef struct {
     int id;
