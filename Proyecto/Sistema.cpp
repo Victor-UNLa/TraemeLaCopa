@@ -1188,19 +1188,13 @@ void mostrarTablaPosiciones(Sistema &sistema) {
 
         if(getId(*(Grupo*)cursor->ptrDato)>0){
             cout << getNombre(*(Grupo*)cursor->ptrDato) << endl;
-            cout << "Pos" << "\t||" << "PJ " <<"\t||" << " G " << "\t||" << " E " << "\t||" << " P " <<"\t||" << " GF " << "\t||" <<" GC " << "\t||" << "Dif" << " \t|| " << "Pun" << " \t|| " << "Equipo" << endl;
-            cout << "--------------------------------------------------------------------------------------" << endl;
+            cout << "Pos" << "\t||" << "Dif" << " \t|| " << "Pun" << " \t|| " << "Equipo" << endl;
+            cout << "------------------------------------------" << endl;
             reordenar(*getEquipos(*(Grupo*)cursor->ptrDato));
             PtrNodoLista cursorE = primero(*getEquipos(*(Grupo*)cursor->ptrDato));
             int i = 1;
             while (cursorE != fin() && !listaVacia(*getEquipos(*(Grupo*)cursor->ptrDato))) {
                 cout << i << " \t||";
-                cout << partidosJugados(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
-                cout << partidosGanados(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
-                cout << partidosEmpatados(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
-                cout << partidosPerdidos(sistema.partidos,*(Equipo*)cursorE->ptrDato)<< " \t|| ";
-                cout << traerGolesAFavor(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
-                cout << traerGolesEnContra(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
                 cout << diferenciaDeGoles(sistema.partidos,*(Equipo*)cursorE->ptrDato,1,48) << " \t|| ";
                 cout << getPuntos(*(Equipo*)cursorE->ptrDato) << " \t|| ";
                 cout << getNombre(*(Equipo*)cursorE->ptrDato) << endl;
@@ -1604,6 +1598,7 @@ void inicioPartido(Sistema &sistema) {
             }
 
             cout << toString(*p)<<endl;
+            cout <<endl;
         }
     }
 }
