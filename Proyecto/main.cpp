@@ -52,7 +52,7 @@ void reportes(Sistema &sistema) {
         switch(opcion) {
             case 1: goleadores(sistema); break;
             case 2: mostrarPartidos(sistema); break;
-            case 3: mostrarGrupos(sistema); break;
+            case 3: mostrarTablaPosiciones(sistema); break;
             case 4: grupoDeLaMuerte(sistema); break;
             case 5: porcentajeGoles(sistema); break;
             case 6: seguir = false; break;

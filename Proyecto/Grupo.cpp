@@ -101,31 +101,16 @@ bool equals(Grupo &grupo, Grupo g) {
 string toString(Grupo &grupo) {
     string dato="NULL\n";
     if(getId(grupo)>0){
-        dato=grupo.nombre+"\n";
-        dato+="Pos\t||Dif \t|| Pun \t|| Equipo\n";
-        dato+="------------------------------------------\n";
-        reordenar(*grupo.equipos);
+        ostringstream convertId;
+        convertId << getId(grupo);
+        dato="Id: "+convertId.str()+" ";
+        dato+="Nombre: "+getNombre(grupo)+"\n";
         PtrNodoLista cursor = primero(*grupo.equipos);
-        int i = 1;
         while (cursor != fin()) {
-            ostringstream convert;
-            convert<<i;
-            dato+=convert.str()+" \t||";
-            ostringstream convert1;
-            convert1<<getGolesAFavor(*(Equipo*)cursor->ptrDato)-getGolesEnContra(*(Equipo*)cursor->ptrDato);
-            dato+=convert1.str()+" \t|| ";
-            ostringstream convert2;
-            convert2<<getPuntos(*(Equipo*)cursor->ptrDato);
-            dato+=convert2.str()+" \t|| ";
             dato+=getNombre(*(Equipo*)cursor->ptrDato);
-            dato+="\n";
-            i++;
             cursor = siguiente(*grupo.equipos, cursor);
+            if(cursor != fin())dato+=" - ";
         }
-        dato+="Goles del grupo: ";
-        ostringstream convert;
-        convert<<golesPorGrupo(grupo);
-        dato+=convert.str()+"\n";
     }
     return dato;
 }

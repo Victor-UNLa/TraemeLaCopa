@@ -1,32 +1,32 @@
-1;Rusia;0;0;0
-2;Arabia Saudita;0;0;0
-3;Egipto;0;0;0
-4;Uruguay;0;0;0
-5;Portugal;0;0;0
-6;Espana;0;0;0
-7;Marruecos;0;0;0
-8;Iran;0;0;0
-9;Francia;0;0;0
-10;Australia;0;0;0
-11;Peru;0;0;0
-12;Dinamarca;0;0;0
-13;Argentina;0;0;0
-14;Islandia;0;0;0
-15;Croacia;0;0;0
-16;Nigeria;0;0;0
-17;Brasil;0;0;0
-18;Suiza;0;0;0
-19;Costa Rica;0;0;0
-20;Serbia;0;0;0
-21;Alemania;0;0;0
-22;Mexico;0;0;0
-23;Suecia;0;0;0
-24;Corea del sur;0;0;0
-25;Belgica;0;0;0
-26;Panama;0;0;0
-27;Tunez;0;0;0
-28;Inglaterra;0;0;0
-29;Polonia;0;0;0
-30;Senegal;0;0;0
-31;Colombia;0;0;0
-32;Japon;0;0;0
+1;Rusia;8;1;6
+2;Arabia Saudita;0;6;0
+3;Egipto;1;4;0
+4;Uruguay;2;0;6
+5;Portugal;4;3;4
+6;Espana;4;3;4
+7;Marruecos;0;2;0
+8;Iran;1;1;3
+9;Francia;2;1;3
+10;Australia;1;2;0
+11;Peru;0;1;0
+12;Dinamarca;1;0;3
+13;Argentina;1;1;1
+14;Islandia;1;1;1
+15;Croacia;2;0;3
+16;Nigeria;0;2;0
+17;Brasil;1;1;1
+18;Suiza;1;1;1
+19;Costa Rica;0;1;0
+20;Serbia;1;0;3
+21;Alemania;0;1;0
+22;Mexico;1;0;3
+23;Suecia;1;0;3
+24;Corea del sur;0;1;0
+25;Belgica;3;0;3
+26;Panama;0;3;0
+27;Tunez;1;2;0
+28;Inglaterra;2;1;3
+29;Polonia;1;2;0
+30;Senegal;2;1;3
+31;Colombia;1;2;0
+32;Japon;2;1;3
