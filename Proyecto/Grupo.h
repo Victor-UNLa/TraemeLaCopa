@@ -74,12 +74,24 @@ void setEquipos(Grupo &grupo, Lista *equipos);
 Lista* getEquipos(Grupo &grupo);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(grupo,g) debe haberse creado y no destruido.
+  post: devuelve Verdadero o Falso si son iguales los grupos.
+*/
 bool equals(Grupo &grupo, Grupo g);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(grupo) debe haberse creado y no destruido.
+  post: devuelve los datos del grupo.
+*/
 string toString(Grupo &grupo);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(grupo) debe haberse creado y no destruido.
+  post: devuelve los goles totales del grupo.
+*/
 int golesPorGrupo(Grupo &grupo);
 
 #endif // _GRUPO_H_

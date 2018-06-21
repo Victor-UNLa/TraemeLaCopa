@@ -1,6 +1,14 @@
 #ifndef _SISTEMA_H_
 #define _SISTEMA_H_
-
+/**
+    Axiomas:
+    * No se podrá usar el programa hasta que los datos ingresados
+    estén validados correctamente.
+    * Se considera de mayor prioridad los TDA Partido
+    para las "validaciones".
+    * Se debe finalizar el partido en curso en la opción
+    Administrar partidos, para una correcta carga de puntos para los Equipos.
+*/
 typedef struct {
     Lista *equipos;
     Lista *jugadores;
@@ -47,7 +55,7 @@ bool verificarContinuidadEquipo(Lista* partidos,PtrNodoLista cursor,Equipo* equi
 bool verificarPartido(Sistema& sistema,Equipo* equipo,int id);
 bool isPartidoCreado(Partido* p);
 bool isPartidoJugado(Partido* p);
-bool isEmpate(Partido* p1,Partido* p2);
+bool isEmpate(Partido* p);
 Equipo* traerGanador(Partido* p);
 Equipo* traerPerdedor(Partido* p);
 void setearFases(Sistema &sistema);

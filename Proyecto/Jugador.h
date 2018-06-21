@@ -1,6 +1,10 @@
 #ifndef _JUGADOR_H_
 #define _JUGADOR_H_
-
+/**
+    Axiomas:
+    * Los goles del jugador se validan con los GolesAFavor
+    del Equipo
+*/
 typedef struct {
     int id;
     string nombre;
@@ -74,9 +78,17 @@ void setGoles(Jugador &jugador, int goles);
 int getGoles(Jugador &jugador);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(jugador,j) debe haberse creado y no destruido.
+  post: devuelve Verdadero o Falso si son iguales los jugador.
+*/
 bool equals(Jugador &jugador, Jugador j);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(jugador) debe haberse creado y no destruido.
+  post: devuelve los datos del jugador.
+*/
 string toString(Jugador &jugador);
 
 #endif // _JUGADOR_H_

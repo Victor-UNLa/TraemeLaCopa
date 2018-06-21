@@ -1,6 +1,10 @@
 #ifndef _EQUIPO_H_
 #define _EQUIPO_H_
-
+/**
+    Axiomas:
+    * Los golesAFavor del Equipo se validan en a la suma de
+    goles de sus jugadores
+*/
 typedef struct {
     int id;
     string nombre;
@@ -127,9 +131,17 @@ void setJugadores(Equipo &equipo, Jugador *jugador);
 Lista* getJugadores(Equipo &equipo);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(equipo,e) debe haberse creado y no destruido.
+  post: devuelve Verdadero o Falso si son iguales los equipos.
+*/
 bool equals(Equipo &equipo, Equipo e);
 
 /*----------------------------------------------------------------------------*/
+/*
+  pre: la instancia del tda(equipo) debe haberse creado y no destruido.
+  post: devuelve los datos del equipo.
+*/
 string toString(Equipo &equipo);
 
 

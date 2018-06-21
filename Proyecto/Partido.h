@@ -1,20 +1,13 @@
 #ifndef _PARTIDO_H_
 #define _PARTIDO_H_
-
 /**
     Axiomas:
-
-    * Se considera de mayor prioridad el archivo Partidos.txt
-    para las "validaciones".
     * Cuando el partido tiene sus dos equipos se considera
     las victorias anteriores correspondientes aceptadas.
     * En el caso de los partidos que aún no se hayan jugado,
-    los goles o los ids de equipos se registrarán con el valor “-1”.
-    * Se debe finalizar el partido en curso en la opción
-    Administrar partidos, para una correcta carga de valores.
+    los goles se registrarán con el valor “-1”.
 
 */
-
 enum Estado {SIN_COMENZAR, EN_JUEGO, FINALIZADO};
 
 typedef struct {

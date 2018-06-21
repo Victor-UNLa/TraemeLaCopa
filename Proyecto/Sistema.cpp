@@ -943,7 +943,7 @@ void validarEmpates(Lista* partidos,string& warning){
     while(cursorP != fin() && !listaVacia(*partidos)){
         if(isPartidoJugado((Partido*)cursorP->ptrDato) && getId(*(Partido*)cursorP->ptrDato)>48 &&
             isPartidoCreado((Partido*)cursorP->ptrDato)){
-            if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)){
+            if(isEmpate((Partido*)cursorP->ptrDato)){
                 ostringstream convert;
                 convert << getId(*(Partido*)cursorP->ptrDato);
                 warning+="El Partido id["+ convert.str()+"] esta en empate\n";
@@ -994,13 +994,13 @@ void validarPuntos(Lista* equipos,Lista* partidos,string& warning){
                 if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoL(*(Partido*)cursorP->ptrDato))){
                     if (getGolesL(*(Partido*)cursorP->ptrDato) > getGolesV(*(Partido*)cursorP->ptrDato)) {
                         puntos+=3;
-                    }else if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)) {
+                    }else if(isEmpate((Partido*)cursorP->ptrDato)) {
                         puntos+=1;
                     }
                 }else if(equals(*(Equipo*)cursorE->ptrDato,*getEquipoV(*(Partido*)cursorP->ptrDato))){
                     if (getGolesL(*(Partido*)cursorP->ptrDato) < getGolesV(*(Partido*)cursorP->ptrDato)) {
                         puntos+=3;
-                    }else if(isEmpate((Partido*)cursorP->ptrDato,(Partido*)cursorP->ptrDato)) {
+                    }else if(isEmpate((Partido*)cursorP->ptrDato)) {
                         puntos+=1;
                     }
                 }
@@ -1148,8 +1148,8 @@ bool isPartidoJugado(Partido* p){
 bool isPartidoCreado(Partido* p){
     return getId(*getEquipoL(*p))!=0 && getId(*getEquipoV(*p))!=0;
 }
-bool isEmpate(Partido* p1,Partido* p2){
-    return getGolesL(*p1)==getGolesV(*p2);
+bool isEmpate(Partido* p){
+    return getGolesL(*p)==getGolesV(*p);
 }
 Equipo* traerGanador(Partido* p){
     if (getGolesL(*p) > getGolesV(*p))
