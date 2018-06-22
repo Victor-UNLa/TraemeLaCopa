@@ -857,6 +857,7 @@ bool validar(Sistema& sistema){
     string warning="";
     boolean values=true;
     try{
+        validarPartidoCerrados(sistema,warning);
         validarEquipo(sistema.equipos,warning);
         validarGoles(sistema.equipos,sistema.partidos,warning);
         validarEmpates(sistema.partidos,warning);
@@ -864,6 +865,9 @@ bool validar(Sistema& sistema){
         validarPuntos(sistema.equipos,sistema.partidos,warning);
         validarPartidosFaseInicial(sistema.grupos,sistema.partidos,warning);
         validarFaseClasificion(sistema,warning);
+        validarClasificacionOctavos(sistema,warning);
+        validarClasificacionCuartos(sistema,warning);
+        verificarOctavosDeFinal(sistema,warning);
         validarPartidosFaseFinal(sistema.partidos,sistema,warning);
         if(warning!="") throw invalid_argument(warning);
         ordenarEquiposDeGrupos(*sistema.grupos);
@@ -1087,26 +1091,28 @@ void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning){
 /* Valida 1ra Ronda si el Equipo pasa a octavos correctamente */
 void validarFaseClasificion(Sistema& sistema,string& warning){
     ordenarEquiposDeGrupos(*sistema.grupos);
-    PtrNodoLista cursor = primero(*sistema.grupos);
-    while(cursor != fin() && !listaVacia(*sistema.grupos)) {
-        if(verificarPartidos(sistema.partidos,1,48)){
+    if(verificarPartidos(sistema.partidos,1,48)){
+        PtrNodoLista cursor = primero(*sistema.grupos);
+        while(cursor != fin() && !listaVacia(*sistema.grupos)) {
             /*si todos los partidos de la fase uno fue jugados*/
-            if(!localizarEnOctavos(traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[0],sistema)){
+            if(!localizar(traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[0],sistema,49,57)){
                 ostringstream convert;
                 convert << getId(*traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[0]);
                 warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[0])
-                       +"] Gano la fase Inicial y no se encuentra en 8vos\n";
+                        +"] Gano la fase Inicial y no se encuentra en 8vos\n";
             }
-            if(!localizarEnOctavos(traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[1],sistema)) {
+            if(!localizar(traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[1],sistema,49,57)) {
                 ostringstream convert;
                 convert << getId(*traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[1]);
                 warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*traerGanadores(getEquipos(*(Grupo*)cursor->ptrDato),sistema.partidos)[1])
-                       +"] Gano la fase Inicial y no se encuentra en 8vos\n";
+                        +"] Gano la fase Inicial y no se encuentra en 8vos\n";
             }
-        }
+
         cursor = siguiente(*sistema.grupos, cursor);
+        }
     }
 }
+/*se compara la ronda de partidos si estan finalizados*/
 bool verificarPartidos(Lista* partidos,int i,int f){
     bool values=true;
     PtrNodoLista cursor = primero(*partidos);
@@ -1178,12 +1184,81 @@ bool verificarVictoriaDifGoles(Equipo& e,Lista* equipos,Lista* partidos){
     if(cont>=1)values=true;
     return values;
 }
-bool localizarEnOctavos(Equipo* equipo,Sistema& s){
+bool localizar(Equipo* equipo,Sistema& s,int i,int f){
     bool values=false;
-    for(int i=49;i<57 && values==false;i++){
-        if(verificarPartido(s,equipo,i))values=true;
+    for(int j=i;j<f && values==false;j++){
+        if(verificarPartido(s,equipo,j))values=true;
     }
     return values ;
+}
+/*----------------------------------------------------------------------------*/
+/* Valida 8vos si los equipos no se repiten */
+void verificarOctavosDeFinal(Sistema& s,string& warning){
+    bool values=false;
+    int cont=0;
+    PtrNodoLista cursorP=primero(*s.partidos);
+    while(cursorP!=fin() && !listaVacia(*s.partidos) ){
+        if(getId(*(Partido*)cursorP->ptrDato)>48 &&
+           getId(*(Partido*)cursorP->ptrDato)<57 &&
+           isPartidoCreado((Partido*)cursorP->ptrDato)){
+            for(int i=49;i<=56;i++){
+                if(verificarPartido(s,getEquipoL(*(Partido*)cursorP->ptrDato),i))cont++;
+            }
+            if(cont!=1){
+                warning+="Error en Octavos de final: Equipo Local ["+getNombre(*getEquipoL(*(Partido*)cursorP->ptrDato))+"] repetido\n";
+            }
+            cont=0;
+            for(int i=49;i<=56;i++){
+                if(verificarPartido(s,getEquipoV(*(Partido*)cursorP->ptrDato),i))cont++;
+            }
+            if(cont!=1){
+                warning+="Error en Octavos de final: Equipo Visitante ["+getNombre(*getEquipoV(*(Partido*)cursorP->ptrDato))+"] repetido\n";
+            }
+        }
+        cont=0;
+        cursorP=siguiente(*s.partidos,cursorP);
+    }
+}
+/*----------------------------------------------------------------------------*/
+/* Valida 8vos de Final si el Equipo que gano, paso a 4tos */
+void validarClasificacionOctavos(Sistema& s,string& warning){
+
+  bool values=false;
+  if(!verificarPartidos(s.partidos,49,56)){
+    for(int i=49;i<57;i++){
+        Equipo* e=traerGanador(traerPartido(s,i));
+        for(int j=57;j<=60;j++){
+            if(equals(*e,*getEquipoL(*traerPartido(s,j))) || equals(*e,*getEquipoV(*traerPartido(s,j))))values=true;;
+        }
+        if(!values){
+            ostringstream convert;
+            convert << getId(*e);
+            warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*e)
+                    +"] Gano la fase de 8vos y no se encuentra en 4tos\n";
+        }
+        values=false;
+    }
+  }
+}
+/* Valida 4tos de Final si el Equipo que gano, paso a SemiFinal */
+void validarClasificacionCuartos(Sistema& s,string& warning){
+  ordenarEquiposDeGrupos(*s.grupos);
+  bool values=false;
+  if(!verificarPartidos(s.partidos,57,60)){
+    for(int i=57;i<61;i++){
+        Equipo* e=traerGanador(traerPartido(s,i));
+        for(int j=61;j<=62;j++){
+            if(equals(*e,*getEquipoL(*traerPartido(s,j))) || equals(*e,*getEquipoV(*traerPartido(s,j))))values=true;
+        }
+        if(!values){
+            ostringstream convert;
+            convert << getId(*e);
+            warning+="El Equipo id ["+convert.str()+"] ["+getNombre(*e)
+                    +"] Gano la fase de 4tos y no se encuentra en SemiFinal\n";
+        }
+        values=false;
+    }
+  }
 }
 
 /*----------------------------------------------------------------------------*/
@@ -1207,13 +1282,13 @@ void validarPartidosFaseFinal(Lista* partidos,Sistema& sistema,string& warning){
                 if(!verificarPartido(sistema,traerPerdedor(traerPartido(sistema, 61)),63) ){
                     ostringstream convert;
                     convert << getId(*traerPerdedor(traerPartido(sistema, 61)));
-                    warning+="El Partido id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    warning+="El Partido para 3er y 4to puesto id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
                     +getNombre(*traerPerdedor(traerPartido(sistema, 61)))+"] posible correcto\n";
                 }
                 if(!verificarPartido(sistema,traerPerdedor(traerPartido(sistema, 62)),63) ){
                     ostringstream convert;
                     convert << getId(*traerPerdedor(traerPartido(sistema, 62)));
-                    warning+="El Partido id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    warning+="El Partido para 3er y 4to puesto id [63] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
                     +getNombre(*traerPerdedor(traerPartido(sistema, 62)))+"] posible correcto\n";
                 }
             }else{
@@ -1221,13 +1296,13 @@ void validarPartidosFaseFinal(Lista* partidos,Sistema& sistema,string& warning){
                 if(!verificarPartido(sistema,traerGanador(traerPartido(sistema, 61)),64) ){
                     ostringstream convert;
                     convert << getId(*traerGanador(traerPartido(sistema, 61)));
-                    warning+="El Partido id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    warning+="El Partido para 1er y 2do puesto id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
                     +getNombre(*traerGanador(traerPartido(sistema, 61)))+"] posible correcto\n";
                 }
                 if(!verificarPartido(sistema,traerGanador(traerPartido(sistema, 62)),64) ){
                     ostringstream convert;
                     convert << getId(*traerGanador(traerPartido(sistema, 62)));
-                    warning+="El Partido id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
+                    warning+="El Partido para 1er y 2do puesto id [64] tiene Equipo erroneo, siendo id ["+convert.str()+"] ["
                     +getNombre(*traerGanador(traerPartido(sistema, 62)))+"] posible correcto\n";
                 }
             }
@@ -1236,6 +1311,22 @@ void validarPartidosFaseFinal(Lista* partidos,Sistema& sistema,string& warning){
     }
 }
 
+/*----------------------------------------------------------------------------*/
+/* Verifico partidos imcompletos */
+void validarPartidoCerrados(Sistema& s,string& warning){
+    bool values=true;
+    Equipo* e=new Equipo;
+    crear(*e);
+    for(int j=1;j<=64;j++){
+        Partido *p=traerPartido(s,j);
+        if(!isPartidoCreado(p) && !isPartidoJugado(p)
+           && (!equals(*getEquipoL(*p),*e) || !equals(*getEquipoV(*p),*e))){
+            ostringstream convert;
+            convert << getId(*traerPartido(s,j));
+            warning+="El Partido id ["+convert.str()+"] incompleto\n";
+        }
+    }
+}
 /*----------------------------------------------------------------------------*/
 bool verificarPartido(Sistema& sistema,Equipo* equipo,int id){
     bool values=false;

@@ -2,14 +2,18 @@
 #define _SISTEMA_H_
 /**
     Axiomas:
+
     * No se podrá usar el programa hasta que los datos ingresados
     estén validados correctamente.
     * Se considera de mayor prioridad los TDA Partido
     para las "validaciones".
+    * Se debe completar la fase de partidos en estado finalizados
+    para que se validen la siguiente etapa.
     * Se debe finalizar el partido en curso en la opción
     Administrar partidos, para una correcta carga de puntos para los Equipos.
     * Los golesAFavor del Equipo se validan con la suma de
     goles de sus jugadores
+
 */
 typedef struct {
     Lista *equipos;
@@ -52,14 +56,18 @@ void validarJugadores(Lista* equipos,string& warning);
 void validarPuntos(Lista* equipos,Lista* partidos,string& warning);
 void validarPartidosFaseInicial(Lista* grupos,Lista* partidos,string& warning);
 void validarFaseClasificion(Sistema& sistema,string& warning);
+void validarClasificacionOctavos(Sistema& s,string& warning);
+void validarClasificacionCuartos(Sistema& s,string& warning);
+void verificarOctavosDeFinal(Sistema& s,string& warning);
 void validarPartidosFaseFinal(Lista* partidos,Sistema& sistema,string& warning);
+void validarPartidoCerrados(Sistema& s,string& warning);
 bool verificarGrupo(Lista* equipos,Equipo* equipo);
 bool verificarContinuidadEquipo(Lista* partidos,PtrNodoLista cursor,Equipo* equipo);
 bool verificarPartido(Sistema& sistema,Equipo* equipo,int id);
 bool verificarPartidos(Lista* partidos,int i,int f);
 bool verificarVictoriaDifGoles(Equipo& e,Lista* equipos,Lista* partidos);
 bool verificarVictoriaPuntos(Equipo& e,Lista* equipos);
-bool localizarEnOctavos(Equipo* equipo,Sistema& s);
+bool localizar(Equipo* equipo,Sistema& s,int i,int f);
 bool isPartidoCreado(Partido* p);
 bool isPartidoJugado(Partido* p);
 bool isEmpate(Partido* p);
