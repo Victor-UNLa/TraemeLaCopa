@@ -120,7 +120,7 @@ string toString(Partido &partido) {
         dato+=getNombre(*partido.equipoV)+" ";
         ostringstream convert3;
         convert3 << getGolesV(partido);
-        dato+=convert3.str();
+        dato+=convert3.str()+"\n";
     }
     return dato;
 }

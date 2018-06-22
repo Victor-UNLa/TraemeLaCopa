@@ -95,13 +95,13 @@ int main() {
     levantarGrupos(*sistema);
     levantarPartidos(*sistema);
 
-    if(validar(*sistema))menu(*sistema);
-
+    if(validar(*sistema)){
+    menu(*sistema);
     bajarEquipos(*sistema);
     bajarJugadores(*sistema);
     bajarGrupos(*sistema);
     bajarPartidos(*sistema);
-
+    }
     destruir(*sistema);
     delete sistema;
 
