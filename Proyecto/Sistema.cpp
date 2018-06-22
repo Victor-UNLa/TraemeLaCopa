@@ -577,6 +577,18 @@ void mostrarPartidos(Sistema &sistema) {
             cout << toString(*(Partido*)cursor->ptrDato)<< endl;
             cout << endl;
         }
+        if (!isPartidoJugado((Partido*)cursor->ptrDato)) {
+
+            if(isPartidoCreado((Partido*)cursor->ptrDato)){
+                cout <<"Id: "<<getId(*(Partido*)cursor->ptrDato)<< endl;
+                cout <<getNombre(*getEquipoL(*(Partido*)cursor->ptrDato))<< endl;
+                cout <<getNombre(*getEquipoV(*(Partido*)cursor->ptrDato))<< endl;
+            }else{
+                cout << "Id: "<<getId(*(Partido*)cursor->ptrDato)<<"\nNo fue creado"<< endl;
+            }
+
+            cout << endl;
+        }
         cursor = siguiente(*sistema.partidos, cursor);
     }
 }
