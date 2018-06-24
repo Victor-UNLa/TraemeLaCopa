@@ -244,7 +244,7 @@
 	"Partido.h"
 	"Sistema.h"
 
-1529177598 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\equipo.cpp
+1529530576 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\equipo.cpp
 	<iostream>
 	<sstream>
 	"Lista.h"
@@ -253,11 +253,11 @@
 
 1528635867 c:\users\martin\desktop\ayed\traemelacopa\proyecto\lista.h
 
-1529177598 c:\users\martin\desktop\ayed\traemelacopa\proyecto\jugador.h
+1529618310 c:\users\martin\desktop\ayed\traemelacopa\proyecto\jugador.h
 
-1529177598 c:\users\martin\desktop\ayed\traemelacopa\proyecto\equipo.h
+1529618310 c:\users\martin\desktop\ayed\traemelacopa\proyecto\equipo.h
 
-1529177598 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\grupo.cpp
+1529618310 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\grupo.cpp
 	<iostream>
 	<sstream>
 	"Lista.h"
@@ -265,9 +265,9 @@
 	"Equipo.h"
 	"Grupo.h"
 
-1529177598 c:\users\martin\desktop\ayed\traemelacopa\proyecto\grupo.h
+1529618310 c:\users\martin\desktop\ayed\traemelacopa\proyecto\grupo.h
 
-1529177598 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\jugador.cpp
+1529530576 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\jugador.cpp
 	<iostream>
 	<sstream>
 	"Jugador.h"
@@ -275,7 +275,7 @@
 1528635867 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\lista.cpp
 	"Lista.h"
 
-1529177598 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\partido.cpp
+1529707669 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\partido.cpp
 	<iostream>
 	<sstream>
 	"Lista.h"
@@ -283,7 +283,7 @@
 	"Equipo.h"
 	"Partido.h"
 
-1529177598 c:\users\martin\desktop\ayed\traemelacopa\proyecto\partido.h
+1529618310 c:\users\martin\desktop\ayed\traemelacopa\proyecto\partido.h
 
 1529450703 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\sistema.cpp
 	<fstream>
@@ -300,9 +300,9 @@
 	"Partido.h"
 	"Sistema.h"
 
-1529450502 c:\users\martin\desktop\ayed\traemelacopa\proyecto\sistema.h
+1529707669 c:\users\martin\desktop\ayed\traemelacopa\proyecto\sistema.h
 
-1529450502 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\main.cpp
+1529707669 source:c:\users\martin\desktop\ayed\traemelacopa\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"

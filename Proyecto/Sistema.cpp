@@ -201,7 +201,7 @@ void levantarJugadores(Sistema &sistema) {
 
     string id, nombre, goles, equipo;
 
-    int vectorValidar[100];
+    int vectorValidar[1000];
     int i = 0;
     bool flag=false;
     bool aux=false;
