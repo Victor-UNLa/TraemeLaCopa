@@ -873,10 +873,10 @@ bool validar(Sistema& sistema){
         validarEquipo(sistema.equipos,warning);
         validarGoles(sistema.equipos,sistema.partidos,warning);
         validarEmpates(sistema.partidos,warning);
-        validarJugadores(sistema.equipos,warning);
+        //validarJugadores(sistema.equipos,warning);
         validarPuntos(sistema.equipos,sistema.partidos,warning);
         validarPartidosFaseInicial(sistema.grupos,sistema.partidos,warning);
-        validarFaseClasificion(sistema,warning);
+        //validarFaseClasificion(sistema,warning);
         validarClasificacionOctavos(sistema,warning);
         validarClasificacionCuartos(sistema,warning);
         verificarOctavosDeFinal(sistema,warning);

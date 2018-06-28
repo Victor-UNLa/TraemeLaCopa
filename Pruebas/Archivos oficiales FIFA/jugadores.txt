@@ -1,18 +1,18 @@
 1;David Silva;0;6
-2;Eden Hazard;0;25
+2;Eden Hazard;2;25
 3;Frank Fabra;0;31
 4;Keylor Navas;0;19
 5;Sergio Ramos;0;6
 6;Achraf Hakimi;0;7
 7;Cristiano Ronaldo;4;5
-8;Toni Kroos;0;21
+8;Toni Kroos;1;21
 10;Lionel Messi;0;13
 11;Neymar Jr;1;17
-12;Aleksander Kolarov;1;20
+12;Aleksander Kolarov;2;20
 13;Paulo Dybala;0;13
 14;Luis Ovalle;0;26
 15;Bryan Ruiz;0;19
-17;Denis Cheryshev;3;1
+17;Denis Cheryshev;2;1
 18;Fiodor Smolov;0;1
 19;James Rodriguez;0;31
 20;Omar Hawsawi;0;2
@@ -28,16 +28,16 @@
 30;Dimitri Petratos;0;10
 31;Jefferson Farfan;0;11
 32;Yussuf Poulsen;1;12
-33;Luis Suarez;1;4
+33;Luis Suarez;2;4
 34;Andreas Cornelius;0;12
 35;Gylfi Sigurasson;0;14
 36;Birkir Bjarnason;0;14
 37;Ivan Rakitic;1;15
 38;Victor Moses;0;16
 39;Alex Iwobi;0;16
-40;Xherdan Shaqiri;0;18
+40;Xherdan Shaqiri;1;18
 44;Mohamed Salah;1;3
-45;Sadio Mane;0;30
+45;Sadio Mane;1;30
 46;Seung-woo Lee;0;24
 47;Moussa Sow;0;30
 48;Sebastian Larsson;0;23
@@ -49,18 +49,18 @@
 66;Mats Hummels;0;21
 70;Kevin De Bruyne;0;25
 72;Shinji Okazaki;0;32
-76;Harry Kane;2;28
-77;Granit Xhaxa;0;18
+76;Harry Kane;5;28
+77;Granit Xhaxa;1;18
 79;Saber Khalifa;0;27
-80;Javier Hernandez;0;22
+80;Javier Hernandez;1;22
 85;Mohamed Ben Amor;0;27
-87;Carlos Vela;0;22
-88;Edinson Cavani;0;4
+87;Carlos Vela;1;22
+88;Edinson Cavani;1;4
 91;Kylian Mbappe;1;9
 93;Nemanja Matic;0;20
 95;Jakub Blaszczykowski;0;29
 98;Shinji Kagawa;1;32
-99;Son Heugn-min;0;24
+99;Son Heugn-min;1;24
 100;Gabriel Torres;0;26
 101;Yuri Gazinski;1;1
 102;Artiom Dziuba;2;1
@@ -73,21 +73,35 @@
 109;Aziz Behich;1;9
 110;Ahmed Fathy;1;1
 111;Nacho Iglesias;1;6
-112;Sergio Aguero;1;13
+112;Sergio Kun Aguero;1;13
 113;Oghenekaro Etebo;1;15
 114;Hirving Lozano;1;22
 115;Philippe Coutinho;2;17
 116;Andreas Granqvist;1;23
 117;Dries Mertens;1;25
 118;Steven Zuber;1;18
-119;Romelu Lukaku;2;25
+119;Romelu Lukaku;4;25
 120;Alfreo Finnbogason;1;14
 121;Ferjani Sassi;1;27
 122;Juan Fernando Quintero;1;31
 123;Yuya Osako;1;32
 124;Thiago Rangel Cionek;1;30
 125;M Baye Niang;1;30
-126;Grzegorz Krychowiak;1;29
+126;Grzegorz Krychowiak;2;29
 127;Christian Eriksen;1;12
 128;Ante rebic;1;15
 129;Ahmed Musa;2;16
+130;Ola Toivonen;1;23
+131;Marcos Reus;1;21
+132;Dylan Bronn;1;27
+133;Michy Batshuayi;2;25
+134;Wahbi Khazri;3;27
+135;John Stones;2;28
+136;Jesse Lingard;1;28
+137;FElioe Baloy;2;26
+138;Yerry Mina;2;31
+139;Radamei Falcao García;1;31
+140;Ju Guillermo Cuadrado;1;31
+141;Takashi Inui;1;32
+142;Moussa Wague;1;30
+143;Keisuke Honda;1;32
