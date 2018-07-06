@@ -541,7 +541,7 @@
 1529363076 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\lista.cpp
 	"Lista.h"
 
-1529625600 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\main.cpp
+1530278516 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\main.cpp
 	<iostream>
 	<stdlib.h>
 	"Lista.h"
@@ -563,7 +563,7 @@
 	"Equipo.h"
 	"Partido.h"
 
-1529690104 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.cpp
+1530278380 source:d:\mis documentos\unla\8609 algoritmos y estructuras de datos\traemelacopa\proyecto\sistema.cpp
 	<fstream>
 	<cstring>
 	<cstdlib>

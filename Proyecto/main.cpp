@@ -95,7 +95,7 @@ int main() {
     levantarGrupos(*sistema);
     levantarPartidos(*sistema);
 
-    if(validar(*sistema)){
+    /*if(validar(*sistema))*/{
     menu(*sistema);
     bajarEquipos(*sistema);
     bajarJugadores(*sistema);
